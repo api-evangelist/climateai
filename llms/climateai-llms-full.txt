@@ -1,0 +1,517 @@
+# Getting Started
+
+Authenticate, browse the API's current and legacy endpoint families, and make your first request.
+
+The ClimateAi Weather API provides global weather and climate data accessible by latitude and longitude: historical data, climatological baselines, and probabilistic forecasts from short-term through seasonal horizons.
+
+## **Authentication**
+
+All requests require an API key in the `X-Api-Key` header. Request a key from <sales@climate.ai>.
+
+```plaintext
+X-Api-Key: <YOUR_API_KEY>
+```
+
+plaintext
+
+See _Your first request_ below for a complete example.
+
+## **Endpoint families**
+
+The API has two generations of endpoints. The **current** endpoints are recommended for new integrations. The **legacy** endpoints remain fully supported for the foreseeable future for customers already integrated against them; see the _Migration_ page for how to move from legacy to current.
+
+| Family      | Current (recommended)                                     | Legacy                                                                         | What it returns                                                                                                                                     |
+| ----------- | --------------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Forecast    | `/v2/forecast`, `/v2/forecast/statistics`                 | `/v1/forecast/short-term`, `/v1/forecast/subseasonal`, `/v1/forecast/seasonal` | Forecast from today through \~6 months. The current endpoints return a single continuous timeline; legacy endpoints split it across three horizons. |
+| History     | `/v2/history`                                             | `/v1/history`                                                                  | Historical data. The current endpoint covers 30+ years (1995–present); legacy covers a rolling 12 months.                                           |
+| Climatology | (none yet, _see coming soon_ in the _Data products_ page) | `/v1/climatology`                                                              | Long-term statistical distributions over a fixed 30-year reference period (1993–2022).                                                              |
+
+Legacy paths are shown in their `/v1/`-prefixed canonical form; the unprefixed form (e.g. `/forecast/short-term`) is an alias and continues to work for existing integrations.
+
+Growing Degree Days, Alerts, and a new flexible Climatology endpoint are coming soon.
+
+## **Your first request**
+
+```plaintext
+curl -X GET \
+  "https://api-prod.climate.ai/weather/v2/history" \
+  -G \
+  -d "lat=37.7" \
+  -d "lon=-122.4" \
+  -d "var=temp_mean" \
+  -d "start_date=2024-01-01" \
+  -d "end_date=2024-12-31" \
+  -H "X-Api-Key: <YOUR_API_KEY>"
+```
+
+plaintext
+
+Response:
+
+```plaintext
+{
+  "meta": {
+    "variables": ["temp_mean"],
+    "granularity": "daily",
+    "location": { "latitude": 37.7, "longitude": -122.4 }
+  },
+  "data": {
+    "temp_mean": {
+      "units": "degrees_C",
+      "downscaled": true,
+      "values": { "2024-01-01": 11.4, "2024-01-02": 12.1, "...": "..." }
+    }
+  }
+}
+```
+
+plaintext
+
+# Data products
+
+Forecasts, history, and climatology: what each returns, current and legacy endpoints, and parameters. Plus what's in development.
+
+**Coming soon.** A more flexible Climatology endpoint, Growing Degree Days (GDD), and Alerts are in development. See _Coming soon_ at the bottom of this page.
+
+## Forecasts
+
+Forecasts cover three time horizons: **short-term** (\~15 days), **subseasonal** (up to 6 weeks), and **seasonal** (up to 6 months). The current endpoints blend all three into a single continuous timeline; the legacy endpoints expose each horizon separately.
+
+### **Current**
+
+ClimateAi's forecast system blends the three horizons into one continuous timeline using an AI-driven **stitching** process. One call to `/v2/forecast` returns a consistent forecast from today through \~6 months out, with no manual splicing across timescale boundaries. Supersedes the three legacy endpoints `/v1/forecast/short-term`, `/v1/forecast/subseasonal`, and `/v1/forecast/seasonal`.
+
+#### **Raw runs**
+
+`GET /v2/forecast`
+
+Returns raw ensemble members from the blended forecast. Use this when you want full control over the distribution — e.g. computing your own risk metrics across the \~31 ensemble members.
+
+| Parameter         | Type   | Required | Description                                                                                                                                                                                                                                                                                                                         |
+| ----------------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lat`             | float  | yes      | Latitude (−90 to 90)                                                                                                                                                                                                                                                                                                                |
+| `lon`             | float  | yes      | Longitude (−180 to 180)                                                                                                                                                                                                                                                                                                             |
+| `var`             | string | no       | Variable(s). Uses the same slugs as the legacy endpoints (`temp_mean`, `precipitation`, etc.). Single (`temp_mean`), comma-separated (`temp_mean,precipitation`), or repeated (`?var=temp_mean&var=precipitation`).                                                                                                                 |
+| `start_date`      | string | no       | `YYYY-MM-DD`                                                                                                                                                                                                                                                                                                                        |
+| `end_date`        | string | no       | `YYYY-MM-DD`                                                                                                                                                                                                                                                                                                                        |
+| `use_downscaling` | bool   | no       | Request downscaled (1 km / 0.0083°) data when available (default `true`). **Has effect only if the API key is provisioned for 1 km downscaling and only for downscalable variables** (temperature trio + solar radiation). Contact your account manager to enable 1 km on your key — see the _Variables, Unites & Resolution_ page. |
+
+#### **Statistics**
+
+`GET /v2/forecast/statistics`
+
+Returns mean and configurable quantiles over the ensemble, with optional temporal aggregation.
+
+| Parameter         | Type   | Required | Description                                                                                                             |
+| ----------------- | ------ | -------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `lat`             | float  | yes      | Latitude (−90 to 90)                                                                                                    |
+| `lon`             | float  | yes      | Longitude (−180 to 180)                                                                                                 |
+| `var`             | string | no       | Variable(s) — same slugs and forms as `/v2/forecast`.                                                                   |
+| `start_date`      | string | no       | `YYYY-MM-DD`                                                                                                            |
+| `end_date`        | string | no       | `YYYY-MM-DD`                                                                                                            |
+| `use_downscaling` | bool   | no       | Same as on `/v2/forecast` above: request downscaled data (default `true`); effective only on keys provisioned for 1 km. |
+| `statistics`      | string | no       | Comma-separated quantiles in `[0, 1]` (default `0.05,0.25,0.50,0.75,0.95`)                                              |
+| `granularity`     | string | no       | `daily` (default), `weekly`, or `monthly`.                                                                              |
+
+Aggregation behavior:
+
+* `daily` — returns daily statistics keyed by date (`"2025-01-15"`).
+
+* `weekly` — returns ISO weeks (`"2025-W03"`) running Monday–Sunday. Only complete weeks are included.
+
+* `monthly` — returns calendar months (`"2025-01"`). Only complete months are included.
+
+Aggregation is variable-aware. Daily values are first combined within the window before quantiles are computed:
+
+* Precipitation and evapotranspiration are **summed** within the window.
+
+* Temperature, humidity, wind, and solar radiation variables are **averaged** within the window.
+
+For example, weekly precipitation with 31 ensemble members: each member's 7 daily values are summed, then quantiles are computed from the 31 summed values.
+
+### **Legacy**
+
+Supported for the foreseeable future; new integrations should prefer `/v2/forecast*`.
+
+The legacy API exposes each horizon as a separate endpoin&#x74;**. None accept date-range parameters** — each call returns the current forecast for the endpoint's predefined horizon. Each returns a fixed set of quantiles (`q05, q25, q50, q75, q95`) and the variables available for that scope. The three endpoints are independent products — they don't combine into a continuous timeline cleanly: granularities differ (daily-only, daily+weekly, daily+monthly), and weekly/monthly responses add tercile probabilities that the daily ones don't have. Customers who need a unified short-to-seasonal forecast should use the _Statistics_ endpoint above instead.
+
+#### **By lat/lon**
+
+| Path                         | Granularity    | Horizon    | Notes                                                                                                              |
+| ---------------------------- | -------------- | ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| GET /v1/forecast/short-term  | daily          | \~15 days  | Max Wind Gust available only for the first 10 days.                                                                |
+| GET /v1/forecast/subseasonal | daily, weekly  | weeks 2–6  | Weekly responses include probabilistic terciles in addition to quantiles. Drops Max Wind Speed and Max Wind Gust.  |
+| GET /v1/forecast/seasonal    | daily, monthly | months 1–6 | Monthly responses include probabilistic terciles in addition to quantiles. Drops Max Wind Speed and Max Wind Gust. |
+
+#### **By location ID**
+
+Stored-location variants of the three coordinate endpoints. Same responses and constraints, but addressed by a server-side location ID instead of lat/lon.
+
+| Path                                         | Horizon    |
+| -------------------------------------------- | ---------- |
+| `GET /v1/forecast/short-term/location/{id}`  | \~15 days  |
+| `GET /v1/forecast/subseasonal/location/{id}` | weeks 2–6  |
+| `GET /v1/forecast/seasonal/location/{id}`    | months 1–6 |
+
+See the _Variables, Unites & Resolution_ page for the per-endpoint variable availability matrix.
+
+---
+
+## **History**
+
+Historical weather data — what actually happened at a given location, day by day. The current endpoint covers 30+ years (1995–present); the legacy endpoints cover a rolling 12 months.
+
+### **Current**
+
+#### **By lat/lon**
+
+`GET /v2/history`
+
+30+ years of historical data (1995–present), backed by ERA5 with automatic gap-fill for the ERA5-to-present lag. Data is fetched on demand if not yet cached — there's no pre-loading step. Supersedes the legacy `/v1/history` endpoint, which only covers the last 366 days.
+
+| Parameter         | Type   | Required | Description                                                                                                                                                                                                                                                |
+| ----------------- | ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lat`             | float  | yes      | Latitude (−90 to 90)                                                                                                                                                                                                                                       |
+| `lon`             | float  | yes      | Longitude (−180 to 180)                                                                                                                                                                                                                                    |
+| `var`             | string | no       | Variable(s). Defaults to all non-derived variables.                                                                                                                                                                                                        |
+| `start_date`      | string | no       | `YYYY-MM-DD`                                                                                                                                                                                                                                               |
+| `end_date`        | string | no       | `YYYY-MM-DD`                                                                                                                                                                                                                                               |
+| `granularity`     | string | no       | `daily` (default), `weekly` (ISO weeks), or `monthly`                                                                                                                                                                                                      |
+| `use_downscaling` | bool   | no       | Request downscaled (1 km / 0.0083°) data (default `true`). **Effective only if the API key is provisioned for 1 km downscaling, and only for downscalable variables** (temperature trio + solar radiation). See the _Variables, Unites & Resolution_ page. |
+
+Aggregation is variable-aware: precipitation/evaporation are summed; temperature/humidity/wind are averaged.
+
+### **Legacy**
+
+Supported for the foreseeable future; new integrations should prefer `/v2/history`.
+
+#### **By lat/lon**
+
+`GET /v1/history`
+
+Returns a rolling 12 months (\~366 days) of observed/reanalysis data at **daily granularity, fixed**. Query parameters are limited to `lat`, `lon`, `var` — there is no date-range or granularity control. Some locations may return errors if they haven't been pre-loaded.
+
+#### **By location ID**
+
+`GET /v1/history/location/{id}`
+
+Stored-location variant of `/history`: same response, same constraints, but addressed by a server-side location ID instead of lat/lon coordinates.
+
+---
+
+## **Climatology**
+
+Long-term statistical baselines computed from 30 years of historical data — the distribution of what's typical at a given location and time of year. Useful as context for forecasts (is today's temperature unusual?) and for long-term planning where year-to-year variability matters more than any specific year.
+
+**Legacy-only today, replacement coming.** Climatology has only one endpoint right now — the legacy `/v1/climatology`. A more flexible replacement is in active development; we recommend using `/v1/climatology` for now. The legacy endpoint will remain supported for the foreseeable future.
+
+### **Legacy**
+
+#### **By lat/lon**
+
+`GET /v1/climatology`
+
+Long-term statistical distributions computed from **a fixed 30-year reference period (1993–2022)** of historical data. The reference window is fixed and refreshed periodically by the ClimateAi team — it does not roll forward with each request. Returns the fixed quantile set `[0.05, 0.25, 0.50, 0.75, 0.95]` only — no mean, no terciles — at daily, weekly, or monthly granularity.
+
+| Parameter     | Type   | Required | Description                                                   |
+| ------------- | ------ | -------- | ------------------------------------------------------------- |
+| `lat`         | string | yes      | Latitude (−90 to 90)                                          |
+| `lon`         | string | yes      | Longitude (−180 to 180)                                       |
+| `var`         | string | no       | Variable slug (see the _Variables, Unites & Resolution_ page) |
+| `granularity` | string | no       | `daily`, `weekly`, or `monthly`                               |
+
+#### **By location ID**
+
+`GET /v1/climatology/location/{id}`
+
+Stored-location variant. Same parameters as above except `lat`/`lon` are replaced by a server-side location ID in the path.
+
+---
+
+## **Coming soon**
+
+The following capabilities are in development. Paths and parameters are not yet finalized.
+
+### **Flexible Climatology**
+
+A more flexible replacement for the legacy `/v1/climatology` endpoint. Choose the historical reference period (instead of being locked to 1993–2022), request custom quantiles, select variables, and pick daily, weekly, or monthly granularity.
+
+### **Growing Degree Days (GDD)**
+
+Crop-relevant heat accumulation computed from historical and forecast temperature, plus cross-year statistics and multi-location/multi-planting stage tracking. Built on the same data pipelines as History and Forecasts.
+
+### **Alerts**
+
+Subscribe to threshold-based weather events (e.g. "notify when forecast precipitation exceeds X mm over the next 5 days at this location").
+
+# Migration
+
+How to move from the legacy endpoints to the current ones. Before/after recipes, what you gain, and what doesn't carry over.
+
+**Why this guide exists.** Customers integrated against the legacy endpoints can keep using them; they aren't going anywhere soon. This guide shows how to get the same data from the current endpoints, plus what becomes possible that wasn't before.
+
+**A note for existing customers.** The legacy endpoints are served at both the versioned form (`/v1/forecast/short-term`, etc.) and the original unversioned form (`/forecast/short-term`, etc.) — your current integration keeps working as-is. The `/v1/` prefix is the canonical form going forward; the unprefixed form is an alias maintained for backward compatibility.
+
+## **Forecasts: from three endpoints to stitched**
+
+Each legacy forecast call has a direct equivalent on `/v2/forecast/statistics`. Pick the date range and granularity that matches what you were getting before.
+
+### **What you gain by migrating to current endpoints**
+
+* A single continuous timeline from today through \~6 months at a single granularity of your choice — something the three legacy endpoints don't combine into cleanly.
+
+* Custom quantiles (any value in `[0, 1]`) instead of the fixed five.
+
+* Variable selection (`?var=temp_mean&var=precipitation`) instead of every variable for the scope.
+
+* Access to raw ensemble members via `/v2/forecast` when you need full distributional control.
+
+* **Date-range control** (`start_date`, `end_date`) — legacy forecast endpoints don't accept these.
+
+* **Forecast traceability** in the response: `init_time` (when the model run was issued), `version` (model/dataset version), `generation` (unique generation ID).
+
+* **Explicit snapping**: response shows `location.requested` alongside `location.closest_location` so the snap-to-grid is transparent.
+
+### **Only on legacy**
+
+A couple of legacy features don't have a current equivalent yet. If your integration depends on them, stay on the legacy endpoints.
+
+* **Native tercile probabilities** in the response. Legacy subseasonal-weekly and seasonal-monthly include `[0.00–0.33, 0.33–0.67, 0.67–1.0]` next to the quantiles. The stitched-statistics endpoint returns mean + quantiles only, and there's no clean client-side recompute (terciles need climatology's 33rd and 67th percentiles, and `/v1/climatology` only exposes `[0.05, 0.25, 0.50, 0.75, 0.95]`). We're measuring legacy tercile usage before deciding whether to expose terciles natively on the current endpoint.
+
+* **Stored-location ID variant.** `/v2/forecast/location/{id}` does not exist; current endpoints only accept lat/lon. If you currently call `/v1/forecast/seasonal/location/{id}` etc., you'll need to pass coordinates instead.
+
+### **Requests**
+
+#### **Legacy**
+
+Three independent endpoints, one per horizon:
+
+```plaintext
+GET /v1/forecast/short-term?lat=40&lon=-89&var=temp_mean       # daily, ~15 days
+
+GET /v1/forecast/subseasonal?lat=40&lon=-89&var=temp_mean      # daily/weekly, weeks 2–6
+
+GET /v1/forecast/seasonal?lat=40&lon=-89&var=temp_mean         # daily/monthly, months 1–6
+```
+
+plaintext
+
+#### **Current**
+
+One endpoint, parameterized by date range and granularity. Replace each legacy call with the matching one below:
+
+```plaintext
+# Short-term equivalent (next ~15 days, daily)
+GET /v2/forecast/statistics?lat=40&lon=-89&var=temp_mean&end_date=<today+15d>&granularity=daily
+
+# Subseasonal equivalent (weeks 2–6, weekly)
+GET /v2/forecast/statistics?lat=40&lon=-89&var=temp_mean&start_date=<today+14d>&end_date=<today+42d>&granularity=weekly
+
+# Seasonal equivalent (months 1–6, monthly)
+GET /v2/forecast/statistics?lat=40&lon=-89&var=temp_mean&start_date=<today+30d>&end_date=<today+180d>&granularity=monthly
+```
+
+plaintext
+
+**Bonus: a new capability.** Beyond the one-for-one replacements above, the current endpoint can return the entire short-to-seasonal timeline at a single granularity in one call — something the legacy endpoints can't do, since each enforces its own granularity:
+
+```plaintext
+GET /v2/forecast/statistics?lat=40&lon=-89&var=temp_mean&end_date=<today+180d>&granularity=weekly
+```
+
+plaintext
+
+### **Responses**
+
+#### **Structure**
+
+Legacy returns `{ meta: {...}, data: [...] }` where `data` is an array of per-date entries (`attributes.<var>` under each). Current returns flat top-level metadata plus a `variables` object keyed by variable name, with dates as keys inside `variables.<var>.statistics` (e.g. `"2025-01-01": { "mean": ..., "q05": ..., ... }`).
+
+#### **Statistic field renames**
+
+| Legacy                            | Current                                             |
+| --------------------------------- | --------------------------------------------------- |
+| `ensemble_mean`                   | `mean`                                              |
+| `quantile.quantile_0.05`          | `q05`                                               |
+| `quantile.quantile_0.25`          | `q25`                                               |
+| `quantile.quantile_0.50`          | `q50`                                               |
+| `quantile.quantile_0.75`          | `q75`                                               |
+| `quantile.quantile_0.95`          | `q95`                                               |
+| `probability.clim_prob_0.00-0.33` | (not present, see _Only on legacy&#x20;_&#x61;bove) |
+| `probability.clim_prob_0.33-0.67` | (not present)                                       |
+| `probability.clim_prob_0.67-1.00` | (not present)                                       |
+
+#### **New metadata fields**
+
+Current responses add:
+
+* `init_time` — when the forecast run was issued
+
+* `version` — model/dataset version
+
+* `generation` — unique generation ID
+
+* `location.requested` vs `location.closest_location` — makes snap-to-grid explicit
+
+---
+
+## **History: 1 year → 30+ years**
+
+### **What you gain by migrating to current endpoints**
+
+* 30+ years of coverage (1995–present), not 1 year.
+
+* Date-range control via `start_date` / `end_date` (legacy `/v1/history` doesn't accept these).
+
+* Automatic ERA5 fetch — no "location not ingested" errors.
+
+* Variable-aware weekly/monthly aggregation built in.
+
+* \~70–80% smaller responses thanks to the date-keyed format.
+
+### **Only on legacy**
+
+* **Stored-location ID variant.** `/v2/history/location/{id}` does not exist. If you currently call `/v1/history/location/{id}`, you'll need to pass coordinates instead. Otherwise nothing functional is lost — locations were already snapped to the 0.25° grid on legacy `/v1/history`.
+
+### **Requests**
+
+#### **Legacy**
+
+```plaintext
+GET /v1/history?lat=40&lon=-89&var=temp_mean
+# Last ~366 days, daily granularity, no date-range control.
+```
+
+plaintext
+
+(Plus the stored-location variant: `GET /v1/history/location/{id}` — same response shape.)
+
+#### **Current**
+
+```plaintext
+GET /v2/history?lat=40&lon=-89&var=temp_mean&start_date=1995-01-01&end_date=2025-12-31&granularity=monthly
+# 30+ years, auto-fetched on first request, with daily/weekly/monthly granularity.
+```
+
+plaintext
+
+### **Responses**
+
+The response shape changes the same way as for Forecasts. One thing to update in your parser:
+
+* **Structure.** Legacy returns `{ meta: {...}, data: [...] }` with `data` as an array of per-date entries (`attributes.<var>.values` under each). Current returns a per-variable object with dates as keys, e.g. `data.<var>.values = { "2024-01-01": 11.4, "2024-01-02": 12.1, ... }`. \~70–80% smaller payload as a result.
+
+---
+
+## **Climatology**
+
+No migration available today — climatology lives only on the legacy endpoint. A new endpoint with a flexible reference period, custom quantiles, granularity, and variable selection is coming soon.
+
+# Variables, Units & Resolution
+
+Reference for variables, units, granularity, statistics, and spatial resolution available on each endpoint. Includes downscaling rules and current-vs-legacy differences.
+
+This page is the source of truth for what each endpoint can return. We lead with the current endpoints since those are the recommended path; the legacy matrices follow for reference.
+
+## **Variables**
+
+The slug is the value to pass in the `var` query parameter.
+
+| Variable           | Slug                 | Units |
+| ------------------ | -------------------- | ----- |
+| Mean Temperature   | `temp_mean`          | °C    |
+| Max Temperature    | `temp_max`           | °C    |
+| Min Temperature    | `temp_min`           | °C    |
+| Precipitation      | `precipitation`      | mm    |
+| Soil Temperature   | `soil_temperature`   | °C    |
+| Relative Humidity  | `humidity`           | %     |
+| Evapotranspiration | `evapotranspiration` | mm    |
+| Solar Radiation    | `solar_radiation`    | W/m²  |
+| Soil Moisture      | `soil_moisture`      | %     |
+| Mean Wind Speed    | `wind_speed`         | km/h  |
+| Max Wind Speed     | `max_wind_speed`     | km/h  |
+| Max Wind Gust      | `max_wind_gust`      | km/h  |
+
+Not every variable is available on every endpoint — see the _Current endpoint availability_ and _Legacy endpoin availability_ matrices below.
+
+## **Spatial resolution and downscaling**
+
+The API supports two spatial resolutions: a default **\~25 km** (0.25° grid) and a downscaled **\~1 km** (0.0083°) for select variables (Mean/Max/Min Temperature and Solar Radiation, marked in the matrix below). Access to 1 km downscaling is enabled at the account level — contact your ClimateAi account manager to enable it on an existing API key. Once enabled, downscaling applies across all endpoints that support it (current and legacy); on the current endpoints, the per-request `use_downscaling` flag lets you toggle it on or off per call.o toggle it on or off per call.
+
+Once enabled, downscaling applies only to the four downscalable variables; for all other variables the response is at the native 0.25° grid regardless. On the current endpoints, the per-request `use_downscaling=true` flag (default) requests the downscaled resolution; if the account isn't provisioned for 1 km, the flag has no effect and the response stays at 0.25°.
+
+## **Current endpoint availability**
+
+**Climatology is not yet here.** The tables below cover Forecasts (`/v2/forecast*`) and History (`/v2/history`). Climatology is still served only by the legacy `/v1/climatology` endpoint; a flexible replacement is coming soon.
+
+### **Variable availability**
+
+| Variable           | Slug                 | Units | `/forecast/stitched/*` | `/history/grid` | Downscalable to 0.0083° |
+| ------------------ | -------------------- | ----- | ---------------------- | --------------- | ----------------------- |
+| Mean Temperature   | `temp_mean`          | °C    | ✓                      | ✓               | ✓                       |
+| Max Temperature    | `temp_max`           | °C    | ✓                      | ✓               | ✓                       |
+| Min Temperature    | `temp_min`           | °C    | ✓                      | ✓               | ✓                       |
+| Precipitation      | `precipitation`      | mm    | ✓                      | ✓               |                         |
+| Soil Temperature   | `soil_temperature`   | °C    | ✓                      | ✓               |                         |
+| Relative Humidity  | `humidity`           | %     | ✓                      | ✓               |                         |
+| Evapotranspiration | `evapotranspiration` | mm    | ✓                      | ✓               |                         |
+| Solar Radiation    | `solar_radiation`    | W/m²  | ✓                      | ✓               | ✓                       |
+| Soil Moisture      | `soil_moisture`      | %     | ✓                      | ✓               |                         |
+| Mean Wind Speed    | `wind_speed`         | km/h  | ✓                      | ✓               |                         |
+| Max Wind Speed     | `max_wind_speed`     | km/h  | ✓                      | ✓               |                         |
+| Max Wind Gust      | `max_wind_gust`      | km/h  | ✓                      | ✓               |                         |
+
+### **Granularity**
+
+Both `/v2/forecast*` and `/v2/history` accept `daily` (default), `weekly` (ISO weeks Mon–Sun, only complete weeks), or `monthly` (only complete months). Variable-aware aggregation: precipitation/evaporation are summed; temperature/humidity/wind are averaged.
+
+### **Statistics**
+
+| Endpoint                  | What's returned                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `/v2/forecast`            | Per-ensemble-member values                                                                                   |
+| `/v2/forecast/statistics` | Mean and **custom quantiles** (any value in `[0, 1]`). No probabilistic terciles — see the _Migration_ page. |
+| `/v2/history`             | Aggregated values (no quantiles, no terciles)                                                                |
+
+## **Legacy endpoint availability**
+
+### **Variable availability**
+
+| Variable           | Slug                 | Units | History | Climatology | Short-term         | Subseasonal | Seasonal | Downscalable to 0.0083° |
+| ------------------ | -------------------- | ----- | ------- | ----------- | ------------------ | ----------- | -------- | ----------------------- |
+| Mean Temperature   | `temp_mean`          | °C    | ✓       | ✓           | ✓                  | ✓           | ✓        | ✓                       |
+| Max Temperature    | `temp_max`           | °C    | ✓       | ✓           | ✓                  | ✓           | ✓        | ✓                       |
+| Min Temperature    | `temp_min`           | °C    | ✓       | ✓           | ✓                  | ✓           | ✓        | ✓                       |
+| Precipitation      | `precipitation`      | mm    | ✓       | ✓           | ✓                  | ✓           | ✓        |                         |
+| Soil Temperature   | `soil_temperature`   | °C    | ✓       | ✓           | ✓                  | ✓           | ✓        |                         |
+| Relative Humidity  | `humidity`           | %     | ✓       | ✓           | ✓                  | ✓           | ✓        |                         |
+| Evapotranspiration | `evapotranspiration` | mm    | ✓       | ✓           | ✓                  | ✓           | ✓        |                         |
+| Solar Radiation    | `solar_radiation`    | W/m²  | ✓       | ✓           | ✓                  | ✓           | ✓        | ✓                       |
+| Soil Moisture      | `soil_moisture`      | %     | ✓       | ✓           | ✓                  | ✓           | **✖**    |                         |
+| Mean Wind Speed    | `wind_speed`         | km/h  | ✓       | ✓           | ✓                  | ✓           | ✓        |                         |
+| Max Wind Speed     | `max_wind_speed`     | km/h  | ✓       | ✓           | ✓                  | ✖           | ✖        |                         |
+| Max Wind Gust      | `max_wind_gust`      | km/h  | ✓       | ✓           | first 10 days only | ✖           | ✖        |                         |
+
+### **Granularity availability**
+
+| Dataset              | Daily | Weekly | Monthly | Notes                                                                      |
+| -------------------- | ----- | ------ | ------- | -------------------------------------------------------------------------- |
+| History              | ✓     | —      | —       |                                                                            |
+| Climatology          | ✓     | ✓      | ✓       |                                                                            |
+| Short-term Forecast  | ✓     | —      | —       |                                                                            |
+| Subseasonal Forecast | ✓     | ✓      | —       | Weekly responses include probabilistic terciles in addition to quantiles.  |
+| Seasonal Forecast    | ✓     | —      | ✓       | Monthly responses include probabilistic terciles in addition to quantiles. |
+
+### **Statistics by dataset**
+
+History returns raw daily values, not statistical aggregates, and is excluded from this table. The remaining legacy datasets return:
+
+| Dataset                       | Mean | Quantiles `[0.05, 0.25, 0.50, 0.75, 0.95]` | Probabilistic terciles `[0.00–0.33, 0.33–0.67, 0.67–1.0]` |
+| ----------------------------- | ---- | ------------------------------------------ | --------------------------------------------------------- |
+| Climatology                   | —    | ✓                                          | —                                                         |
+| Short-term Forecast           | ✓    | ✓                                          | —                                                         |
+| Subseasonal Forecast (daily)  | ✓    | ✓                                          | —                                                         |
+| Subseasonal Forecast (weekly) | ✓    | ✓                                          | ✓                                                         |
+| Seasonal Forecast (daily)     | ✓    | ✓                                          | —                                                         |
+| Seasonal Forecast (monthly)   | ✓    | ✓                                          | ✓                                                         |
+

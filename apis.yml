@@ -19,5 +19,11 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/climateai-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/climateai-agentic-access.yml
+- type: Authentication
+  url: authentication/climateai-authentication.yml
 - type: Website
   url: https://forgeglobal.com/climateai_stock/

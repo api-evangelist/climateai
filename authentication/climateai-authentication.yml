@@ -1,0 +1,22 @@
+generated: '2026-08-02'
+method: derived
+source: openapi/climateai-platform-swagger.json, openapi/climateai-weather-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: jwt
+  type: apiKey
+  in: header
+  parameter: Authorization
+  sources:
+  - openapi/climateai-platform-swagger.json
+- name: apikey
+  type: apiKey
+  in: header
+  parameter: X-Api-Key
+  sources:
+  - openapi/climateai-platform-swagger.json
+  - openapi/climateai-weather-openapi.yml

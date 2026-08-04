@@ -1,0 +1,3482 @@
+{
+    "swagger": "2.0",
+    "basePath": "/",
+    "paths": {
+        "/account/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/account_response"
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating account"
+                    },
+                    "201": {
+                        "description": "Successfully created new account."
+                    }
+                },
+                "operationId": "Create an account",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/account_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved accounts."
+                    },
+                    "500": {
+                        "description": "Error retrieving accounts."
+                    },
+                    "204": {
+                        "description": "No accounts found."
+                    }
+                },
+                "summary": "Gets all accounts",
+                "operationId": "Retrieve all accounts",
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account/search": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Accounts successfully fetched."
+                    },
+                    "500": {
+                        "description": "Error searching."
+                    },
+                    "204": {
+                        "description": "No accounts found."
+                    }
+                },
+                "operationId": "Search accounts",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/search_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account/{account_id}": {
+            "parameters": [
+                {
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated account."
+                    },
+                    "500": {
+                        "description": "Error updating account."
+                    },
+                    "404": {
+                        "description": "No account with given ID found."
+                    }
+                },
+                "operationId": "Update information about a specific account",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/account%20update"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully disabled account."
+                    },
+                    "500": {
+                        "description": "Error disabling account."
+                    },
+                    "404": {
+                        "description": "No account with given ID found."
+                    }
+                },
+                "operationId": "Disable account by id",
+                "tags": [
+                    "account"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved account."
+                    },
+                    "500": {
+                        "description": "Error retrieving account."
+                    },
+                    "404": {
+                        "description": "No account with given ID found."
+                    }
+                },
+                "operationId": "Retrieve account by id",
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account/{account_id}/is_onboarded": {
+            "parameters": [
+                {
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated is_onboarded account"
+                    },
+                    "500": {
+                        "description": "Error updating account."
+                    },
+                    "404": {
+                        "description": "No account with given ID found."
+                    }
+                },
+                "operationId": "Update an account is_onboarded",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/account_is_onboarded"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account/{account_id}/platform": {
+            "parameters": [
+                {
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "succesfully retrieved platform"
+                    },
+                    "500": {
+                        "description": "Error getting platform linked to account"
+                    },
+                    "404": {
+                        "description": "Account not found."
+                    }
+                },
+                "operationId": "Gets a platform based on the account_id",
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account/{account_id}/user/{user_id}/relation": {
+            "parameters": [
+                {
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "user_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/account_user_relation_response"
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating account-user relationship."
+                    },
+                    "201": {
+                        "description": "Successfully created new account-user relationship."
+                    }
+                },
+                "operationId": "Add a new account-user relationship",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/account_user_relation_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully modified account-user relationship."
+                    },
+                    "500": {
+                        "description": "Error modifying account-user relationship."
+                    }
+                },
+                "operationId": "Modify an existing account-user relationship",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/account_user_relation_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "500": {
+                        "description": "Error removing account-user relation."
+                    },
+                    "404": {
+                        "description": "No relation found for the account/user combination."
+                    },
+                    "200": {
+                        "description": "Successfully deleted account-user relation."
+                    }
+                },
+                "operationId": "Delete an account-user relation",
+                "tags": [
+                    "account"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved relation."
+                    },
+                    "500": {
+                        "description": "Error retrieving relation."
+                    },
+                    "404": {
+                        "description": "No relation found for the account/user combination."
+                    }
+                },
+                "operationId": "Get a relation between the account/user",
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account/{account_id}/user/{user_id}/relation/activate": {
+            "parameters": [
+                {
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "name": "user_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully activated account-user relationship."
+                    },
+                    "500": {
+                        "description": "Error activating account-user relationship."
+                    }
+                },
+                "operationId": "Activate an account-user relationship",
+                "tags": [
+                    "account"
+                ]
+            }
+        },
+        "/account_config/": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error creating account configs."
+                    },
+                    "409": {
+                        "description": "Account config already exists."
+                    },
+                    "201": {
+                        "description": "Account configs successfully created."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/account_config_response"
+                            }
+                        }
+                    }
+                },
+                "operationId": "Create account configurations",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/account_config_payload"
+                            }
+                        }
+                    }
+                ],
+                "tags": [
+                    "account_config"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved account config."
+                    },
+                    "500": {
+                        "description": "Error retrieving account config."
+                    },
+                    "204": {
+                        "description": "No account config found."
+                    }
+                },
+                "operationId": "Get all account configurations",
+                "tags": [
+                    "account_config"
+                ]
+            }
+        },
+        "/account_config/account/{account_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The account id related to config",
+                    "name": "account_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "responses": {
+                    "500": {
+                        "description": "Error deleting account config."
+                    },
+                    "404": {
+                        "description": "Account config not found."
+                    },
+                    "200": {
+                        "description": "Account config successfully deleted."
+                    }
+                },
+                "operationId": "delete configuration for an account",
+                "tags": [
+                    "account_config"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "500": {
+                        "description": "Error fetching account config."
+                    },
+                    "204": {
+                        "description": "Account config not found."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/account_config_response"
+                            }
+                        }
+                    }
+                },
+                "operationId": "fetch all configuration for an account",
+                "parameters": [
+                    {
+                        "description": "Filter by config type",
+                        "type": "String",
+                        "name": "config_type",
+                        "in": "query"
+                    }
+                ],
+                "tags": [
+                    "account_config"
+                ]
+            }
+        },
+        "/account_config/delete": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error deleting account config(s)."
+                    },
+                    "409": {
+                        "description": "Account config(s) does not exist."
+                    },
+                    "201": {
+                        "description": "Account configs successfully deleted."
+                    }
+                },
+                "operationId": "Delete account configurations by id",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/multi_account_config_ids"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account_config"
+                ]
+            }
+        },
+        "/account_config/{account_config_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The id of the config object",
+                    "name": "account_config_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Account config not found."
+                    },
+                    "500": {
+                        "description": "Error updating account config."
+                    },
+                    "201": {
+                        "description": "Account config successfully updated."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/account_config_response"
+                        }
+                    }
+                },
+                "operationId": "update an account config",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/account_config_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account_config"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Account config not found."
+                    },
+                    "500": {
+                        "description": "Error deleting account config."
+                    },
+                    "200": {
+                        "description": "Account config successfully deleted."
+                    }
+                },
+                "operationId": "delete an account config by id",
+                "tags": [
+                    "account_config"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Account config not found."
+                    },
+                    "500": {
+                        "description": "Error fetching account config."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/account_config_response"
+                        }
+                    }
+                },
+                "operationId": "fetch an account config object",
+                "tags": [
+                    "account_config"
+                ]
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error logging in"
+                    },
+                    "403": {
+                        "description": "Inactive user"
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    },
+                    "400": {
+                        "description": "Bad input"
+                    },
+                    "200": {
+                        "description": "Logged in"
+                    }
+                },
+                "operationId": "user login",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/auth_details"
+                        }
+                    }
+                ],
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error logging out"
+                    },
+                    "401": {
+                        "description": "Invalid auth token"
+                    },
+                    "200": {
+                        "description": "Logged out"
+                    }
+                },
+                "operationId": "logout a user",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/refresh": {
+            "post": {
+                "responses": {
+                    "401": {
+                        "description": "Error refreshing token"
+                    },
+                    "200": {
+                        "description": "Refresh successful"
+                    }
+                },
+                "operationId": "refresh a jwt token",
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/status": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK."
+                    }
+                },
+                "summary": "Returns a 200 code",
+                "operationId": "test request to check status",
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/sudo/{user_id}": {
+            "parameters": [
+                {
+                    "name": "user_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error generating token"
+                    },
+                    "403": {
+                        "description": "Not allowed to generate token"
+                    },
+                    "200": {
+                        "description": "Sudo token generated"
+                    }
+                },
+                "operationId": "generates a jwt token with the given user_id",
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/switch_account/{account_id}": {
+            "parameters": [
+                {
+                    "name": "account_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error switching account"
+                    },
+                    "400": {
+                        "description": "Bad input"
+                    },
+                    "200": {
+                        "description": "Switched account"
+                    }
+                },
+                "operationId": "switch account",
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/auth/verify_token": {
+            "get": {
+                "responses": {
+                    "422": {
+                        "description": "Signature verification failed."
+                    },
+                    "401": {
+                        "description": "Unauthorized."
+                    },
+                    "200": {
+                        "description": "OK."
+                    }
+                },
+                "summary": "Returns a 200 code if authentication passes",
+                "operationId": "Verify credentials for reverse proxy",
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "apikey": []
+                    }
+                ],
+                "tags": [
+                    "auth"
+                ]
+            }
+        },
+        "/device/": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved devices."
+                    },
+                    "500": {
+                        "description": "Error retrieving devices."
+                    },
+                    "404": {
+                        "description": "No devices found."
+                    }
+                },
+                "summary": "Gets a listing of the available devices",
+                "operationId": "Get all devices",
+                "tags": [
+                    "device"
+                ]
+            }
+        },
+        "/device/account/{account_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The account id",
+                    "name": "account_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "404": {
+                        "description": "Account not found."
+                    },
+                    "500": {
+                        "description": "Error creating device."
+                    },
+                    "409": {
+                        "description": "Device already exists."
+                    },
+                    "400": {
+                        "description": "Bad input."
+                    },
+                    "201": {
+                        "description": "Device successfully created."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/device_response"
+                        }
+                    }
+                },
+                "summary": "Creates a new device for account by id",
+                "operationId": "register a new device for account by id",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/device_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "device"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "No devices found for account."
+                    },
+                    "200": {
+                        "description": "Successfully retrieved devices."
+                    },
+                    "500": {
+                        "description": "Error retrieving devices."
+                    }
+                },
+                "operationId": "Get all devices for account by id",
+                "tags": [
+                    "device"
+                ]
+            }
+        },
+        "/device/api_trial": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error creating api trial."
+                    },
+                    "409": {
+                        "description": "Api trial already exists."
+                    },
+                    "400": {
+                        "description": "Bad input."
+                    },
+                    "201": {
+                        "description": "Api trial successfully created."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/device_response"
+                        }
+                    }
+                },
+                "summary": "Creates an api trial api key",
+                "operationId": "get api trial",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/api_trial_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "device"
+                ]
+            }
+        },
+        "/device/{device_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The device id",
+                    "name": "device_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Device not found."
+                    },
+                    "500": {
+                        "description": "Error updating device."
+                    },
+                    "400": {
+                        "description": "Bad input."
+                    },
+                    "201": {
+                        "description": "Device successfully updated."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/device_response"
+                        }
+                    }
+                },
+                "summary": "Updates a device",
+                "operationId": "update a device",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/device_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "device"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Device not found."
+                    },
+                    "500": {
+                        "description": "Error deleting device."
+                    },
+                    "200": {
+                        "description": "Device successfully deleted."
+                    }
+                },
+                "summary": "Deletes a device by id",
+                "operationId": "delete a device",
+                "tags": [
+                    "device"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Device not found."
+                    },
+                    "500": {
+                        "description": "Error fetching device."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/device_response"
+                        }
+                    }
+                },
+                "operationId": "fetch a device",
+                "tags": [
+                    "device"
+                ]
+            }
+        },
+        "/email/send": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error sending email."
+                    },
+                    "403": {
+                        "description": "Invalid or missing email sending key."
+                    },
+                    "400": {
+                        "description": "Bad input."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/email_response"
+                        }
+                    }
+                },
+                "summary": "Sends an email via notification service proxy",
+                "operationId": "send email",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/email_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "email"
+                ]
+            }
+        },
+        "/permission/": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error creating permission."
+                    },
+                    "409": {
+                        "description": "Permission already exists."
+                    },
+                    "201": {
+                        "description": "Permission successfully created."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/permission_response"
+                        }
+                    }
+                },
+                "summary": "Creates a new Permission",
+                "operationId": "create a new permission",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/permission_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "permission"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved permissions."
+                    },
+                    "500": {
+                        "description": "Error retrieving permissions."
+                    },
+                    "204": {
+                        "description": "No permissions found."
+                    }
+                },
+                "operationId": "Get all permissions",
+                "tags": [
+                    "permission"
+                ]
+            }
+        },
+        "/permission/{permission_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The permission id",
+                    "name": "permission_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Permission not found."
+                    },
+                    "500": {
+                        "description": "Error updating permission."
+                    },
+                    "201": {
+                        "description": "Permission successfully updated."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/permission_response"
+                        }
+                    }
+                },
+                "summary": "Updates a permission",
+                "operationId": "update a permission",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/permission_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "permission"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Permission not found."
+                    },
+                    "500": {
+                        "description": "Error deleting permission."
+                    },
+                    "200": {
+                        "description": "Permission successfully deleted."
+                    }
+                },
+                "summary": "Deletes a permission by id",
+                "operationId": "delete a permission",
+                "tags": [
+                    "permission"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Permission not found."
+                    },
+                    "500": {
+                        "description": "Error fetching permission."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/permission_response"
+                        }
+                    }
+                },
+                "operationId": "fetch a permission",
+                "tags": [
+                    "permission"
+                ]
+            }
+        },
+        "/platform/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully created platform."
+                    },
+                    "500": {
+                        "description": "Error creating platform."
+                    },
+                    "409": {
+                        "description": "Platform already exists."
+                    }
+                },
+                "operationId": "Create a new platform",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/platform_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "platform"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved platforms."
+                    },
+                    "500": {
+                        "description": "Error retrieving platforms."
+                    },
+                    "204": {
+                        "description": "No platform labels found."
+                    }
+                },
+                "operationId": "Get all platform information",
+                "tags": [
+                    "platform"
+                ]
+            }
+        },
+        "/platform/skins": {
+            "get": {
+                "responses": {
+                    "500": {
+                        "description": "Error fetching skins."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/skin_response"
+                            }
+                        }
+                    }
+                },
+                "summary": "Fetches all skins",
+                "operationId": "fetch platform skins",
+                "tags": [
+                    "platform"
+                ]
+            }
+        },
+        "/platform/{platform_id}": {
+            "parameters": [
+                {
+                    "name": "platform_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "500": {
+                        "description": "Error updating platform."
+                    },
+                    "404": {
+                        "description": "platform not found."
+                    },
+                    "201": {
+                        "description": "platform successfully updated."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/platform_response"
+                        }
+                    }
+                },
+                "summary": "Updates a platform",
+                "operationId": "update a platform",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/platform_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "platform"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "500": {
+                        "description": "Error fetching platform."
+                    },
+                    "404": {
+                        "description": "platform not found."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/platform_response"
+                        }
+                    }
+                },
+                "summary": "Fetches a platform by id",
+                "operationId": "fetch a platform",
+                "tags": [
+                    "platform"
+                ]
+            }
+        },
+        "/product/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Succesfully created new product"
+                    },
+                    "500": {
+                        "description": "Error creating product"
+                    }
+                },
+                "summary": "Creates a new product",
+                "operationId": "Create a new product",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/product_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "product"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved products."
+                    },
+                    "500": {
+                        "description": "Error retrieving products."
+                    },
+                    "204": {
+                        "description": "No products found."
+                    }
+                },
+                "operationId": "Get all available products",
+                "tags": [
+                    "product"
+                ]
+            }
+        },
+        "/product/{product_id}": {
+            "parameters": [
+                {
+                    "name": "product_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully updated product."
+                    },
+                    "500": {
+                        "description": "Error updating product."
+                    },
+                    "404": {
+                        "description": "Product with given ID not found"
+                    }
+                },
+                "summary": "Updates product",
+                "operationId": "Updates information about a specific product",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/product_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "product"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "500": {
+                        "description": "Error deleting product."
+                    },
+                    "404": {
+                        "description": "Product with given ID not found"
+                    },
+                    "200": {
+                        "description": "Successfully deleted product."
+                    }
+                },
+                "summary": "Deletes product",
+                "operationId": "Deletes product by ID",
+                "tags": [
+                    "product"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved product."
+                    },
+                    "500": {
+                        "description": "Error retrieving product."
+                    },
+                    "404": {
+                        "description": "Product with given ID not found"
+                    }
+                },
+                "operationId": "Retrieves a product by its id",
+                "tags": [
+                    "product"
+                ]
+            }
+        },
+        "/report/": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/report_response"
+                        }
+                    },
+                    "500": {
+                        "description": "Error creating report"
+                    },
+                    "201": {
+                        "description": "Successfully created new account."
+                    }
+                },
+                "summary": "Creates a new report",
+                "operationId": "Create custom report",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/report_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "report"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved accounts."
+                    },
+                    "500": {
+                        "description": "Error retrieving accounts."
+                    }
+                },
+                "summary": "Gets all accounts",
+                "operationId": "Retrieve all custom reports",
+                "tags": [
+                    "report"
+                ]
+            }
+        },
+        "/report/{report_id}": {
+            "parameters": [
+                {
+                    "name": "report_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/report_response"
+                        }
+                    },
+                    "500": {
+                        "description": "Error deleting report."
+                    },
+                    "404": {
+                        "description": "No report with given ID found."
+                    },
+                    "204": {
+                        "description": "Report successfully deleted."
+                    }
+                },
+                "summary": "Disables an account",
+                "operationId": "Delete report by id",
+                "tags": [
+                    "report"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved report."
+                    },
+                    "500": {
+                        "description": "Error retrieving report."
+                    },
+                    "404": {
+                        "description": "No report with given ID found."
+                    }
+                },
+                "summary": "Gets a specific account by its id",
+                "operationId": "Retrieve report by id",
+                "tags": [
+                    "report"
+                ]
+            }
+        },
+        "/role/": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error creating role."
+                    },
+                    "409": {
+                        "description": "Role already exists."
+                    },
+                    "201": {
+                        "description": "Role successfully created."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/role_response"
+                        }
+                    }
+                },
+                "summary": "Creates a new Role",
+                "operationId": "create a new role",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/role_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "role"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved roles."
+                    },
+                    "500": {
+                        "description": "Error retrieving roles."
+                    },
+                    "204": {
+                        "description": "No roles found."
+                    }
+                },
+                "operationId": "Get all roles",
+                "tags": [
+                    "role"
+                ]
+            }
+        },
+        "/role/{role_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The role id",
+                    "name": "role_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "Role not found."
+                    },
+                    "500": {
+                        "description": "Error updating role."
+                    },
+                    "201": {
+                        "description": "Role successfully updated."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/role_response"
+                        }
+                    }
+                },
+                "summary": "Updates a role",
+                "operationId": "update a role",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/role_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "role"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Role not found."
+                    },
+                    "500": {
+                        "description": "Error deleting role."
+                    },
+                    "200": {
+                        "description": "Role successfully deleted."
+                    }
+                },
+                "summary": "Deletes a role by id",
+                "operationId": "delete a role",
+                "tags": [
+                    "role"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "Role not found."
+                    },
+                    "500": {
+                        "description": "Error fetching role."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/role_response"
+                        }
+                    }
+                },
+                "operationId": "fetch a role",
+                "tags": [
+                    "role"
+                ]
+            }
+        },
+        "/role/{role_id}/permission/{permission_id}": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The permission id",
+                    "name": "permission_id",
+                    "required": true,
+                    "type": "string"
+                },
+                {
+                    "in": "path",
+                    "description": "The role id",
+                    "name": "role_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "404": {
+                        "description": "Role or permission not found."
+                    },
+                    "500": {
+                        "description": "Error adding association."
+                    },
+                    "409": {
+                        "description": "Association already exists."
+                    },
+                    "201": {
+                        "description": "Association successfully added."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/role_response"
+                        }
+                    }
+                },
+                "summary": "Adds a new Role/Permission association",
+                "operationId": "add a permission to a role",
+                "tags": [
+                    "role"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "Association does not exist."
+                    },
+                    "500": {
+                        "description": "Error removing association."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/role_response"
+                        }
+                    }
+                },
+                "summary": "Removes a Role/Permission association",
+                "operationId": "remove a permission from a role",
+                "tags": [
+                    "role"
+                ]
+            }
+        },
+        "/user/": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error creating user."
+                    },
+                    "409": {
+                        "description": "User already exists."
+                    },
+                    "201": {
+                        "description": "User successfully created."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_response"
+                        }
+                    }
+                },
+                "operationId": "create a new user",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/create_user_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "user"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "500": {
+                        "description": "Error retrieving users."
+                    },
+                    "204": {
+                        "description": "No users found."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/definitions/user_response"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "List all registered users",
+                "operationId": "list all registered users",
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/user/change_password": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error changing the user password."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_pwd_response"
+                        }
+                    }
+                },
+                "summary": "Changes the user's password",
+                "operationId": "Changes the user's password",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/user_pwd_payload_a"
+                        }
+                    }
+                ],
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/user/reset_password": {
+            "post": {
+                "responses": {
+                    "500": {
+                        "description": "Error creating reset token."
+                    },
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_pwd_response"
+                        }
+                    }
+                },
+                "summary": "Gets reset password token",
+                "operationId": "returns reset password token",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/user_pwd_payload_a"
+                        }
+                    }
+                ],
+                "tags": [
+                    "user"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "500": {
+                        "description": "Error resetting password."
+                    },
+                    "404": {
+                        "description": "Password token not found."
+                    },
+                    "201": {
+                        "description": "Successfully reset password."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_response"
+                        }
+                    }
+                },
+                "summary": "Resets password",
+                "operationId": "performs password reset operation",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/user/search": {
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Users successfully fetched."
+                    },
+                    "500": {
+                        "description": "Error searching."
+                    },
+                    "204": {
+                        "description": "No users found."
+                    }
+                },
+                "operationId": "Search users",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/search_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/user/{user_id}/": {
+            "parameters": [
+                {
+                    "in": "path",
+                    "description": "The user id",
+                    "name": "user_id",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "responses": {
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Error updating user."
+                    },
+                    "201": {
+                        "description": "User successfully updated."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_response"
+                        }
+                    }
+                },
+                "operationId": "update a user",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "required": true,
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/user_update_payload"
+                        }
+                    }
+                ],
+                "tags": [
+                    "user"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Error deleting user."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_response"
+                        }
+                    }
+                },
+                "summary": "Deletes a user by id",
+                "operationId": "delete a user",
+                "tags": [
+                    "user"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "404": {
+                        "description": "User not found."
+                    },
+                    "500": {
+                        "description": "Error fetching user."
+                    },
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/user_response"
+                        }
+                    }
+                },
+                "operationId": "fetch a user",
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/user/{user_id}/account/relation": {
+            "parameters": [
+                {
+                    "name": "user_id",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved information."
+                    },
+                    "500": {
+                        "description": "Error retrieving information."
+                    },
+                    "404": {
+                        "description": "No user found."
+                    },
+                    "204": {
+                        "description": "User does not have any account relations."
+                    }
+                },
+                "operationId": "Gets account relations associated with the user",
+                "tags": [
+                    "user"
+                ]
+            }
+        },
+        "/{path}": {
+            "parameters": [
+                {
+                    "name": "path",
+                    "in": "path",
+                    "required": true,
+                    "type": "string"
+                }
+            ],
+            "post": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "post to an endpoint",
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "apikey": []
+                    }
+                ],
+                "tags": [
+                    "routing"
+                ]
+            },
+            "put": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "update a resource",
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "apikey": []
+                    }
+                ],
+                "tags": [
+                    "routing"
+                ]
+            },
+            "delete": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "delete a resource",
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "apikey": []
+                    }
+                ],
+                "tags": [
+                    "routing"
+                ]
+            },
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                },
+                "operationId": "get a resource",
+                "security": [
+                    {
+                        "jwt": []
+                    },
+                    {
+                        "apikey": []
+                    }
+                ],
+                "tags": [
+                    "routing"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "ClimateAI Platform",
+        "version": "1.0",
+        "description": "ClimateAI authentication and routing gateway for platform services"
+    },
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "securityDefinitions": {
+        "jwt": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+        },
+        "apikey": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-Api-Key"
+        }
+    },
+    "security": [
+        {
+            "jwt": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "account",
+            "description": "account related operations"
+        },
+        {
+            "name": "account_config",
+            "description": "account config related operations"
+        },
+        {
+            "name": "auth",
+            "description": "authentication related operations"
+        },
+        {
+            "name": "device",
+            "description": "device api key related operations"
+        },
+        {
+            "name": "email",
+            "description": "email sending operations"
+        },
+        {
+            "name": "permission",
+            "description": "permission related operations"
+        },
+        {
+            "name": "product",
+            "description": "product listing"
+        },
+        {
+            "name": "role",
+            "description": "user role related operations"
+        },
+        {
+            "name": "user",
+            "description": "user related operations"
+        },
+        {
+            "name": "platform",
+            "description": "platform label related operations"
+        },
+        {
+            "name": "report",
+            "description": "report related operations"
+        },
+        {
+            "name": "routing",
+            "description": "routing and proxy operations"
+        }
+    ],
+    "definitions": {
+        "account_payload": {
+            "required": [
+                "contact_info",
+                "currency",
+                "name"
+            ],
+            "properties": {
+                "logo_b64": {
+                    "type": "string",
+                    "description": "Account logo image in Base64"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Account name."
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Currency used by the account."
+                },
+                "contact_info": {
+                    "description": "Contact information used by the account.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/contact_info_payload"
+                        }
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Account status",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "sales",
+                        "terminated"
+                    ]
+                },
+                "platform_id": {
+                    "type": "string",
+                    "description": "platform ID"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "description": "Account ID of the parent account."
+                },
+                "is_internal": {
+                    "type": "boolean",
+                    "description": "If account is internal or not"
+                }
+            },
+            "type": "object"
+        },
+        "contact_info_payload": {
+            "required": [
+                "address",
+                "email",
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the primary contact for the account."
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Primary contact email of the account."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Primary address for the account."
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "account_response": {
+            "required": [
+                "contact_info",
+                "created_at",
+                "currency",
+                "id",
+                "is_onboarded",
+                "logo_url",
+                "name",
+                "updated_at"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Account ID"
+                },
+                "logo_url": {
+                    "type": "string",
+                    "description": "path to stored logo",
+                    "default": "https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png"
+                },
+                "is_onboarded": {
+                    "type": "boolean",
+                    "description": "Is the account onboarded"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "platform_id": {
+                    "type": "string",
+                    "description": "platform ID"
+                },
+                "logo_b64": {
+                    "type": "string",
+                    "description": "Account logo image in Base64"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Account name."
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Currency used by the account."
+                },
+                "contact_info": {
+                    "description": "Contact information used by the account.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/contact_info_payload"
+                        }
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Account status",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "sales",
+                        "terminated"
+                    ]
+                },
+                "parent_id": {
+                    "type": "string",
+                    "description": "Account ID of the parent account."
+                },
+                "is_internal": {
+                    "type": "boolean",
+                    "description": "If account is internal or not"
+                },
+                "children": {
+                    "type": "array",
+                    "description": "Child accounts",
+                    "items": {
+                        "$ref": "#/definitions/nested_account"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "nested_account": {
+            "required": [
+                "contact_info",
+                "created_at",
+                "currency",
+                "id",
+                "is_onboarded",
+                "logo_url",
+                "name",
+                "updated_at"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Account ID"
+                },
+                "logo_url": {
+                    "type": "string",
+                    "description": "path to stored logo",
+                    "default": "https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png"
+                },
+                "is_onboarded": {
+                    "type": "boolean",
+                    "description": "Is the account onboarded"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "platform_id": {
+                    "type": "string",
+                    "description": "platform ID"
+                },
+                "logo_b64": {
+                    "type": "string",
+                    "description": "Account logo image in Base64"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Account name."
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Currency used by the account."
+                },
+                "contact_info": {
+                    "description": "Contact information used by the account.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/contact_info_payload"
+                        }
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Account status",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "sales",
+                        "terminated"
+                    ]
+                },
+                "parent_id": {
+                    "type": "string",
+                    "description": "Account ID of the parent account."
+                },
+                "is_internal": {
+                    "type": "boolean",
+                    "description": "If account is internal or not"
+                }
+            },
+            "type": "object"
+        },
+        "account update": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Account name."
+                },
+                "currency": {
+                    "type": "string",
+                    "description": "Currency used by the account."
+                },
+                "contact_info": {
+                    "description": "Contact information used by the account.",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/contact_info_payload"
+                        }
+                    ]
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Account status",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "terminated"
+                    ]
+                },
+                "platform_id": {
+                    "type": "string",
+                    "description": "platform ID"
+                },
+                "parent_id": {
+                    "type": "string",
+                    "description": "Account ID of the parent account."
+                },
+                "logo_b64": {
+                    "type": "string",
+                    "description": "Account logo image in Base64"
+                },
+                "logo_url": {
+                    "type": "string",
+                    "description": "path to stored logo"
+                },
+                "is_internal": {
+                    "type": "boolean",
+                    "description": "If account is internal or not"
+                }
+            },
+            "type": "object"
+        },
+        "account_is_onboarded": {
+            "required": [
+                "is_onboarded"
+            ],
+            "properties": {
+                "is_onboarded": {
+                    "type": "boolean",
+                    "description": "Boolean for is_onboarded"
+                }
+            },
+            "type": "object"
+        },
+        "account_user_relation_payload": {
+            "properties": {
+                "role_id": {
+                    "type": "string",
+                    "description": "Role ID"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "account_user_relation_response": {
+            "required": [
+                "account_id",
+                "created_at",
+                "email_sent",
+                "last_used",
+                "updated_at",
+                "user_id"
+            ],
+            "properties": {
+                "account_id": {
+                    "type": "string",
+                    "description": "Account ID"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "User ID"
+                },
+                "role_id": {
+                    "type": "string",
+                    "description": "Role ID"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "email_sent": {
+                    "type": "string",
+                    "description": "email type sent"
+                },
+                "last_used": {
+                    "type": "string",
+                    "description": "last time this relation was used"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "search_payload": {
+            "properties": {
+                "filter_by": {
+                    "$ref": "#/definitions/criteria"
+                },
+                "order_by": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "pagination": {
+                    "$ref": "#/definitions/pagination"
+                }
+            },
+            "type": "object"
+        },
+        "criteria": {
+            "properties": {
+                "and": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/search_filter"
+                    }
+                },
+                "or": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/search_filter"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "search_filter": {
+            "required": [
+                "field_name",
+                "field_value",
+                "operator"
+            ],
+            "properties": {
+                "field_name": {
+                    "type": "string"
+                },
+                "operator": {
+                    "type": "string"
+                },
+                "field_value": {
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "pagination": {
+            "properties": {
+                "page": {
+                    "type": "integer"
+                },
+                "per_page": {
+                    "type": "integer"
+                },
+                "all": {
+                    "type": "boolean"
+                }
+            },
+            "type": "object"
+        },
+        "account_config_payload": {
+            "required": [
+                "account_id",
+                "config_type",
+                "config_value"
+            ],
+            "properties": {
+                "account_id": {
+                    "type": "string",
+                    "description": "Account ID"
+                },
+                "config_type": {
+                    "type": "string",
+                    "description": "type of config to control"
+                },
+                "config_value": {
+                    "type": "string",
+                    "description": "value related to config_type"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "account_config_response": {
+            "required": [
+                "account_id",
+                "config_type",
+                "config_value",
+                "created_at",
+                "id",
+                "updated_at"
+            ],
+            "properties": {
+                "account_id": {
+                    "type": "string",
+                    "description": "Account ID"
+                },
+                "config_type": {
+                    "type": "string",
+                    "description": "type of config to control"
+                },
+                "config_value": {
+                    "type": "string",
+                    "description": "value related to config_type"
+                },
+                "id": {
+                    "type": "string",
+                    "description": "role identifier"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                }
+            },
+            "type": "object"
+        },
+        "multi_account_config_ids": {
+            "properties": {
+                "id": {
+                    "type": "array",
+                    "description": "Account config ids to delete",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "auth_details": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "The email address"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "The user password "
+                }
+            },
+            "type": "object"
+        },
+        "device_payload": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Device name"
+                },
+                "uber_admin": {
+                    "type": "boolean",
+                    "description": "shows if device has uber_admin permissions"
+                },
+                "days_valid": {
+                    "type": "integer",
+                    "description": "Number of days the device is valid for"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "device_response": {
+            "required": [
+                "account_id",
+                "created_at",
+                "device_key",
+                "id",
+                "name",
+                "updated_at",
+                "valid_until"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Device ID"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "device_key": {
+                    "type": "string",
+                    "description": "Device API key"
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "Account id for device"
+                },
+                "email_address": {
+                    "type": "string",
+                    "description": "Email address"
+                },
+                "company_name": {
+                    "type": "string",
+                    "description": "Company name"
+                },
+                "valid_until": {
+                    "type": "string",
+                    "description": "Valid until timestamp"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Device name"
+                },
+                "uber_admin": {
+                    "type": "boolean",
+                    "description": "shows if device has uber_admin permissions"
+                },
+                "days_valid": {
+                    "type": "integer",
+                    "description": "Number of days the device is valid for"
+                }
+            },
+            "type": "object"
+        },
+        "api_trial_payload": {
+            "required": [
+                "company_name",
+                "email"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "Email address"
+                },
+                "company_name": {
+                    "type": "string",
+                    "description": "Company name"
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "Account id for device"
+                },
+                "days_valid": {
+                    "type": "integer",
+                    "description": "Number of days the device is valid for",
+                    "default": 7
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "email_payload": {
+            "required": [
+                "notification_subject",
+                "notification_type",
+                "recipient"
+            ],
+            "properties": {
+                "recipient": {
+                    "type": "string",
+                    "description": "Email recipient address"
+                },
+                "notification_type": {
+                    "type": "string",
+                    "description": "Type of notification"
+                },
+                "notification_subject": {
+                    "type": "string",
+                    "description": "Email subject"
+                },
+                "content": {
+                    "type": "object",
+                    "description": "Email content as dict"
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "Optional account ID"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "email_response": {
+            "required": [
+                "message",
+                "status"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "description": "Response status"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Response message"
+                }
+            },
+            "type": "object"
+        },
+        "permission_payload": {
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "permission name"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "permission_response": {
+            "required": [
+                "created_at",
+                "id",
+                "name",
+                "updated_at"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "permission identifier"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "permission name"
+                }
+            },
+            "type": "object"
+        },
+        "product_payload": {
+            "required": [
+                "product_name"
+            ],
+            "properties": {
+                "product_name": {
+                    "type": "string",
+                    "description": "Product name"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "role_payload": {
+            "required": [
+                "description",
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "role name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "role description"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "role_response": {
+            "required": [
+                "created_at",
+                "description",
+                "id",
+                "name",
+                "updated_at"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "role identifier"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "permissions": {
+                    "type": "array",
+                    "description": "role permissions",
+                    "items": {
+                        "$ref": "#/definitions/permission_response"
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "description": "role name"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "role description"
+                }
+            },
+            "type": "object"
+        },
+        "create_user_payload": {
+            "required": [
+                "email",
+                "language",
+                "password",
+                "timezone",
+                "unit_type",
+                "username"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "user email address"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "user username"
+                },
+                "unit_type": {
+                    "type": "boolean",
+                    "description": "shows if the users unit_type is metric"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Main language used by the account."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "timezone of the user"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "user status",
+                    "example": "active",
+                    "enum": [
+                        "active",
+                        "inactive",
+                        "draft"
+                    ]
+                },
+                "password": {
+                    "type": "string",
+                    "description": "user password"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "user_response": {
+            "required": [
+                "created_at",
+                "email",
+                "id",
+                "language",
+                "roles",
+                "timezone",
+                "unit_type",
+                "updated_at",
+                "username"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "user unique id"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "roles": {
+                    "type": "array",
+                    "description": "Roles related to the user",
+                    "items": {
+                        "$ref": "#/definitions/user_role_info"
+                    }
+                },
+                "email": {
+                    "type": "string",
+                    "description": "user email address"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "user username"
+                },
+                "unit_type": {
+                    "type": "boolean",
+                    "description": "shows if the users unit_type is metric"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Main language used by the account."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "timezone of the user"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "user status",
+                    "example": "active",
+                    "enum": [
+                        "active",
+                        "inactive",
+                        "draft"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "user_role_info": {
+            "required": [
+                "account_id",
+                "role_id"
+            ],
+            "properties": {
+                "account_id": {
+                    "type": "string",
+                    "description": "Account ID"
+                },
+                "role_id": {
+                    "type": "string",
+                    "description": "role identifier"
+                }
+            },
+            "type": "object"
+        },
+        "user_update_payload": {
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "description": "user username"
+                },
+                "unit_type": {
+                    "type": "boolean",
+                    "description": "shows if the users unit_type is metric"
+                },
+                "language": {
+                    "type": "string",
+                    "description": "Main language used by the account."
+                },
+                "timezone": {
+                    "type": "string",
+                    "description": "timezone of the user"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "user status",
+                    "example": "active",
+                    "enum": [
+                        "active",
+                        "inactive"
+                    ]
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "user_pwd_payload_a": {
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "description": "user email address"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "user password"
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "user_pwd_response": {
+            "required": [
+                "created_at",
+                "email",
+                "reset_token"
+            ],
+            "properties": {
+                "reset_token": {
+                    "type": "string",
+                    "description": "user password reset token"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "user email address"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "Token created at timestamp"
+                }
+            },
+            "type": "object"
+        },
+        "platform_payload": {
+            "required": [
+                "domain",
+                "favicon",
+                "footer",
+                "header",
+                "logo",
+                "name",
+                "primary_color",
+                "top_nav_color",
+                "wallpaper",
+                "welcome_string"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Platform label name."
+                },
+                "welcome_string": {
+                    "type": "string",
+                    "description": "Platform welcome string."
+                },
+                "domain": {
+                    "type": "string",
+                    "description": "URL representing the platform domain."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Platform status.",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "terminated"
+                    ]
+                },
+                "primary_color": {
+                    "type": "string",
+                    "description": "Primary color."
+                },
+                "top_nav_color": {
+                    "type": "string",
+                    "description": "Primary color."
+                },
+                "logo": {
+                    "type": "string",
+                    "description": "Platform logo representation."
+                },
+                "favicon": {
+                    "type": "string",
+                    "description": "Platform favicon representation."
+                },
+                "wallpaper": {
+                    "type": "string",
+                    "description": "Platform wallpaper representation."
+                },
+                "header": {
+                    "type": "string",
+                    "description": "Platform header representation."
+                },
+                "footer": {
+                    "type": "string",
+                    "description": "Platform footer representation."
+                }
+            },
+            "type": "object",
+            "additionalProperties": false
+        },
+        "platform_response": {
+            "required": [
+                "created_at",
+                "domain",
+                "favicon",
+                "footer",
+                "header",
+                "id",
+                "logo",
+                "name",
+                "primary_color",
+                "top_nav_color",
+                "updated_at",
+                "wallpaper",
+                "welcome_string"
+            ],
+            "properties": {
+                "accounts": {
+                    "type": "array",
+                    "description": "role permissions",
+                    "items": {
+                        "$ref": "#/definitions/account_response"
+                    }
+                },
+                "id": {
+                    "type": "string",
+                    "description": "platform identifier"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Platform label name."
+                },
+                "welcome_string": {
+                    "type": "string",
+                    "description": "Platform welcome string."
+                },
+                "domain": {
+                    "type": "string",
+                    "description": "URL representing the platform domain."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Platform status.",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "terminated"
+                    ]
+                },
+                "primary_color": {
+                    "type": "string",
+                    "description": "Primary color."
+                },
+                "top_nav_color": {
+                    "type": "string",
+                    "description": "Primary color."
+                },
+                "logo": {
+                    "type": "string",
+                    "description": "Platform logo representation."
+                },
+                "favicon": {
+                    "type": "string",
+                    "description": "Platform favicon representation."
+                },
+                "wallpaper": {
+                    "type": "string",
+                    "description": "Platform wallpaper representation."
+                },
+                "header": {
+                    "type": "string",
+                    "description": "Platform header representation."
+                },
+                "footer": {
+                    "type": "string",
+                    "description": "Platform footer representation."
+                }
+            },
+            "type": "object"
+        },
+        "skin_response": {
+            "required": [
+                "created_at",
+                "domain",
+                "favicon",
+                "footer",
+                "header",
+                "id",
+                "logo",
+                "name",
+                "primary_color",
+                "top_nav_color",
+                "updated_at",
+                "wallpaper",
+                "welcome_string"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "platform identifier"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Platform label name."
+                },
+                "welcome_string": {
+                    "type": "string",
+                    "description": "Platform welcome string."
+                },
+                "domain": {
+                    "type": "string",
+                    "description": "URL representing the platform domain."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "Platform status.",
+                    "example": "live",
+                    "enum": [
+                        "live",
+                        "terminated"
+                    ]
+                },
+                "primary_color": {
+                    "type": "string",
+                    "description": "Primary color."
+                },
+                "top_nav_color": {
+                    "type": "string",
+                    "description": "Primary color."
+                },
+                "logo": {
+                    "type": "string",
+                    "description": "Platform logo representation."
+                },
+                "favicon": {
+                    "type": "string",
+                    "description": "Platform favicon representation."
+                },
+                "wallpaper": {
+                    "type": "string",
+                    "description": "Platform wallpaper representation."
+                },
+                "header": {
+                    "type": "string",
+                    "description": "Platform header representation."
+                },
+                "footer": {
+                    "type": "string",
+                    "description": "Platform footer representation."
+                }
+            },
+            "type": "object"
+        },
+        "report_payload": {
+            "required": [
+                "description",
+                "name",
+                "url"
+            ],
+            "properties": {
+                "account_id": {
+                    "type": "string",
+                    "description": "Custom report account."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Custom report name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Custom report description."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "URL to custom report."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Custom report type.",
+                    "example": "image",
+                    "enum": [
+                        "image",
+                        "pdf",
+                        "url"
+                    ]
+                }
+            },
+            "type": "object"
+        },
+        "report_response": {
+            "required": [
+                "created_at",
+                "description",
+                "id",
+                "name",
+                "updated_at",
+                "url"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Report id"
+                },
+                "created_at": {
+                    "type": "string",
+                    "description": "created timestamp"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "description": "last updated timestamp"
+                },
+                "account_id": {
+                    "type": "string",
+                    "description": "Custom report account."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Custom report name."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Custom report description."
+                },
+                "url": {
+                    "type": "string",
+                    "description": "URL to custom report."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Custom report type.",
+                    "example": "image",
+                    "enum": [
+                        "image",
+                        "pdf",
+                        "url"
+                    ]
+                }
+            },
+            "type": "object"
+        }
+    },
+    "responses": {
+        "ParseError": {
+            "description": "When a mask can't be parsed"
+        },
+        "MaskError": {
+            "description": "When any error occurs on mask"
+        },
+        "TooManyRequests": {}
+    }
+}

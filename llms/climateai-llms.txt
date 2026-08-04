@@ -1,0 +1,4 @@
+- [Getting Started](https://docs.climate.ai/guide/getting-started/index.md): Authenticate, browse the API's current and legacy endpoint families, and make your first request.
+- [Data products](https://docs.climate.ai/guide/data-products/index.md): Forecasts, history, and climatology: what each returns, current and legacy endpoints, and parameters. Plus what's in development.
+- [Variables, Units & Resolution](https://docs.climate.ai/guide/variables-units-resolution/index.md): Reference for variables, units, granularity, statistics, and spatial resolution available on each endpoint. Includes downscaling rules and current-vs-legacy differences.
+- [Migration](https://docs.climate.ai/guide/migration/index.md): How to move from the legacy endpoints to the current ones. Before/after recipes, what you gain, and what doesn't carry over.
