@@ -1,22 +1,55 @@
-generated: '2026-08-02'
-method: derived
+generated: '2026-08-04'
+method: searched
 source: openapi/climateai-platform-swagger.json, openapi/climateai-weather-openapi.yml
+docs: https://docs.climate.ai/guide/getting-started
 summary:
   types:
   - apiKey
   api_key_in:
   - header
+  oauth2_flows: []
+  notes: >-
+    Key-auth only. There is no OAuth 2.0 / OpenID Connect surface on either published
+    contract, so there is no scope model to capture (scopes/ is intentionally absent).
+    Keys are issued by ClimateAi sales/account management rather than self-service.
 schemes:
-- name: jwt
-  type: apiKey
-  in: header
-  parameter: Authorization
-  sources:
-  - openapi/climateai-platform-swagger.json
 - name: apikey
   type: apiKey
   in: header
   parameter: X-Api-Key
+  description: >-
+    Primary developer credential for the LensConnect Weather API. Every request must
+    carry the key in the X-Api-Key header. Keys are provisioned by ClimateAi (request
+    one from sales@climate.ai); entitlements such as 1 km downscaling are bound to the
+    key at the account level, so the same call returns different resolution depending
+    on how the key is provisioned.
+  provisioning: sales@climate.ai / ClimateAi account manager
+  self_service: false
+  docs: https://docs.climate.ai/guide/getting-started
+  sources:
+  - openapi/climateai-weather-openapi.yml
+  - openapi/climateai-platform-swagger.json
+- name: jwt
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: >-
+    Bearer/JWT credential used by the ClimateAI Platform gateway (default security for
+    the platform contract). Obtained through the platform auth operations; used for
+    account, user, role, permission and routing operations rather than weather data.
   sources:
   - openapi/climateai-platform-swagger.json
-  - openapi/climateai-weather-openapi.yml
+example: |
+  curl -X GET "https://api-prod.climate.ai/weather/v2/history" \
+    -G -d "lat=37.7" -d "lon=-122.4" -d "var=temp_mean" \
+    -d "start_date=2024-01-01" -d "end_date=2024-12-31" \
+    -H "X-Api-Key: <YOUR_API_KEY>"
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - url: https://docs.climate.ai/guide/getting-started
+    http_status: 200
+  - url: https://docs.climate.ai/climateai-weather-api/openapi.yaml
+    http_status: 200
+  - url: https://api-prod.climate.ai/swagger.json
+    http_status: 200

@@ -1,0 +1,149 @@
+generated: '2026-08-04'
+method: derived
+source: mcp/climateai-mcp.yml, openapi/climateai-weather-openapi.yml, openapi/climateai-platform-swagger.json
+description: >-
+  Binding between the candidate MCP tool surface and the ClimateAi REST operations that
+  back it. Because the tool set here is a derived projection rather than a published
+  server, every row is a 1:1 high-confidence binding by construction — nothing is mapped
+  by name or semantics. The interesting content is rest_only[]: the whole Platform
+  gateway and the divergence between v1 and v2 capability, which any future ClimateAi
+  MCP server has to decide about.
+surfaces:
+  openapi:
+  - file: openapi/climateai-weather-openapi.yml
+    spec: OpenAPI 3.1.1
+    base: https://api-prod.climate.ai/weather
+    gated: false
+    note: Spec is public at https://docs.climate.ai/climateai-weather-api/openapi.yaml (200); calls require X-Api-Key.
+  - file: openapi/climateai-platform-swagger.json
+    spec: Swagger 2.0
+    base: https://api-prod.climate.ai
+    gated: false
+    note: Spec is public at https://api-prod.climate.ai/swagger.json (200); calls require JWT or X-Api-Key.
+  graphql:
+    endpoint: null
+    note: Probed /graphql on climate.ai, docs.climate.ai and api-prod.climate.ai — no GraphQL surface.
+  mcp:
+    url: null
+    status: candidate
+    note: No hosted MCP server exists; tools/list could not be called.
+crosswalk:
+- tool: get_history
+  category: history
+  rest: [getHistoryGrid]
+  binding: rest
+  confidence: high
+- tool: get_forecast_ensemble
+  category: forecast
+  rest: [getStitchedForecast]
+  binding: rest
+  confidence: high
+- tool: get_forecast_statistics
+  category: forecast
+  rest: [getStitchedForecastStatistics]
+  binding: rest
+  confidence: high
+- tool: get_climatology
+  category: climatology
+  rest: [getClimatology]
+  binding: rest
+  confidence: high
+- tool: get_climatology_by_location
+  category: climatology
+  rest: [getClimatologyByLocation]
+  binding: rest
+  confidence: high
+  note: Depends on a stored location ID that no published operation can create or list.
+- tool: get_history_legacy
+  category: history
+  rest: [getHistory]
+  binding: rest
+  confidence: high
+- tool: get_history_by_location
+  category: history
+  rest: [getHistoryByLocation]
+  binding: rest
+  confidence: high
+  note: Depends on a stored location ID that no published operation can create or list.
+- tool: get_short_term_forecast
+  category: forecast
+  rest: [getShortTermForecast]
+  binding: rest
+  confidence: high
+- tool: get_subseasonal_forecast
+  category: forecast
+  rest: [getSubseasonalForecast]
+  binding: rest
+  confidence: high
+- tool: get_seasonal_forecast
+  category: forecast
+  rest: [getSeasonalForecast]
+  binding: rest
+  confidence: high
+- tool: get_short_term_forecast_by_location
+  category: forecast
+  rest: [getShortTermForecastByLocation]
+  binding: rest
+  confidence: high
+- tool: get_subseasonal_forecast_by_location
+  category: forecast
+  rest: [getSubseasonalForecastByLocation]
+  binding: rest
+  confidence: high
+- tool: get_seasonal_forecast_by_location
+  category: forecast
+  rest: [getSeasonalForecastByLocation]
+  binding: rest
+  confidence: high
+mcp_only: []
+mcp_only_note: >-
+  None. The candidate tool set is a strict projection of published REST operations, so
+  there is no MCP-only capability. A real ClimateAi server would most likely add
+  composites (e.g. "is this week anomalous versus climatology at this location", which
+  today requires calling getStitchedForecastStatistics and getClimatology and comparing
+  client-side) — that is the first mcp_only row to expect.
+rest_only:
+- capability: Platform tenancy and administration
+  api: openapi/climateai-platform-swagger.json
+  operations_count: 72
+  groups: [account, account_config, auth, device, email, permission, platform, product, report, role,
+    user, routing]
+  reason: >-
+    Deliberately excluded from the candidate tool surface. These are internal
+    administrative operations with destructive writes (delete user, disable account,
+    delete device key) and a generic /{path} routing proxy; exposing them to an agent
+    would be a governance problem, not a feature. See
+    agentic-access/climateai-agentic-access.yml for the per-operation classification.
+- capability: Generic routing proxy
+  api: openapi/climateai-platform-swagger.json
+  operations: ['post to an endpoint', 'update a resource', 'delete a resource', 'get a resource']
+  path: /{path}
+  reason: >-
+    A catch-all proxy over arbitrary downstream paths. Untypable as an MCP tool and
+    unsafe to expose — an agent granted it inherits every downstream surface.
+coverage:
+  tools_named: 13
+  tools_bound: 13
+  tools_unbound: 0
+  mcp_only: 0
+  rest_ops_total: 85
+  rest_ops_weather: 13
+  rest_ops_platform: 72
+  rest_ops_with_a_tool: 13
+  rest_ops_intentionally_excluded: 72
+divergences:
+- name: v1-only terciles
+  detail: >-
+    getSubseasonalForecast (weekly) and getSeasonalForecast (monthly) return
+    probabilistic terciles [0.00-0.33, 0.33-0.67, 0.67-1.0]. No v2 operation exposes
+    them and they cannot be recomputed client-side, because /v1/climatology only
+    publishes the [0.05, 0.25, 0.50, 0.75, 0.95] quantiles. A tool set that ships only
+    the v2 tools silently drops this capability.
+- name: v1-only stored locations
+  detail: >-
+    The six *ByLocation operations accept a server-side location ID; no v2 equivalent
+    exists, and no published operation creates, lists or resolves those IDs.
+- name: v2-only date range and custom quantiles
+  detail: >-
+    start_date/end_date and arbitrary quantiles exist only on the v2 operations, so the
+    legacy tools cannot answer range or custom-percentile questions.

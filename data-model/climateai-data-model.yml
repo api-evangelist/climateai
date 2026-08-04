@@ -1,0 +1,152 @@
+generated: '2026-08-04'
+method: derived
+source: openapi/climateai-platform-swagger.json, openapi/climateai-weather-openapi.yml
+description: >-
+  Entity-relationship graph derived from the two published ClimateAi contracts. The
+  Platform gateway carries the actual tenancy model (platform > account > user, with
+  roles, permissions, device API keys, products and reports); the Weather API is
+  stateless and geospatial with only one addressable entity (a stored Location) and
+  otherwise returns value objects keyed by coordinate and date.
+domains:
+- name: platform
+  api: openapi/climateai-platform-swagger.json
+  base: https://api-prod.climate.ai
+  entities: [platform, account, account_config, user, account_user_relation, role, permission,
+    device, product, report, skin, email]
+- name: weather
+  api: openapi/climateai-weather-openapi.yml
+  base: https://api-prod.climate.ai/weather
+  entities: [location, forecast, history, climatology]
+entities:
+- name: platform
+  schema: platform_response
+  path: /platform/
+  id_field: id
+  description: White-label platform label; the top of the tenancy tree.
+  key_fields: [id, name, accounts]
+- name: account
+  schema: account_response
+  path: /account/
+  id_field: id
+  description: Tenant. Self-referencing (parent_id) so accounts form a hierarchy.
+  key_fields: [id, platform_id, parent_id, children]
+- name: account_config
+  schema: account_config_response
+  path: /account/config
+  id_field: id
+  description: Per-account configuration record.
+  key_fields: [id, account_id]
+- name: user
+  schema: user_response
+  path: /user/
+  id_field: id
+  description: Person. Roles are held per account, not globally.
+  key_fields: [id, roles]
+- name: account_user_relation
+  schema: account_user_relation_response
+  path: /account/user
+  description: Join entity binding a user to an account with a role.
+  key_fields: [account_id, user_id, role_id]
+- name: role
+  schema: role_response
+  path: /role/
+  id_field: id
+  key_fields: [id, permissions]
+- name: permission
+  schema: permission_response
+  path: /permission/
+  id_field: id
+- name: device
+  schema: device_response
+  path: /device/
+  id_field: id
+  description: Device API key record; the object behind an issued X-Api-Key.
+  key_fields: [id, account_id]
+- name: api_trial
+  schema: api_trial_payload
+  path: /device/trial
+  description: Time-boxed API trial provisioned against an account.
+  key_fields: [account_id]
+- name: product
+  schema: product_payload
+  path: /product/
+- name: report
+  schema: report_response
+  path: /report/
+  id_field: id
+  key_fields: [id, account_id]
+- name: skin
+  schema: skin_response
+  path: /platform/skin
+  id_field: id
+  description: Platform branding/theme record.
+- name: email
+  schema: email_payload
+  path: /email/
+  key_fields: [account_id]
+- name: location
+  schema: null
+  path: /v1/{dataset}/location/{id}
+  api: openapi/climateai-weather-openapi.yml
+  id_field: id
+  description: >-
+    Server-side stored location, addressed by ID on the legacy weather endpoints. There
+    is no create/list/delete operation for it in either published contract — it is
+    provisioned out of band. No v2 equivalent exists.
+  x-gap: true
+value_objects:
+- name: Coordinates
+  schema: Coordinates
+  api: openapi/climateai-weather-openapi.yml
+  fields: [latitude, longitude]
+- name: MetaLocation / StitchedLocation / CompactLocation
+  api: openapi/climateai-weather-openapi.yml
+  note: >-
+    v2 response location blocks expose both `requested` and `closest_location` so the
+    snap to the 0.25 degree grid is explicit.
+- name: search_payload
+  api: openapi/climateai-platform-swagger.json
+  fields: [filter_by (criteria), order_by, pagination]
+relationships:
+- {from: platform, to: account, kind: has_many, via: accounts}
+- {from: account, to: platform, kind: belongs_to, via: platform_id}
+- {from: account, to: account, kind: has_many, via: children, note: 'self-referencing via parent_id'}
+- {from: account, to: account_config, kind: has_many, via: account_id}
+- {from: account_config, to: account, kind: belongs_to, via: account_id}
+- {from: account, to: device, kind: has_many, via: account_id}
+- {from: device, to: account, kind: belongs_to, via: account_id}
+- {from: account, to: report, kind: has_many, via: account_id}
+- {from: report, to: account, kind: belongs_to, via: account_id}
+- {from: account, to: api_trial, kind: has_many, via: account_id}
+- {from: account, to: user, kind: has_many, via: account_user_relation, note: 'many-to-many through the join'}
+- {from: user, to: account, kind: has_many, via: account_user_relation}
+- {from: account_user_relation, to: role, kind: belongs_to, via: role_id}
+- {from: user, to: user_role_info, kind: has_many, via: roles}
+- {from: user_role_info, to: account, kind: belongs_to, via: account_id}
+- {from: user_role_info, to: role, kind: belongs_to, via: role_id}
+- {from: role, to: permission, kind: has_many, via: permissions}
+- {from: platform, to: skin, kind: has_one, via: /platform/skin}
+- {from: email, to: account, kind: belongs_to, via: account_id}
+weather_response_graph:
+  note: >-
+    The weather surface returns dataset responses rather than persisted entities. Shape
+    lineage from the OpenAPI schema $refs.
+  chains:
+  - StitchedForecastResponse -> StitchedLocation + StitchedVariableData
+  - StitchedForecastStatisticsResponse -> StitchedLocation + StitchedStatisticsData
+  - CompactWeatherResponse -> CompactLocation + CompactVariable
+  - ForecastDatasetResponse -> LegacyMeta + ForecastTimeStep + ForecastStatisticsModel
+  - ClimatologyResponse -> LegacyMeta + ClimatologyTimeStep + ClimatologyStatisticsModel
+  - HistoryResponse -> LegacyMeta + HistoryTimeStep + HistoryStatisticsModel
+  - LegacyMeta -> MetaLocation -> Coordinates
+  keying: >-
+    v2 keys values by date under each variable (data.<var>.values["2024-01-01"]);
+    v1 returns data as an array of per-date entries with attributes.<var>.values.
+id_conventions:
+  style: snake_case *_id foreign keys on the platform gateway
+  prefixes: none published
+  weather: no opaque IDs — records are addressed by (lat, lon, date) or by stored location ID
+counts:
+  platform_definitions: 37
+  weather_schemas: 24
+  relationships: 19

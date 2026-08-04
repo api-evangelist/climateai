@@ -1,0 +1,86 @@
+generated: '2026-08-04'
+method: probed
+source: live HTTP probes 2026-08-04
+notes: >-
+  ClimateAi publishes no /.well-known/ discovery surface. Every RFC 8615 path was probed
+  anonymously on the website host, the docs host and the API host and none returned a
+  document. This is recorded as a negative result, not a gap papered over: no WellKnown
+  or SecurityTxt pointer is wired in apis.yml because no document exists to point at.
+  Note the false-positive trap on app.climate.ai — that host is a single-page app whose
+  catch-all answers HTTP 200 with the same 1,837-byte HTML shell for every /.well-known/*
+  path, including /.well-known/agent-card.json; it is not a discovery document and was
+  rejected. api-prod.climate.ai returns 401 application/json for every unknown path
+  because the whole host is behind the API-key gateway.
+hosts:
+- host: https://climate.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    file: ../llms/climateai-site-llms.txt
+    note: >-
+      Yoast-generated site llms.txt (marketing/content index, not the developer one).
+      Captured under llms/; the developer llms.txt lives on docs.climate.ai.
+- host: https://docs.climate.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /llms.txt
+    status: 200
+    file: ../llms/climateai-llms.txt
+  - path: /llms-full.txt
+    status: 200
+    note: Captured locally only; *-llms-full.txt is gitignored network-wide.
+- host: https://api-prod.climate.ai
+  documents:
+  - path: /.well-known/security.txt
+    status: 401
+    note: Whole host is API-key gated; every unknown path returns 401 application/json.
+  - path: /.well-known/openid-configuration
+    status: 401
+  - path: /.well-known/oauth-authorization-server
+    status: 401
+  - path: /.well-known/agent-card.json
+    status: 401
+  - path: /.well-known/agent.json
+    status: 401
+  - path: /swagger.json
+    status: 200
+    file: ../openapi/climateai-platform-swagger.json
+    note: The ClimateAI Platform Swagger 2.0 contract, served unauthenticated.
+  - path: /docs
+    status: 200
+    note: Swagger UI for the platform contract.
+- host: https://app.climate.ai
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 200
+    accepted: false
+    note: >-
+      SPA catch-all — text/html shell, not JSON. Rejected per the A2A probe rule
+      (a 200 whose body is HTML is not an agent card).

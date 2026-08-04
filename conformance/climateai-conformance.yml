@@ -1,0 +1,106 @@
+generated: '2026-08-04'
+method: derived
+source: >-
+  openapi/climateai-weather-openapi.yml, openapi/climateai-platform-swagger.json,
+  well-known/climateai-well-known.yml, security/climateai-domain-security.yml,
+  https://docs.climate.ai/guide/getting-started
+notes: >-
+  Derived from the published contracts and live probes. ClimateAi publishes no
+  certification or compliance program (no trust center, no SOC 2 / ISO 27001 / GDPR
+  statement on climate.ai, no security.txt), so no Compliance pointer is wired.
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: openapi/climateai-weather-openapi.yml declares openapi 3.1.1 and parses.
+- id: swagger-2.0
+  conforms: true
+  evidence: openapi/climateai-platform-swagger.json declares swagger 2.0 and parses.
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme on either contract; key-auth only.
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returns 404 on climate.ai and docs.climate.ai.
+- id: api-key-header-auth
+  conforms: true
+  evidence: securitySchemes.ApiKeyAuth — apiKey in header, name X-Api-Key, applied globally.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: >-
+    Errors are application/json with a bespoke {message, code} envelope
+    (components.schemas.ErrorResponse); no application/problem+json anywhere.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on climate.ai and docs.climate.ai.
+- id: rfc8615-well-known
+  conforms: false
+  evidence: No /.well-known/ document served on any ClimateAi host.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: >-
+    A migration guide names superseded endpoints but no Sunset/Deprecation headers are
+    documented and no operation is marked deprecated in the spec.
+- id: uri-path-versioning
+  conforms: true
+  evidence: /v1/ and /v2/ path prefixes; unprefixed legacy alias retained.
+- id: pagination
+  conforms: false
+  evidence: >-
+    No page/cursor/limit/offset parameters exist. Response size is bounded by date range
+    and granularity instead. N/A for this API shape rather than a defect.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key on any operation. The weather surface is all GET (idempotent by
+    method); the platform gateway has writes with no dedup contract.
+- id: rate-limit-headers
+  conforms: false
+  evidence: >-
+    No 429, no Retry-After, no X-RateLimit-*. The platform Swagger declares an unused
+    TooManyRequests response object referenced by no operation.
+- id: iso-8601-dates
+  conforms: true
+  evidence: >-
+    start_date/end_date are YYYY-MM-DD; weekly aggregation keys are ISO weeks
+    (2025-W03) running Monday-Sunday; monthly keys are YYYY-MM.
+- id: si-units
+  conforms: true
+  evidence: >-
+    Variables are published with explicit units (degrees C, mm, %, W/m2, km/h) in
+    vocabulary/climateai-weather-variables.yml and in the response meta block.
+- id: wgs84-coordinates
+  conforms: true
+  evidence: >-
+    lat in [-90, 90], lon in [-180, 180], snapped to a 0.25 degree grid; ~1 km option is
+    0.0083 degrees.
+- id: era5-reanalysis
+  conforms: true
+  evidence: >-
+    Historical data (/v2/history, 1995-present) is documented as ERA5-backed with
+    automatic gap-fill for the ERA5-to-present lag.
+- id: tls-1.3
+  conforms: true
+  evidence: security/climateai-domain-security.yml — TLSv1.3 on all three probed hosts.
+- id: hsts
+  conforms: false
+  evidence: No Strict-Transport-Security header on climate.ai, docs.climate.ai or api-prod.climate.ai.
+- id: dnssec
+  conforms: false
+  evidence: climate.ai is not DNSSEC signed.
+- id: caa
+  conforms: true
+  evidence: 'climate.ai publishes CAA: pki.goog, amazon.com, letsencrypt.org.'
+- id: spf
+  conforms: true
+  evidence: SPF record present on climate.ai.
+- id: dmarc
+  conforms: true
+  evidence: DMARC present on climate.ai with policy p=reject.
+compliance_program:
+  published: false
+  certifications: []
+  trust_center: null
+  note: >-
+    Probed trust.climate.ai (no DNS), climate.ai/trust (404), climate.ai/security (404),
+    climate.ai/compliance (404). Only a Privacy Policy, Terms of Use and Cookies Policy
+    are published. No Compliance or TrustCenter pointer is emitted.

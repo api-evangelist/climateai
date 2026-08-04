@@ -1,0 +1,114 @@
+generated: '2026-08-04'
+method: derived
+source: openapi/climateai-weather-openapi.yml, openapi/climateai-platform-swagger.json
+docs: https://docs.climate.ai/guide/getting-started
+format: custom-json
+notes: >-
+  ClimateAi does not use RFC 9457 problem+json. Both contracts return application/json
+  with a bespoke envelope. The Weather API declares a single reusable ErrorResponse
+  schema ({message, code}) behind three shared response components (BadRequest,
+  NotFound, ServerError) applied uniformly to all 13 operations. The Platform gateway
+  declares per-operation error descriptions with no shared error schema, so its rows
+  below are grouped by status class rather than enumerated one per operation.
+  No published error-code reference page exists on docs.climate.ai; the machine-readable
+  code vocabulary is limited to what the spec examples show (VALIDATION_ERROR).
+envelope:
+  media_type: application/json
+  schema: '#/components/schemas/ErrorResponse'
+  fields:
+  - name: message
+    type: string
+    required_in_practice: true
+    description: Human-readable error message.
+  - name: code
+    type: string
+    required_in_practice: false
+    description: >-
+      Machine-readable error code, present "when available" per the schema description.
+      Only VALIDATION_ERROR is exercised in the published examples; there is no
+      published enumeration of the full code set.
+problems:
+- status: 400
+  code: VALIDATION_ERROR
+  title: Invalid request parameters
+  detail_example: 'Invalid Location. Latitude must be between 90.0 and -90.0'
+  remediation: >-
+    Check lat is in [-90, 90] and lon is in [-180, 180], that var slugs are valid for
+    the endpoint (see vocabulary/climateai-weather-variables.yml), that start_date /
+    end_date are YYYY-MM-DD, and that granularity is legal for the endpoint family.
+  api: openapi/climateai-weather-openapi.yml
+  applies_to_operations: all
+  source_component: '#/components/responses/BadRequest'
+- status: 404
+  code: null
+  title: No data found for the requested parameters
+  detail_example: 'No data found for the requested parameters'
+  remediation: >-
+    The request was well formed but the grid cell / date range / variable combination
+    has no data. On legacy /v1/history some locations return errors if they have not
+    been pre-loaded; the current /v2/history fetches on demand instead. Widen the date
+    range, drop the variable, or move to the v2 endpoint.
+  api: openapi/climateai-weather-openapi.yml
+  applies_to_operations: all
+  source_component: '#/components/responses/NotFound'
+- status: 500
+  code: null
+  title: Internal server error
+  detail_example: 'Internal server error'
+  remediation: Retry with backoff; all weather operations are safe GETs and idempotent by method.
+  api: openapi/climateai-weather-openapi.yml
+  applies_to_operations: all
+  source_component: '#/components/responses/ServerError'
+- status: 401
+  code: null
+  title: Missing or invalid API key
+  detail_example: null
+  remediation: >-
+    Observed live on api-prod.climate.ai for any unauthenticated request (the gateway
+    returns 401 application/json for every path). Send the key in the X-Api-Key header.
+    Not declared in the Weather OpenAPI — a spec gap worth reporting to the provider.
+  api: openapi/climateai-weather-openapi.yml
+  applies_to_operations: all
+  source: probe https://api-prod.climate.ai/weather/v2/history (401)
+  x-gap: true
+platform_errors:
+  api: openapi/climateai-platform-swagger.json
+  note: >-
+    Descriptions only — the platform contract declares no error schema. Grouped by
+    status class with the distinct published descriptions.
+  classes:
+  - status: 400
+    title: Bad input
+    count: 6
+  - status: 401
+    title: Unauthorized
+    variants: [Invalid credentials, Invalid auth token, Error refreshing token, Unauthorized.]
+  - status: 403
+    title: Forbidden
+    variants: [Inactive user, Not allowed to generate token, Invalid or missing email sending key.]
+  - status: 404
+    title: Resource not found
+    count: 40
+    variants_sample: [User not found., No account with given ID found., Account config not found.,
+      Device not found., Permission not found., Product with given ID not found, Role not found.]
+  - status: 409
+    title: Conflict — resource already exists
+    count: 9
+    variants_sample: [Account config already exists., Device already exists., Api trial already exists.,
+      Permission already exists., Platform already exists., Role already exists., User already exists.]
+  - status: 422
+    title: Signature verification failed
+    count: 1
+  - status: 500
+    title: Server error
+    count: 62
+    note: >-
+      The dominant declared failure mode on the platform contract — nearly every
+      operation declares a bespoke 500 description ("Error retrieving accounts.",
+      "Error creating device.", etc.) rather than a shared error type.
+  declared_but_unused:
+  - name: TooManyRequests
+    note: >-
+      Declared as a global response object in the Swagger document with an empty body
+      and referenced by no operation. There is no documented rate-limit contract, no
+      429 on any operation, and no rate-limit headers documented anywhere.

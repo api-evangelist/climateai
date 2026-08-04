@@ -1,0 +1,89 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the ClimateAi Weather API (LensConnect)
+  version: 1.0.0
+x-generated: '2026-08-04'
+x-method: generated
+x-source: >-
+  Derived from the API Evangelist enrichment pass over
+  openapi/climateai-weather-openapi.yml plus the ClimateAi developer documentation at
+  docs.climate.ai. Captures our additions only; the harvested spec is never mutated.
+extends: openapi/climateai-weather-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/providers/climateai
+    x-api-evangelist-artifacts:
+      conventions: conventions/climateai-conventions.yml
+      errors: errors/climateai-problem-types.yml
+      lifecycle: lifecycle/climateai-lifecycle.yml
+      authentication: authentication/climateai-authentication.yml
+      vocabulary: vocabulary/climateai-weather-variables.yml
+      data-model: data-model/climateai-data-model.yml
+      examples: examples/climateai-weather-examples.yml
+      skills: skills/_index.yml
+    x-spec-source:
+      url: https://docs.climate.ai/climateai-weather-api/openapi.yaml
+      harvested: '2026-08-04'
+      http_status: 200
+- target: $.servers
+  description: >-
+    Drop the localhost development server from the published contract. A non-routable
+    http://localhost:5000 entry in a public spec breaks generated clients and agent
+    tooling that pick servers[0..n] without filtering.
+  remove: false
+  update: null
+  x-apievangelist-recommendation: remove-localhost-server
+- target: $.components.securitySchemes.ApiKeyAuth
+  update:
+    x-provisioning: sales@climate.ai
+    x-self-service: false
+    x-entitlements:
+    - name: downscaling-1km
+      description: >-
+        Bound to the key at the account level. When absent, use_downscaling has no
+        effect and responses are served at the native 0.25 degree grid.
+- target: $.paths['/v1/history'].get
+  description: Superseded by /v2/history per the provider migration guide; not flagged in the source spec.
+  update:
+    x-apievangelist-superseded-by: getHistoryGrid
+    x-apievangelist-recommendation: mark-deprecated
+- target: $.paths['/v1/forecast/short-term'].get
+  update:
+    x-apievangelist-superseded-by: getStitchedForecastStatistics
+    x-apievangelist-recommendation: mark-deprecated
+- target: $.paths['/v1/forecast/subseasonal'].get
+  update:
+    x-apievangelist-superseded-by: getStitchedForecastStatistics
+    x-apievangelist-recommendation: mark-deprecated
+    x-apievangelist-note: >-
+      Weekly responses carry probabilistic terciles that no v2 endpoint exposes; this
+      operation cannot be fully replaced today.
+- target: $.paths['/v1/forecast/seasonal'].get
+  update:
+    x-apievangelist-superseded-by: getStitchedForecastStatistics
+    x-apievangelist-recommendation: mark-deprecated
+    x-apievangelist-note: >-
+      Monthly responses carry probabilistic terciles that no v2 endpoint exposes; this
+      operation cannot be fully replaced today.
+- target: $.components.responses
+  description: >-
+    The contract declares no 401. The live gateway returns 401 application/json for any
+    request without a valid X-Api-Key, so clients and agents generated from this spec
+    have no typed handler for the single most likely failure.
+  update:
+    x-apievangelist-missing-response:
+      status: 401
+      observed_at: https://api-prod.climate.ai/weather/v2/history
+      observed_on: '2026-08-04'
+      recommendation: add-401-unauthorized-response
+- target: $.info
+  description: No rate-limit contract is published anywhere.
+  update:
+    x-apievangelist-missing:
+    - rate-limit-headers
+    - '429-response'
+    - status-page
+    - changelog
+    - security-txt
+    - sunset-deprecation-headers

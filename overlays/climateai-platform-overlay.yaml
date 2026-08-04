@@ -1,0 +1,72 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the ClimateAI Platform API
+  version: 1.0.0
+x-generated: '2026-08-04'
+x-method: generated
+x-source: >-
+  Derived from the API Evangelist enrichment pass over
+  openapi/climateai-platform-swagger.json, harvested live from
+  https://api-prod.climate.ai/swagger.json on 2026-08-04 (HTTP 200).
+extends: openapi/climateai-platform-swagger.json
+x-note: >-
+  The extended document is Swagger 2.0, so JSONPath targets below address Swagger 2.0
+  structure (definitions/securityDefinitions), not OpenAPI 3.x components.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/providers/climateai
+    x-spec-source:
+      url: https://api-prod.climate.ai/swagger.json
+      harvested: '2026-08-04'
+      http_status: 200
+      note: Served unauthenticated; Swagger UI at https://api-prod.climate.ai/docs.
+    x-api-evangelist-artifacts:
+      authentication: authentication/climateai-authentication.yml
+      errors: errors/climateai-problem-types.yml
+      conventions: conventions/climateai-conventions.yml
+      data-model: data-model/climateai-data-model.yml
+    x-apievangelist-recommendation: upgrade-to-openapi-3.1
+- target: $.info
+  description: >-
+    The document declares no host and only basePath "/", so a consumer cannot resolve a
+    callable URL from the contract alone. The live host is api-prod.climate.ai.
+  update:
+    x-apievangelist-observed-host: api-prod.climate.ai
+    x-apievangelist-observed-base-url: https://api-prod.climate.ai
+    x-apievangelist-missing:
+    - host
+    - schemes
+- target: $.responses.TooManyRequests
+  description: >-
+    Declared with an empty body and referenced by no operation. Either wire it to the
+    operations that can throttle and document the headers, or drop it.
+  update:
+    x-apievangelist-orphan: true
+    x-apievangelist-recommendation: wire-or-remove
+- target: $.definitions
+  description: >-
+    No shared error schema. Ninety-plus 4xx/5xx responses are declared as free-text
+    descriptions with no body definition, so nothing about failure is machine-readable.
+  update:
+    x-apievangelist-recommendation: add-shared-error-definition
+    x-apievangelist-observed-error-classes: [400, 401, 403, 404, 409, 422, 500]
+- target: $.paths['/account/search'].post
+  description: >-
+    Search declares a request body (search_payload with filter_by/order_by/pagination)
+    but no response schema, so the paged result envelope is undocumented.
+  update:
+    x-apievangelist-recommendation: add-paged-response-schema
+- target: $.paths['/user/search'].post
+  update:
+    x-apievangelist-recommendation: add-paged-response-schema
+- target: $.definitions.search_filter
+  description: The operator field is an unconstrained string with no enumerated values.
+  update:
+    x-apievangelist-recommendation: enumerate-operators
+- target: $.info
+  description: >-
+    operationIds are human sentences with spaces ("Create an account", "Retrieve all
+    accounts"), which most code and MCP-tool generators cannot use as identifiers.
+  update:
+    x-apievangelist-recommendation: use-identifier-safe-operationids

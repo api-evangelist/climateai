@@ -1,0 +1,156 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  https://docs.climate.ai/guide/getting-started, https://docs.climate.ai/guide/data-products,
+  https://docs.climate.ai/guide/variables-units-resolution, https://docs.climate.ai/guide/migration,
+  openapi/climateai-weather-openapi.yml, openapi/climateai-platform-swagger.json
+scope: ClimateAi LensConnect Weather API (v1 + v2) and the ClimateAI Platform gateway
+authentication:
+  style: api-key-header
+  header: X-Api-Key
+  platform_alternative: Authorization (JWT) on the platform gateway
+  self_service: false
+  note: Keys are provisioned by ClimateAi; entitlements (e.g. 1 km downscaling) bind to the key.
+  see: authentication/climateai-authentication.yml
+addressing:
+  primary: geographic coordinates
+  params: [lat, lon]
+  grid_snapping: >-
+    Coordinates are snapped to the native 0.25 degree grid. v2 responses make the snap
+    explicit by returning location.requested alongside location.closest_location; legacy
+    v1 responses do not surface the snap.
+  stored_locations: >-
+    Legacy v1 offers stored-location variants (/v1/{dataset}/location/{id}) addressed by
+    a server-side location ID. No v2 equivalent exists — v2 accepts lat/lon only.
+idempotency:
+  supported: false
+  reason: >-
+    The entire published Weather surface is read-only GET, so operations are idempotent
+    by HTTP method, but ClimateAi documents no idempotency key, no request-replay window
+    and no dedup contract. The Platform gateway has write operations (POST/PUT/DELETE on
+    accounts, users, devices, roles) and declares no idempotency mechanism for them
+    either — 409 "already exists" is the collision behavior. No Idempotency pointer is
+    wired in apis.yml because there is no idempotency contract to point at.
+pagination:
+  weather_api:
+    supported: false
+    style: none
+    note: >-
+      No page/cursor/limit/offset parameters exist on any weather operation. Response
+      size is bounded instead by date range (start_date / end_date) and granularity
+      (daily / weekly / monthly). Omitting both dates on /v2/history returns roughly the
+      last three months.
+  platform_api:
+    supported: true
+    style: page-number
+    applies_to: [POST /account/search, POST /user/search]
+    location: request body, pagination object
+    params:
+    - {name: page, type: integer}
+    - {name: per_page, type: integer}
+    - {name: all, type: boolean, note: bypass paging and return the full set}
+    response_fields: none declared — the search responses declare no schema.
+    source: openapi/climateai-platform-swagger.json#/definitions/pagination
+  search_and_filter:
+    applies_to: [POST /account/search, POST /user/search]
+    body: search_payload
+    filter_by:
+      shape: 'criteria { and: [search_filter], or: [search_filter] }'
+      filter: '{ field_name, operator, field_value } — all three required'
+      note: operator values are not enumerated in the contract.
+    order_by: array of field-name strings
+filtering_and_shaping:
+  variable_selection:
+    param: var
+    forms:
+    - 'single: var=temp_mean'
+    - 'comma-separated: var=temp_mean,precipitation'
+    - 'repeated: ?var=temp_mean&var=precipitation'
+    default: all non-derived variables for the endpoint's scope
+    vocabulary: vocabulary/climateai-weather-variables.yml
+  date_range:
+    params: [start_date, end_date]
+    format: YYYY-MM-DD
+    availability: v2 only — legacy v1 forecast endpoints accept no date range.
+  granularity:
+    param: granularity
+    values: [daily, weekly, monthly]
+    default: daily
+    semantics: >-
+      weekly = ISO weeks (Mon-Sun), complete weeks only. monthly = calendar months,
+      complete months only. Aggregation is variable-aware: precipitation and
+      evapotranspiration are summed within the window, temperature / humidity / wind /
+      solar radiation are averaged.
+  statistics:
+    param: statistics
+    applies_to: /v2/forecast/statistics
+    values: comma-separated quantiles in [0, 1]
+    default: '0.05,0.25,0.50,0.75,0.95'
+  resolution:
+    param: use_downscaling
+    type: bool
+    default: true
+    semantics: >-
+      Requests ~1 km (0.0083 degree) data. Effective only when the API key is provisioned
+      for downscaling AND the variable is downscalable (temp_mean, temp_max, temp_min,
+      solar_radiation). Otherwise silently served at the native ~25 km (0.25 degree) grid.
+      This is an entitlement-shaped response variance an agent must account for.
+response_shape:
+  v2:
+    style: per-variable object keyed by date
+    example: 'data.<var>.values = { "2024-01-01": 11.4, "2024-01-02": 12.1 }'
+    envelope_fields: [meta, data]
+    size_note: ~70-80% smaller payload than the legacy array shape.
+  v1:
+    style: '{ meta, data } with data as an array of per-date entries (attributes.<var>.values)'
+  traceability_v2:
+    fields: [init_time, version, generation]
+    description: >-
+      init_time = when the model run was issued; version = model/dataset version;
+      generation = unique generation ID. Legacy responses carry none of these.
+  media_type: application/json
+error_envelope:
+  media_type: application/json
+  shape: '{ message: string, code?: string }'
+  rfc9457: false
+  see: errors/climateai-problem-types.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  supported: [v1, v2]
+  aliases: >-
+    Legacy endpoints are served at both /v1/<path> and the original unprefixed /<path>
+    form; /v1/ is the canonical form going forward and the unprefixed form is a
+    backward-compatibility alias.
+  migration_guide: https://docs.climate.ai/guide/migration
+  see: lifecycle/climateai-lifecycle.yml
+rate_limiting:
+  documented: false
+  headers: none documented
+  note: >-
+    No rate-limit contract is published. The Platform Swagger declares an unused
+    TooManyRequests response object, but no operation references it and no 429, no
+    Retry-After and no X-RateLimit-* headers are documented anywhere. An agent has no
+    published budget signal.
+tracing:
+  request_id_header: none documented
+webhooks_and_events:
+  present: false
+  note: >-
+    Threshold-based Alerts (push notification on forecast conditions) are listed as in
+    development on the Data products page. Nothing is shipped, so no asyncapi/ artifact
+    and no Webhooks pointer are emitted.
+agent_notes:
+- All published weather operations are safe reads — no destructive surface for an agent.
+- >-
+  The same request can return different spatial resolution depending on key entitlement;
+  read meta/downscaled in the response rather than assuming 1 km.
+- >-
+  Legacy weekly/monthly responses carry probabilistic terciles that v2 does not; if an
+  agent needs terciles it must stay on /v1/forecast/subseasonal or /v1/forecast/seasonal.
+cross_links:
+  authentication: authentication/climateai-authentication.yml
+  errors: errors/climateai-problem-types.yml
+  lifecycle: lifecycle/climateai-lifecycle.yml
+  vocabulary: vocabulary/climateai-weather-variables.yml
+  data_model: data-model/climateai-data-model.yml

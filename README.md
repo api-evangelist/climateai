@@ -42,5 +42,32 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-ClimateAI is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://forgeglobal.com/climateai_stock/
+ClimateAi (climate.ai) is a climate-intelligence company that turns global weather, climate and
+extreme-event modeling into decision-grade forecasts for agriculture, food and beverage,
+manufacturing, energy, finance, retail and federal/defense customers. Its ClimateLens products
+cover risk screening, monitoring and adaptation, and its developer surface is the **LensConnect
+API** — a REST weather and climate data API addressed by latitude and longitude that returns 30+
+years of history (1995–present, ERA5-backed), a fixed 30-year climatology baseline, and AI-stitched
+probabilistic forecasts running from short-term through seasonal (~6 months) in a single continuous
+timeline, at ~25 km resolution with optional 1 km downscaling for select variables. A separate
+ClimateAI Platform gateway handles accounts, users, roles, permissions, device API keys and product
+routing.
+
+## APIs
+
+| API | Base URL | Contract |
+|---|---|---|
+| ClimateAi Weather API (LensConnect) | `https://api-prod.climate.ai/weather` | [OpenAPI 3.1.1](openapi/climateai-weather-openapi.yml) — 13 operations |
+| ClimateAI Platform API | `https://api-prod.climate.ai` | [Swagger 2.0](openapi/climateai-platform-swagger.json) — 76 operations |
+
+## Links
+
+- Website — https://climate.ai/
+- Product — https://climate.ai/solutions-products/lensconnect-api/
+- Documentation — https://docs.climate.ai/
+- API reference — https://docs.climate.ai/climateai-weather-api
+- Getting started — https://docs.climate.ai/guide/getting-started
+- Migration (v1 → v2) — https://docs.climate.ai/guide/migration
+- Get started / request a key — https://climate.ai/get-started/
+- GitHub — https://github.com/ClimateAI
+- Blog — https://climate.ai/blog/

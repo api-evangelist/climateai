@@ -1,0 +1,319 @@
+generated: '2026-08-04'
+method: derived
+source: openapi/climateai-weather-openapi.yml#/components/examples
+description: Response examples published inside the ClimateAi Weather OpenAPI, extracted as a standalone
+  catalog. Every value here is verbatim from the provider spec - nothing is synthesized. Seven named examples
+  cover the v2 surface (stitched forecast raw members, stitched statistics at daily/weekly/monthly, and
+  the compact history grid at daily/weekly/monthly). The nine legacy v1 operations declare a 200 schema
+  but ship no example, and no operation ships a request example.
+examples:
+- name: StitchedForecast
+  summary: Raw ensemble members (one array of member values per date)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getStitchedForecast
+    path: /v2/forecast
+    method: GET
+    status: '200'
+    key: forecast
+  value:
+    created_at: 2025-09-18 12:00:00+00:00
+    init_time: 2025-09-18 12:00:00+00:00
+    kind: forecast
+    location:
+      requested:
+        lat: 9.119
+        lon: -79.4021
+      resolved:
+        lat: 9.12
+        lon: -79.4
+      downscaled:
+        lat: 9.1208
+        lon: -79.4042
+    granularity: daily
+    variables:
+      temp_mean:
+        units: degrees_C
+        downscaled: true
+        version: v2.1.0
+        generation: stitch-gen-123-2025-09-18-12Z
+        values:
+          2025-09-19:
+          - 15.2
+          - 15.8
+          - 16.1
+          - 15.5
+          - 16.4
+          2025-09-20:
+          - 15.9
+          - 16.3
+          - 16.7
+          - 16
+          - 17.1
+      precipitation:
+        units: mm
+        downscaled: false
+        version: v2.1.0
+        generation: stitch-gen-123-2025-09-18-12Z
+        values:
+          2025-09-19:
+          - 0
+          - 0.2
+          - 1.1
+          - 0
+          - 0.5
+          2025-09-20:
+          - 2.3
+          - 0.8
+          - 0
+          - 1.4
+          - 3
+- name: GridDaily
+  summary: Daily (granularity=daily)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getHistoryGrid
+    path: /v2/history
+    method: GET
+    status: '200'
+    key: daily
+  value:
+    created_at: 2026-01-15 12:00:00+00:00
+    kind: history
+    location:
+      requested:
+        lat: 40
+        lon: -89
+      resolved:
+        lat: 40
+        lon: -89
+    granularity: daily
+    variables:
+      temp_mean:
+        downscaled: false
+        units: degrees_C
+        values:
+          2025-01-01: 1.4
+          2025-01-02: 2.1
+- name: GridWeekly
+  summary: Weekly (granularity=weekly, ISO weeks)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getHistoryGrid
+    path: /v2/history
+    method: GET
+    status: '200'
+    key: weekly
+  value:
+    created_at: 2026-01-15 12:00:00+00:00
+    kind: history
+    location:
+      requested:
+        lat: 40
+        lon: -89
+      resolved:
+        lat: 40
+        lon: -89
+    granularity: weekly
+    variables:
+      temp_mean:
+        downscaled: false
+        units: degrees_C
+        values:
+          2025-W01: 1.8
+          2025-W02: 2.5
+- name: GridMonthly
+  summary: Monthly (granularity=monthly)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getHistoryGrid
+    path: /v2/history
+    method: GET
+    status: '200'
+    key: monthly
+  value:
+    created_at: 2026-01-15 12:00:00+00:00
+    kind: history
+    location:
+      requested:
+        lat: 40
+        lon: -89
+      resolved:
+        lat: 40
+        lon: -89
+    granularity: monthly
+    variables:
+      temp_mean:
+        downscaled: false
+        units: degrees_C
+        values:
+          2025-01: 2
+          2025-02: 3.1
+- name: StitchedStatsDaily
+  summary: Daily (granularity=daily, with downscaling)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getStitchedForecastStatistics
+    path: /v2/forecast/statistics
+    method: GET
+    status: '200'
+    key: daily
+  value:
+    created_at: 2025-09-18 12:00:00+00:00
+    init_time: 2025-09-18 12:00:00+00:00
+    kind: forecast
+    location:
+      requested:
+        lat: 40.0123
+        lon: -89.0456
+      resolved:
+        lat: 40
+        lon: -89
+      downscaled:
+        lat: 40.0123
+        lon: -89.0456
+    granularity: daily
+    variables:
+      temp_mean:
+        units: degrees_C
+        downscaled: true
+        version: v2.1.0
+        generation: stitch-gen-123-2025-09-18-12Z
+        statistics:
+          2025-01-01:
+            mean: 15.5
+            q05: 12.3
+            q25: 14.2
+            q50: 15.1
+            q75: 16.8
+            q95: 18.9
+          2025-01-02:
+            mean: 16.2
+            q05: 13.1
+            q25: 15
+            q50: 16
+            q75: 17.3
+            q95: 19.2
+- name: StitchedStatsWeekly
+  summary: Weekly (granularity=weekly; precipitation summed, temperature averaged)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getStitchedForecastStatistics
+    path: /v2/forecast/statistics
+    method: GET
+    status: '200'
+    key: weekly
+  value:
+    created_at: 2025-09-18 12:00:00+00:00
+    init_time: 2025-09-18 12:00:00+00:00
+    kind: forecast
+    location:
+      requested:
+        lat: 40
+        lon: -89
+      resolved:
+        lat: 40
+        lon: -89
+    granularity: weekly
+    current_period:
+      label: 2025-W38
+      observed_until: 2025-09-17
+      forecast_from: 2025-09-18
+    variables:
+      precipitation:
+        units: mm
+        downscaled: false
+        version: v2.1.0
+        generation: stitch-gen-123-2025-09-18-12Z
+        statistics:
+          2025-W38:
+            mean: 41.9
+            q05: 33.4
+            q25: 38.2
+            q50: 41.5
+            q75: 45.3
+            q95: 51
+          2025-W39:
+            mean: 45.2
+            q05: 20.1
+            q25: 35.5
+            q50: 44
+            q75: 52.8
+            q95: 68.5
+          2025-W40:
+            mean: 38.7
+            q05: 18.3
+            q25: 30
+            q50: 37.5
+            q75: 46
+            q95: 60.2
+- name: StitchedStatsMonthly
+  summary: Monthly (granularity=monthly)
+  description: null
+  media_type: application/json
+  used_by:
+  - operationId: getStitchedForecastStatistics
+    path: /v2/forecast/statistics
+    method: GET
+    status: '200'
+    key: monthly
+  value:
+    created_at: 2025-09-18 12:00:00+00:00
+    init_time: 2025-09-18 12:00:00+00:00
+    kind: forecast
+    location:
+      requested:
+        lat: 40
+        lon: -89
+      resolved:
+        lat: 40
+        lon: -89
+    granularity: monthly
+    current_period:
+      label: 2025-09
+      observed_until: 2025-09-17
+      forecast_from: 2025-09-18
+    variables:
+      temp_mean:
+        units: degrees_C
+        downscaled: true
+        version: v2.1.0
+        generation: stitch-gen-123-2025-09-18-12Z
+        statistics:
+          2025-09:
+            mean: 18.9
+            q05: 18.1
+            q25: 18.6
+            q50: 18.9
+            q75: 19.3
+            q95: 19.8
+          2025-10:
+            mean: 16.8
+            q05: 14.2
+            q25: 15.9
+            q50: 16.7
+            q75: 17.6
+            q95: 19.1
+          2025-11:
+            mean: 17.5
+            q05: 15.1
+            q25: 16.4
+            q50: 17.3
+            q75: 18.5
+            q95: 20
+coverage:
+  operations_total: 13
+  operations_with_response_example: 3
+  named_examples: 7
+  request_examples: 0
+gaps:
+- Legacy /v1 operations (climatology, history, short-term, subseasonal, seasonal, and their location/{id}
+  variants) declare response schemas but no examples.
+- No request examples and no error-response examples are attached at the operation level; the three shared
+  error responses each carry one default example in components/responses.

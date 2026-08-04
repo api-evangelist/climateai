@@ -1,0 +1,35 @@
+generated: '2026-08-04'
+method: generated
+source: >-
+  Generated from openapi/climateai-weather-openapi.yml plus the ClimateAi developer
+  documentation at docs.climate.ai. Searched climate.ai, docs.climate.ai and
+  github.com/ClimateAI for provider-published AGENTS.md or skill files on 2026-08-04 —
+  none exist, so these are API Evangelist-authored. Every operationId referenced is
+  verified verbatim against the published spec.
+scope: >-
+  Skills cover the LensConnect Weather API only. The ClimateAI Platform gateway
+  (accounts, users, roles, device keys, generic routing proxy) is an internal
+  administrative surface with destructive writes and is deliberately not packaged as an
+  agent skill — see mcp/climateai-tool-crosswalk.yml rest_only[].
+skills:
+- file: climateai-forecast-a-location.md
+  name: Forecast weather and climate risk for a location
+  api: openapi/climateai-weather-openapi.yml
+  operations: [getStitchedForecastStatistics, getStitchedForecast]
+  summary: >-
+    The default forward-looking flow. One call covers today through ~6 months as
+    statistics, or raw ensemble members when the caller needs the distribution.
+- file: climateai-history-and-anomaly.md
+  name: Pull weather history and judge whether conditions are anomalous
+  api: openapi/climateai-weather-openapi.yml
+  operations: [getHistoryGrid, getClimatology, getStitchedForecastStatistics]
+  summary: >-
+    30+ years of history compared against the fixed 1993-2022 climatology baseline to
+    answer "is this unusual for this place and time of year".
+- file: climateai-legacy-tercile-forecast.md
+  name: Get probabilistic tercile forecasts (legacy v1 only)
+  api: openapi/climateai-weather-openapi.yml
+  operations: [getSubseasonalForecast, getSeasonalForecast, getShortTermForecast]
+  summary: >-
+    Above/near/below-normal probabilities. The one capability with no v2 equivalent and
+    no client-side workaround, so it gets its own skill rather than a footnote.

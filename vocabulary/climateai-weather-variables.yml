@@ -1,0 +1,145 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  https://docs.climate.ai/guide/variables-units-resolution,
+  openapi/climateai-weather-openapi.yml
+description: >-
+  The ClimateAi LensConnect weather variable vocabulary — the slug set accepted by the
+  `var` query parameter, its units, which endpoint families expose each variable, and
+  which variables can be downscaled to ~1 km. Captured verbatim from the provider's
+  "Variables, Units & Resolution" reference page, which the provider names as the source
+  of truth for what each endpoint can return.
+terms:
+- term: Mean Temperature
+  slug: temp_mean
+  units: degrees C
+  downscalable: true
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Max Temperature
+  slug: temp_max
+  units: degrees C
+  downscalable: true
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Min Temperature
+  slug: temp_min
+  units: degrees C
+  downscalable: true
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Precipitation
+  slug: precipitation
+  units: mm
+  downscalable: false
+  aggregation: summed
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Soil Temperature
+  slug: soil_temperature
+  units: degrees C
+  downscalable: false
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Relative Humidity
+  slug: humidity
+  units: '%'
+  downscalable: false
+  aggregation: averaged
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Evapotranspiration
+  slug: evapotranspiration
+  units: mm
+  downscalable: false
+  aggregation: summed
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Solar Radiation
+  slug: solar_radiation
+  units: W/m2
+  downscalable: true
+  aggregation: averaged
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Soil Moisture
+  slug: soil_moisture
+  units: '%'
+  downscalable: false
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal]
+  legacy_unavailable: [seasonal]
+- term: Mean Wind Speed
+  slug: wind_speed
+  units: km/h
+  downscalable: false
+  aggregation: averaged
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term, subseasonal, seasonal]
+- term: Max Wind Speed
+  slug: max_wind_speed
+  units: km/h
+  downscalable: false
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term]
+  legacy_unavailable: [subseasonal, seasonal]
+- term: Max Wind Gust
+  slug: max_wind_gust
+  units: km/h
+  downscalable: false
+  current: [/v2/forecast, /v2/forecast/statistics, /v2/history]
+  legacy: [history, climatology, short-term]
+  legacy_note: On short-term, available only for the first 10 days.
+  legacy_unavailable: [subseasonal, seasonal]
+enumerations:
+  granularity:
+    values: [daily, weekly, monthly]
+    default: daily
+    semantics:
+      daily: Dates keyed as YYYY-MM-DD.
+      weekly: ISO weeks keyed as YYYY-Www (Monday-Sunday); complete weeks only.
+      monthly: Calendar months keyed as YYYY-MM; complete months only.
+    availability:
+      /v2/forecast/statistics: [daily, weekly, monthly]
+      /v2/history: [daily, weekly, monthly]
+      /v1/history: [daily]
+      /v1/climatology: [daily, weekly, monthly]
+      /v1/forecast/short-term: [daily]
+      /v1/forecast/subseasonal: [daily, weekly]
+      /v1/forecast/seasonal: [daily, monthly]
+  statistics:
+    current:
+      param: statistics
+      values: any quantile in [0, 1], comma separated
+      default: [0.05, 0.25, 0.50, 0.75, 0.95]
+    legacy:
+      quantiles: [q05, q25, q50, q75, q95]
+      terciles:
+        available_on: [subseasonal weekly, seasonal monthly]
+        bins: ['0.00-0.33', '0.33-0.67', '0.67-1.0']
+        note: Not available on any v2 endpoint.
+  resolution:
+    native: 0.25 degrees (~25 km)
+    downscaled: 0.0083 degrees (~1 km)
+    gating: >-
+      Account-level entitlement on the API key. When not provisioned, use_downscaling has
+      no effect and responses stay at 0.25 degrees.
+  aggregation_rules:
+    summed: [precipitation, evapotranspiration]
+    averaged: [temp_mean, temp_max, temp_min, soil_temperature, humidity, solar_radiation, wind_speed,
+      max_wind_speed, max_wind_gust]
+datasets:
+  history:
+    current: {endpoint: /v2/history, coverage: 1995-present (30+ years), backing: ERA5 with automatic gap-fill}
+    legacy: {endpoint: /v1/history, coverage: rolling ~366 days, granularity: daily only}
+  climatology:
+    legacy: {endpoint: /v1/climatology, reference_period: fixed 1993-2022, refreshed: periodically by ClimateAi}
+    current: null
+  forecast:
+    current: {endpoints: [/v2/forecast, /v2/forecast/statistics], horizon: today through ~6 months,
+      method: AI-driven stitching of short-term, subseasonal and seasonal into one continuous timeline,
+      ensemble_members: ~31}
+    legacy:
+      short-term: {horizon: ~15 days}
+      subseasonal: {horizon: weeks 2-6}
+      seasonal: {horizon: months 1-6}

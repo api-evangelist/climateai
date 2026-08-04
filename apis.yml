@@ -1,29 +1,143 @@
 aid: climateai
 name: ClimateAI
-description: 'ClimateAI is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: 'ClimateAi (climate.ai) is a climate-intelligence company that turns global
+  weather, climate and extreme-event modeling into decision-grade forecasts for agriculture,
+  food and beverage, manufacturing, energy, finance, retail and federal/defense customers.
+  Its ClimateLens products cover risk screening, monitoring and adaptation, and its developer
+  surface is the LensConnect API — a REST weather and climate data API addressed by latitude
+  and longitude that returns 30+ years of history (1995-present, ERA5-backed), a fixed 30-year
+  climatology baseline, and AI-stitched probabilistic forecasts running from short-term through
+  seasonal (~6 months) in a single continuous timeline, at ~25 km resolution with optional 1 km
+  downscaling for select variables. A separate ClimateAI Platform gateway handles accounts,
+  users, roles, permissions, device API keys and product routing.'
 url: https://raw.githubusercontent.com/api-evangelist/climateai/refs/heads/main/apis.yml
+image: https://climate.ai/wp-content/uploads/2022/09/Logo_orange_dark.png
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: enrichment-pipeline
 specificationVersion: '0.20'
 created: '2026-08-02'
-modified: '2026-08-02'
+modified: '2026-08-04'
 tags:
 - Company
-apis: []
+- Weather
+- Climate
+- Climate Intelligence
+- Forecasting
+- Agriculture
+- Data
+- Supply Chain
+- Risk
+- Sustainability
+apis:
+- aid: climateai:weather
+  name: ClimateAi Weather API (LensConnect)
+  description: 'The LensConnect weather and climate data API. Forecasts, historical observations
+    and climatology for any point on Earth, addressed by latitude and longitude. Current (v2)
+    endpoints return AI-stitched multi-timescale forecasts with custom quantiles, configurable
+    granularity and date-range control; legacy (v1) endpoints expose short-term, subseasonal
+    and seasonal horizons separately plus climatology and stored-location variants. Authenticated
+    with an X-Api-Key header.'
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - Weather
+  - Climate
+  - Forecasting
+  - History
+  - Climatology
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-weather-openapi.yml
+  - type: Overlay
+    url: overlays/climateai-weather-overlay.yaml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:platform
+  name: ClimateAI Platform API
+  description: 'ClimateAI authentication and routing gateway for platform services. Covers
+    accounts, account configuration, users, roles, permissions, device API keys, products,
+    platform labels, reports, transactional email and request routing/proxying. Authenticated
+    with a JWT Authorization header or an X-Api-Key device key.'
+  humanURL: https://api-prod.climate.ai/docs
+  baseURL: https://api-prod.climate.ai
+  tags:
+  - Authentication
+  - Accounts
+  - Users
+  - Permissions
+  properties:
+  - type: Swagger
+    url: openapi/climateai-platform-swagger.json
+  - type: Overlay
+    url: overlays/climateai-platform-overlay.yaml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
-- type: DomainSecurity
-  url: security/climateai-domain-security.yml
-- type: AgenticAccess
-  url: agentic-access/climateai-agentic-access.yml
+- type: Website
+  url: https://climate.ai/
+- type: DeveloperPortal
+  url: https://docs.climate.ai/
+- type: Documentation
+  url: https://docs.climate.ai/
+- type: APIReference
+  url: https://docs.climate.ai/climateai-weather-api
+- type: GettingStarted
+  url: https://docs.climate.ai/guide/getting-started
+- type: Blog
+  url: https://climate.ai/blog/
+- type: BlogRSS
+  url: https://climate.ai/feed/
+- type: GitHubOrganization
+  url: https://github.com/ClimateAI
+- type: Support
+  url: mailto:customersuccess@climate.ai
+- type: SignUp
+  url: https://climate.ai/get-started/
+- type: TermsOfService
+  url: https://climate.ai/terms-of-use/
+- type: PrivacyPolicy
+  url: https://climate.ai/privacy-policy/
+- type: Deprecation
+  url: https://docs.climate.ai/guide/migration
+- type: LLMsTxt
+  url: llms/climateai-llms.txt
 - type: Authentication
   url: authentication/climateai-authentication.yml
-- type: Website
-  url: https://forgeglobal.com/climateai_stock/
+- type: Conventions
+  url: conventions/climateai-conventions.yml
+- type: ErrorCatalog
+  url: errors/climateai-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/climateai-lifecycle.yml
+- type: Conformance
+  url: conformance/climateai-conformance.yml
+- type: DataModel
+  url: data-model/climateai-data-model.yml
+- type: Vocabulary
+  url: vocabulary/climateai-weather-variables.yml
+- type: MCPServer
+  url: mcp/climateai-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/climateai-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/climateai-agentic-access.yml
+- type: DomainSecurity
+  url: security/climateai-domain-security.yml
+x-enrichment:
+  date: '2026-08-04'
+  status: enriched
+  artifacts_added: 14
+  pass: local-v1

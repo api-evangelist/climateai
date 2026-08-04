@@ -1,0 +1,98 @@
+generated: '2026-08-04'
+method: searched
+source: >-
+  https://docs.climate.ai/guide/migration, https://docs.climate.ai/guide/data-products,
+  https://docs.climate.ai/climateai-weather-api, openapi/climateai-weather-openapi.yml
+versioning:
+  scheme: uri-path
+  current: v2
+  supported: [v1, v2]
+  spec_version: 2.0.1
+  docs: https://docs.climate.ai/guide/migration
+  note: >-
+    Two generations coexist. Current (v2) endpoints are recommended for new integrations;
+    legacy (v1) endpoints remain fully supported. Legacy paths are also served in their
+    original unprefixed form (/forecast/short-term) as a backward-compatibility alias of
+    the canonical /v1/ form.
+deprecation:
+  policy_url: https://docs.climate.ai/guide/migration
+  formal_policy: false
+  sunset_header: false
+  sunset_dates_published: false
+  commitment: >-
+    "Supported for the foreseeable future" — ClimateAi publishes a dedicated Migration
+    guide naming exactly which legacy endpoints are superseded by which current ones,
+    what is gained by migrating, and what does not carry over. It commits to continued
+    legacy support but does not publish sunset dates, RFC 8594 Deprecation/Sunset
+    headers, or a formal deprecation window.
+  superseded:
+  - from: /v1/history
+    to: /v2/history
+    note: v2 covers 30+ years (1995-present) vs the legacy rolling ~366 days.
+  - from: /v1/forecast/short-term
+    to: /v2/forecast/statistics
+  - from: /v1/forecast/subseasonal
+    to: /v2/forecast/statistics
+  - from: /v1/forecast/seasonal
+    to: /v2/forecast/statistics
+  not_migratable:
+  - capability: Native probabilistic terciles
+    note: >-
+      Legacy subseasonal-weekly and seasonal-monthly responses include terciles
+      [0.00-0.33, 0.33-0.67, 0.67-1.0]. v2 statistics returns mean + quantiles only and
+      there is no clean client-side recompute, so tercile consumers must stay on v1.
+  - capability: Stored-location ID variants
+    note: /v2/forecast/location/{id} does not exist; v2 accepts lat/lon only.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in openapi/climateai-weather-openapi.yml carries deprecated: true, even
+  for the endpoints the Migration guide describes as superseded. Marking the legacy
+  operations deprecated in the spec is the cheapest machine-readable improvement
+  available to this provider.
+roadmap:
+  published_as: '"Coming soon" section of https://docs.climate.ai/guide/data-products'
+  formal_roadmap_page: false
+  in_development:
+  - name: Flexible Climatology
+    description: >-
+      Replacement for legacy /v1/climatology — selectable historical reference period
+      instead of the fixed 1993-2022 window, custom quantiles, variable selection, and
+      daily/weekly/monthly granularity.
+  - name: Growing Degree Days (GDD)
+    description: >-
+      Crop-relevant heat accumulation from historical and forecast temperature, with
+      cross-year statistics and multi-location / multi-planting-stage tracking.
+  - name: Alerts
+    description: >-
+      Threshold-based subscriptions on forecast conditions (e.g. notify when forecast
+      precipitation exceeds X mm over the next 5 days at a location).
+  note: Paths and parameters explicitly not yet finalized.
+sla:
+  url: null
+  uptime_target: null
+  published: false
+status_page:
+  url: null
+  published: false
+  probed:
+  - {url: 'https://status.climate.ai/', result: DNS does not resolve}
+  note: >-
+    No status page found. status.climate.ai does not resolve and no status link appears
+    on climate.ai, docs.climate.ai or the OpenAPI contact block. No StatusPage pointer
+    is wired.
+changelog:
+  url: null
+  published: false
+  note: >-
+    docs.climate.ai publishes six pages (getting-started, data-products,
+    variables-units-resolution, migration, the API reference, and the index) per its
+    sitemap — none of them a dated changelog. The Migration guide is the closest
+    published artifact but it is a one-time transition document, not a dated release
+    log, so no changelog/ artifact and no ChangeLog pointer are emitted.
+x-evidence:
+  fetched: '2026-08-04'
+  urls:
+  - {url: 'https://docs.climate.ai/guide/migration', http_status: 200}
+  - {url: 'https://docs.climate.ai/sitemap.xml', http_status: 200}
+  - {url: 'https://status.climate.ai/', http_status: 0, note: DNS failure}
+  - {url: 'https://climate.ai/pricing/', http_status: 404}
