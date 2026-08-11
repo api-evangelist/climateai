@@ -31,41 +31,13 @@ tags:
 - Risk
 - Sustainability
 apis:
-- aid: climateai:weather
-  name: ClimateAi Weather API (LensConnect)
-  description: 'The LensConnect weather and climate data API. Forecasts, historical observations
-    and climatology for any point on Earth, addressed by latitude and longitude. Current (v2)
-    endpoints return AI-stitched multi-timescale forecasts with custom quantiles, configurable
-    granularity and date-range control; legacy (v1) endpoints expose short-term, subseasonal
-    and seasonal horizons separately plus climatology and stored-location variants. Authenticated
-    with an X-Api-Key header.'
-  humanURL: https://docs.climate.ai/climateai-weather-api
-  baseURL: https://api-prod.climate.ai/weather
-  tags:
-  - Weather
-  - Climate
-  - Forecasting
-  - History
-  - Climatology
-  properties:
-  - type: OpenAPI
-    url: openapi/climateai-weather-openapi.yml
-  - type: Overlay
-    url: overlays/climateai-weather-overlay.yaml
-  - type: Examples
-    url: examples/climateai-weather-examples.yml
-  - type: Documentation
-    url: https://docs.climate.ai/
-  - type: APIReference
-    url: https://docs.climate.ai/climateai-weather-api
-  - type: GettingStarted
-    url: https://docs.climate.ai/guide/getting-started
 - aid: climateai:platform
   name: ClimateAI Platform API
-  description: 'ClimateAI authentication and routing gateway for platform services. Covers
-    accounts, account configuration, users, roles, permissions, device API keys, products,
-    platform labels, reports, transactional email and request routing/proxying. Authenticated
-    with a JWT Authorization header or an X-Api-Key device key.'
+  description: >-
+    ClimateAI authentication and routing gateway for platform services. Covers accounts, account configuration,
+    users, roles, permissions, device API keys, products, platform labels, reports, transactional email
+    and request routing/proxying. Authenticated with a JWT Authorization header or an X-Api-Key device
+    key.
   humanURL: https://api-prod.climate.ai/docs
   baseURL: https://api-prod.climate.ai
   tags:
@@ -75,9 +47,266 @@ apis:
   - Permissions
   properties:
   - type: Swagger
-    url: openapi/climateai-platform-swagger.json
+    url: openapi/_original/climateai-platform-swagger.json
   - type: Overlay
     url: overlays/climateai-platform-overlay.yaml
+- aid: climateai:climateai-account-api
+  name: ClimateAI Account API
+  description: account related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - account
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-account-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-account-config-api
+  name: ClimateAI Account Config API
+  description: account config related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - account_config
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-account-config-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-auth-api
+  name: ClimateAI Auth API
+  description: authentication related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-auth-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-current-v2-api
+  name: ClimateAI Current (v2) API
+  description: >-
+    Modern endpoints (recommended). Faster grid-index lookups, blended multi-model forecasts, explicit
+    downscaling control, and a compact, date-keyed response shape. All paths start with `/v2/`.
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - Current (v2)
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-current-v2-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-device-api
+  name: ClimateAI Device API
+  description: device api key related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - device
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-device-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-email-api
+  name: ClimateAI Email API
+  description: email sending operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - email
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-email-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-legacy-v1-api
+  name: ClimateAI Legacy (v1) API
+  description: >-
+    Original endpoints. Stable and supported, but superseded by the Current (v2) endpoints where noted.
+    Default response shape is the `{ meta, data }` envelope, where each `data` entry nests its per-variable
+    values under `attributes`.
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - Legacy (v1)
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-legacy-v1-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-permission-api
+  name: ClimateAI Permission API
+  description: permission related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - permission
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-permission-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-platform-api
+  name: ClimateAI Platform API
+  description: platform label related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - platform
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-platform-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-product-api
+  name: ClimateAI Product API
+  description: product listing
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - product
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-product-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-report-api
+  name: ClimateAI Report API
+  description: report related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - report
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-report-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-role-api
+  name: ClimateAI Role API
+  description: user role related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - role
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-role-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-routing-api
+  name: ClimateAI Routing API
+  description: routing and proxy operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - routing
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-routing-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
+- aid: climateai:climateai-user-api
+  name: ClimateAI User API
+  description: user related operations
+  humanURL: https://docs.climate.ai/climateai-weather-api
+  baseURL: https://api-prod.climate.ai/weather
+  tags:
+  - user
+  properties:
+  - type: OpenAPI
+    url: openapi/climateai-user-api-openapi.yml
+  - type: Examples
+    url: examples/climateai-weather-examples.yml
+  - type: Documentation
+    url: https://docs.climate.ai/
+  - type: APIReference
+    url: https://docs.climate.ai/climateai-weather-api
+  - type: GettingStarted
+    url: https://docs.climate.ai/guide/getting-started
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
