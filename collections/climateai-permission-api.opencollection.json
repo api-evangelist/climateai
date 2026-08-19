@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Platform Permission API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "permission",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/permission/"
+          }
+        },
+        {
+          "info": {
+            "name": "Creates a new Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/permission/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Permission"
+        },
+        {
+          "info": {
+            "name": "fetch a permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/permission/:permission_id",
+            "params": [
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The permission id"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Updates a permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/permission/:permission_id",
+            "params": [
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The permission id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a permission"
+        },
+        {
+          "info": {
+            "name": "Deletes a permission by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/permission/:permission_id",
+            "params": [
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The permission id"
+              }
+            ]
+          },
+          "docs": "Deletes a permission by id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

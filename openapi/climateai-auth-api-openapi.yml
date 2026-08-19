@@ -1,0 +1,147 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Auth API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: auth
+  description: authentication related operations
+paths:
+  /auth/login:
+    post:
+      responses:
+        '500':
+          description: Error logging in
+        '403':
+          description: Inactive user
+        '401':
+          description: Invalid credentials
+        '400':
+          description: Bad input
+        '200':
+          description: Logged in
+      operationId: user login
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/auth_details'
+        required: true
+  /auth/logout:
+    post:
+      responses:
+        '500':
+          description: Error logging out
+        '401':
+          description: Invalid auth token
+        '200':
+          description: Logged out
+      operationId: logout a user
+      parameters:
+      - name: Authorization
+        in: header
+        required: true
+        schema:
+          type: string
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      responses:
+        '401':
+          description: Error refreshing token
+        '200':
+          description: Refresh successful
+      operationId: refresh a jwt token
+      tags:
+      - auth
+  /auth/status:
+    get:
+      responses:
+        '200':
+          description: OK.
+      summary: Returns a 200 code
+      operationId: test request to check status
+      tags:
+      - auth
+  /auth/sudo/{user_id}:
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      responses:
+        '500':
+          description: Error generating token
+        '403':
+          description: Not allowed to generate token
+        '200':
+          description: Sudo token generated
+      operationId: generates a jwt token with the given user_id
+      tags:
+      - auth
+  /auth/switch_account/{account_id}:
+    parameters:
+    - name: account_id
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      responses:
+        '500':
+          description: Error switching account
+        '400':
+          description: Bad input
+        '200':
+          description: Switched account
+      operationId: switch account
+      tags:
+      - auth
+  /auth/verify_token:
+    get:
+      responses:
+        '422':
+          description: Signature verification failed.
+        '401':
+          description: Unauthorized.
+        '200':
+          description: OK.
+      summary: Returns a 200 code if authentication passes
+      operationId: Verify credentials for reverse proxy
+      security:
+      - jwt: []
+      - apikey: []
+      tags:
+      - auth
+components:
+  schemas:
+    auth_details:
+      required:
+      - email
+      - password
+      properties:
+        email:
+          type: string
+          description: The email address
+        password:
+          type: string
+          description: 'The user password '
+      type: object
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

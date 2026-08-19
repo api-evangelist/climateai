@@ -1,0 +1,160 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Report API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: report
+  description: report related operations
+paths:
+  /report/:
+    post:
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/report_response'
+        '500':
+          description: Error creating report
+        '201':
+          description: Successfully created new account.
+      summary: Creates a new report
+      operationId: Create custom report
+      tags:
+      - report
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/report_payload'
+        required: true
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved accounts.
+        '500':
+          description: Error retrieving accounts.
+      summary: Gets all accounts
+      operationId: Retrieve all custom reports
+      tags:
+      - report
+  /report/{report_id}:
+    parameters:
+    - name: report_id
+      in: path
+      required: true
+      schema:
+        type: string
+    delete:
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/report_response'
+        '500':
+          description: Error deleting report.
+        '404':
+          description: No report with given ID found.
+        '204':
+          description: Report successfully deleted.
+      summary: Disables an account
+      operationId: Delete report by id
+      tags:
+      - report
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved report.
+        '500':
+          description: Error retrieving report.
+        '404':
+          description: No report with given ID found.
+      summary: Gets a specific account by its id
+      operationId: Retrieve report by id
+      tags:
+      - report
+components:
+  schemas:
+    report_payload:
+      required:
+      - description
+      - name
+      - url
+      properties:
+        account_id:
+          type: string
+          description: Custom report account.
+        name:
+          type: string
+          description: Custom report name.
+        description:
+          type: string
+          description: Custom report description.
+        url:
+          type: string
+          description: URL to custom report.
+        type:
+          type: string
+          description: Custom report type.
+          example: image
+          enum:
+          - image
+          - pdf
+          - url
+      type: object
+    report_response:
+      required:
+      - created_at
+      - description
+      - id
+      - name
+      - updated_at
+      - url
+      properties:
+        id:
+          type: string
+          description: Report id
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        account_id:
+          type: string
+          description: Custom report account.
+        name:
+          type: string
+          description: Custom report name.
+        description:
+          type: string
+          description: Custom report description.
+        url:
+          type: string
+          description: URL to custom report.
+        type:
+          type: string
+          description: Custom report type.
+          example: image
+          enum:
+          - image
+          - pdf
+          - url
+      type: object
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

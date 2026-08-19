@@ -1,0 +1,251 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Device API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: device
+  description: device api key related operations
+paths:
+  /device/:
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved devices.
+        '500':
+          description: Error retrieving devices.
+        '404':
+          description: No devices found.
+      summary: Gets a listing of the available devices
+      operationId: Get all devices
+      tags:
+      - device
+  /device/account/{account_id}:
+    parameters:
+    - in: path
+      description: The account id
+      name: account_id
+      required: true
+      schema:
+        type: string
+    post:
+      responses:
+        '404':
+          description: Account not found.
+        '500':
+          description: Error creating device.
+        '409':
+          description: Device already exists.
+        '400':
+          description: Bad input.
+        '201':
+          description: Device successfully created.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/device_response'
+      summary: Creates a new device for account by id
+      operationId: register a new device for account by id
+      tags:
+      - device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/device_payload'
+        required: true
+    get:
+      responses:
+        '404':
+          description: No devices found for account.
+        '200':
+          description: Successfully retrieved devices.
+        '500':
+          description: Error retrieving devices.
+      operationId: Get all devices for account by id
+      tags:
+      - device
+  /device/api_trial:
+    post:
+      responses:
+        '500':
+          description: Error creating api trial.
+        '409':
+          description: Api trial already exists.
+        '400':
+          description: Bad input.
+        '201':
+          description: Api trial successfully created.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/device_response'
+      summary: Creates an api trial api key
+      operationId: get api trial
+      tags:
+      - device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/api_trial_payload'
+        required: true
+  /device/{device_id}:
+    parameters:
+    - in: path
+      description: The device id
+      name: device_id
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '404':
+          description: Device not found.
+        '500':
+          description: Error updating device.
+        '400':
+          description: Bad input.
+        '201':
+          description: Device successfully updated.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/device_response'
+      summary: Updates a device
+      operationId: update a device
+      tags:
+      - device
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/device_payload'
+        required: true
+    delete:
+      responses:
+        '404':
+          description: Device not found.
+        '500':
+          description: Error deleting device.
+        '200':
+          description: Device successfully deleted.
+      summary: Deletes a device by id
+      operationId: delete a device
+      tags:
+      - device
+    get:
+      responses:
+        '404':
+          description: Device not found.
+        '500':
+          description: Error fetching device.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/device_response'
+      operationId: fetch a device
+      tags:
+      - device
+components:
+  schemas:
+    device_payload:
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Device name
+        uber_admin:
+          type: boolean
+          description: shows if device has uber_admin permissions
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+      type: object
+      additionalProperties: false
+    device_response:
+      required:
+      - account_id
+      - created_at
+      - device_key
+      - id
+      - name
+      - updated_at
+      - valid_until
+      properties:
+        id:
+          type: string
+          description: Device ID
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        device_key:
+          type: string
+          description: Device API key
+        account_id:
+          type: string
+          description: Account id for device
+        email_address:
+          type: string
+          description: Email address
+        company_name:
+          type: string
+          description: Company name
+        valid_until:
+          type: string
+          description: Valid until timestamp
+        name:
+          type: string
+          description: Device name
+        uber_admin:
+          type: boolean
+          description: shows if device has uber_admin permissions
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+      type: object
+    api_trial_payload:
+      required:
+      - company_name
+      - email
+      properties:
+        email:
+          type: string
+          description: Email address
+        company_name:
+          type: string
+          description: Company name
+        account_id:
+          type: string
+          description: Account id for device
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+          default: 7
+      type: object
+      additionalProperties: false
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

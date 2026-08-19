@@ -1,0 +1,231 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Role API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: role
+  description: user role related operations
+paths:
+  /role/:
+    post:
+      responses:
+        '500':
+          description: Error creating role.
+        '409':
+          description: Role already exists.
+        '201':
+          description: Role successfully created.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_response'
+      summary: Creates a new Role
+      operationId: create a new role
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/role_payload'
+        required: true
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved roles.
+        '500':
+          description: Error retrieving roles.
+        '204':
+          description: No roles found.
+      operationId: Get all roles
+      tags:
+      - role
+  /role/{role_id}:
+    parameters:
+    - in: path
+      description: The role id
+      name: role_id
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '404':
+          description: Role not found.
+        '500':
+          description: Error updating role.
+        '201':
+          description: Role successfully updated.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_response'
+      summary: Updates a role
+      operationId: update a role
+      tags:
+      - role
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/role_payload'
+        required: true
+    delete:
+      responses:
+        '404':
+          description: Role not found.
+        '500':
+          description: Error deleting role.
+        '200':
+          description: Role successfully deleted.
+      summary: Deletes a role by id
+      operationId: delete a role
+      tags:
+      - role
+    get:
+      responses:
+        '404':
+          description: Role not found.
+        '500':
+          description: Error fetching role.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_response'
+      operationId: fetch a role
+      tags:
+      - role
+  /role/{role_id}/permission/{permission_id}:
+    parameters:
+    - in: path
+      description: The permission id
+      name: permission_id
+      required: true
+      schema:
+        type: string
+    - in: path
+      description: The role id
+      name: role_id
+      required: true
+      schema:
+        type: string
+    post:
+      responses:
+        '404':
+          description: Role or permission not found.
+        '500':
+          description: Error adding association.
+        '409':
+          description: Association already exists.
+        '201':
+          description: Association successfully added.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_response'
+      summary: Adds a new Role/Permission association
+      operationId: add a permission to a role
+      tags:
+      - role
+    delete:
+      responses:
+        '404':
+          description: Association does not exist.
+        '500':
+          description: Error removing association.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_response'
+      summary: Removes a Role/Permission association
+      operationId: remove a permission from a role
+      tags:
+      - role
+components:
+  schemas:
+    role_response:
+      required:
+      - created_at
+      - description
+      - id
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: role identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        permissions:
+          type: array
+          description: role permissions
+          items:
+            $ref: '#/components/schemas/permission_response'
+        name:
+          type: string
+          description: role name
+        description:
+          type: string
+          description: role description
+      type: object
+    role_payload:
+      required:
+      - description
+      - name
+      properties:
+        name:
+          type: string
+          description: role name
+        description:
+          type: string
+          description: role description
+      type: object
+      additionalProperties: false
+    permission_response:
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: permission identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        name:
+          type: string
+          description: permission name
+      type: object
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

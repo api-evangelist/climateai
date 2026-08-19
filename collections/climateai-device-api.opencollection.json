@@ -1,0 +1,153 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Platform Device API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "device",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Gets a listing of the available devices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/device/"
+          },
+          "docs": "Gets a listing of the available devices"
+        },
+        {
+          "info": {
+            "name": "Get all devices for account by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/device/account/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account id"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Creates a new device for account by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/device/account/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path",
+                "description": "The account id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new device for account by id"
+        },
+        {
+          "info": {
+            "name": "Creates an api trial api key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/device/api_trial",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an api trial api key"
+        },
+        {
+          "info": {
+            "name": "fetch a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/device/:device_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "",
+                "type": "path",
+                "description": "The device id"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Updates a device",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/device/:device_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "",
+                "type": "path",
+                "description": "The device id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a device"
+        },
+        {
+          "info": {
+            "name": "Deletes a device by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/device/:device_id",
+            "params": [
+              {
+                "name": "device_id",
+                "value": "",
+                "type": "path",
+                "description": "The device id"
+              }
+            ]
+          },
+          "docs": "Deletes a device by id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

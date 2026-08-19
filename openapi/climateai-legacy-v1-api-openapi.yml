@@ -1,0 +1,811 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Weather Legacy (v1) Legacy (v1) API
+  version: 2.0.1
+  description: 'OpenAPI specification for the ClimateAI Weather API.
+
+
+    Forecasts, historical observations, and climatology for any point on Earth, accessible by latitude and longitude.
+
+
+    Endpoints are grouped by version:
+
+
+    - **Current (v2)** — recommended for new integrations. Multi-timescale forecasts (short-term through seasonal in a single call), custom quantiles, configurable granularity, and date-range control. All paths start with `/v2/`.
+
+    - **Legacy (v1)** — original endpoints. Stable and fully supported, but superseded by v2 where noted: `/v1/history` → `/v2/history`; the three legacy forecast endpoints (short-term, subseasonal, seasonal) → `/v2/forecast`.
+
+
+    See the **Datasets** section for the full variable-availability matrix (which variable is in which dataset, units, granularities, resolution, and statistics).
+
+
+    # Authentication
+
+
+    All endpoints require an API key, sent in the `X-Api-Key` header. Contact our sales team to get your API key.'
+  contact:
+    name: API Support
+    url: https://api.climate.ai/
+    email: customersuccess@climate.ai
+  x-logo:
+    url: https://climate.ai/wp-content/uploads/2022/09/Logo_orange_dark.png
+    altText: ClimateAI Logo
+servers:
+- url: https://api-prod.climate.ai/weather
+  description: ClimateAI Weather API (production)
+- url: http://localhost:5000
+  description: Local development
+security:
+- ApiKeyAuth: []
+tags:
+- name: Legacy (v1)
+  description: 'Original endpoints. Stable and supported, but superseded by the Current (v2) endpoints where noted. Default response shape is the `{ meta, data }` envelope, where each `data` entry nests its per-variable values under `attributes`.
+
+    '
+paths:
+  /v1/climatology:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Climatology by coordinates
+      description: Long-term climate averages and quantiles for a coordinate pair.
+      operationId: getClimatology
+      parameters:
+      - $ref: '#/components/parameters/LatQuery'
+      - $ref: '#/components/parameters/LonQuery'
+      - $ref: '#/components/parameters/VarFullQuery'
+      - $ref: '#/components/parameters/GranularityFullQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClimatologyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/climatology/location/{id}:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Climatology by stored location ID
+      operationId: getClimatologyByLocation
+      parameters:
+      - $ref: '#/components/parameters/LocationIdPath'
+      - $ref: '#/components/parameters/VarFullQuery'
+      - $ref: '#/components/parameters/GranularityFullQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClimatologyResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/history:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Historical observations by coordinates
+      description: 'Historical weather observations for a coordinate pair (last 366 days). **Superseded by** `GET /v2/history/`, which provides 30+ years of coverage, automatic gap-filling, and faster grid-index lookups.
+
+        '
+      operationId: getHistory
+      parameters:
+      - $ref: '#/components/parameters/LatQuery'
+      - $ref: '#/components/parameters/LonQuery'
+      - $ref: '#/components/parameters/VarFullQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/history/location/{id}:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Historical observations by stored location ID
+      operationId: getHistoryByLocation
+      parameters:
+      - $ref: '#/components/parameters/LocationIdPath'
+      - $ref: '#/components/parameters/VarFullQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/forecast/short-term:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Short-term forecast by coordinates
+      description: 'Short-term forecast (next days to weeks) for a coordinate pair. **Superseded by** `GET /v2/forecast/`, which blends short-term, subseasonal, and seasonal models into one continuous timeline.
+
+        '
+      operationId: getShortTermForecast
+      parameters:
+      - $ref: '#/components/parameters/LatQuery'
+      - $ref: '#/components/parameters/LonQuery'
+      - $ref: '#/components/parameters/VarFullQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastDatasetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/forecast/subseasonal:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Subseasonal forecast by coordinates
+      operationId: getSubseasonalForecast
+      parameters:
+      - $ref: '#/components/parameters/LatQuery'
+      - $ref: '#/components/parameters/LonQuery'
+      - $ref: '#/components/parameters/VarSubseasonalQuery'
+      - $ref: '#/components/parameters/GranularitySubseasonalQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastDatasetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/forecast/seasonal:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Seasonal forecast by coordinates
+      operationId: getSeasonalForecast
+      parameters:
+      - $ref: '#/components/parameters/LatQuery'
+      - $ref: '#/components/parameters/LonQuery'
+      - $ref: '#/components/parameters/VarSeasonalQuery'
+      - $ref: '#/components/parameters/GranularitySeasonalQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastDatasetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/forecast/short-term/location/{id}:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Short-term forecast by stored location ID
+      operationId: getShortTermForecastByLocation
+      parameters:
+      - $ref: '#/components/parameters/LocationIdPath'
+      - $ref: '#/components/parameters/VarFullQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastDatasetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/forecast/subseasonal/location/{id}:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Subseasonal forecast by stored location ID
+      operationId: getSubseasonalForecastByLocation
+      parameters:
+      - $ref: '#/components/parameters/LocationIdPath'
+      - $ref: '#/components/parameters/VarSubseasonalQuery'
+      - $ref: '#/components/parameters/GranularitySubseasonalQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastDatasetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /v1/forecast/seasonal/location/{id}:
+    get:
+      tags:
+      - Legacy (v1)
+      summary: Seasonal forecast by stored location ID
+      operationId: getSeasonalForecastByLocation
+      parameters:
+      - $ref: '#/components/parameters/LocationIdPath'
+      - $ref: '#/components/parameters/VarSeasonalQuery'
+      - $ref: '#/components/parameters/GranularitySeasonalQuery'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastDatasetResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  schemas:
+    ForecastTimeStep:
+      type: object
+      description: One timestep; variable values are nested under `attributes`.
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2025-09-01
+        type:
+          type: string
+          examples:
+          - Short-term Forecast
+        id:
+          type: integer
+          examples:
+          - 0
+        attributes:
+          type: object
+          description: One entry per variable in `meta.variables`.
+          additionalProperties:
+            $ref: '#/components/schemas/ForecastStatisticsModel'
+          examples:
+          - temp_mean:
+              units: °C
+              ensemble_mean: 20.53
+              quantile:
+                quantile_0.05: 18.1
+                quantile_0.50: 20.4
+                quantile_0.95: 23
+    WeatherVariableSeasonal:
+      type: string
+      description: Variable available for the Seasonal Forecast.
+      enum:
+      - evapotranspiration
+      - humidity
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+    ForecastDatasetResponse:
+      type: object
+      description: Default envelope for legacy short-term, subseasonal, and seasonal forecasts.
+      properties:
+        meta:
+          $ref: '#/components/schemas/LegacyMeta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ForecastTimeStep'
+      examples:
+      - meta:
+          variables:
+          - temp_mean
+          - precipitation
+          granularity: day
+          location:
+            latitude: '39.70'
+            longitude: '-100.10'
+          data_version: forecast-v1
+          statistics:
+          - ensemble_mean
+          - quantile_0.05
+          - quantile_0.50
+          - quantile_0.95
+          data_downscaled: false
+        data:
+        - date: 2025-09-01
+          type: Short-term Forecast
+          id: 0
+          attributes:
+            temp_mean:
+              units: °C
+              ensemble_mean: 20.53
+              quantile:
+                quantile_0.05: 18.1
+                quantile_0.50: 20.4
+                quantile_0.95: 23
+            precipitation:
+              units: mm
+              ensemble_mean: 3.2
+              quantile:
+                quantile_0.05: 0
+                quantile_0.50: 2.1
+                quantile_0.95: 9.8
+    WeatherVariableFull:
+      type: string
+      description: 'Variable available for History, Climatology, and Short-term Forecast. See the Datasets section for units.
+
+        '
+      enum:
+      - evapotranspiration
+      - humidity
+      - soil_moisture
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+      - max_wind_speed
+      - max_wind_gust
+    HistoryStatisticsModel:
+      type: object
+      description: Per-variable historical values.
+      properties:
+        units:
+          type: string
+          examples:
+          - mm
+        values:
+          type: number
+          examples:
+          - 20.53
+        quantile:
+          type: object
+          additionalProperties:
+            type: number
+        probability:
+          type: object
+          additionalProperties:
+            type: number
+    ClimatologyTimeStep:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2025-09-01
+        type:
+          type: string
+          examples:
+          - Climatology
+        id:
+          type: integer
+          examples:
+          - 0
+        attributes:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ClimatologyStatisticsModel'
+          examples:
+          - temp_mean:
+              units: °C
+              quantile:
+                quantile_0.05: 14.2
+                quantile_0.50: 16.7
+                quantile_0.95: 19.1
+    WeatherVariableSubseasonal:
+      type: string
+      description: Variable available for the Subseasonal Forecast.
+      enum:
+      - evapotranspiration
+      - humidity
+      - soil_moisture
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+    ClimatologyStatisticsModel:
+      type: object
+      description: Per-variable climatology statistics.
+      properties:
+        units:
+          type: string
+          examples:
+          - mm
+        quantile:
+          type: object
+          additionalProperties:
+            type: number
+          examples:
+          - quantile_0.05: 7.59
+            quantile_0.50: 21.16
+            quantile_0.95: 31.5
+        probability:
+          type: object
+          additionalProperties:
+            type: number
+    ForecastStatisticsModel:
+      type: object
+      description: Per-variable forecast statistics.
+      properties:
+        units:
+          type: string
+          examples:
+          - mm
+        ensemble_mean:
+          type: number
+          examples:
+          - 20.53
+        quantile:
+          type: object
+          additionalProperties:
+            type: number
+          examples:
+          - quantile_0.05: 7.59
+            quantile_0.50: 21.16
+            quantile_0.95: 31.5
+        probability:
+          type: object
+          description: Climatological probability ranges (weekly/monthly only).
+          additionalProperties:
+            type: number
+          examples:
+          - clim_prob_0.00-0.33: 0.53
+            clim_prob_0.33-0.67: 0.1
+            clim_prob_0.67-1.00: 0.37
+    HistoryResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/LegacyMeta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryTimeStep'
+      examples:
+      - meta:
+          variables:
+          - precipitation
+          granularity: day
+          location:
+            latitude: '39.70'
+            longitude: '-100.10'
+          data_version: history-v1
+          statistics:
+          - values
+          data_downscaled: false
+        data:
+        - date: 2022-09-01
+          type: History
+          id: 0
+          attributes:
+            precipitation:
+              units: mm
+              values: 3.2
+    LegacyMeta:
+      type: object
+      properties:
+        variables:
+          type: array
+          description: Variables included in the payload.
+          items:
+            type: string
+          examples:
+          - - temp_mean
+            - precipitation
+        granularity:
+          type: string
+          description: Temporal granularity of the data.
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          examples:
+          - day
+        location:
+          $ref: '#/components/schemas/MetaLocation'
+        data_version:
+          type:
+          - string
+          - 'null'
+          description: Identifier of the dataset version that produced the data.
+          examples:
+          - forecast-v1
+        statistics:
+          type: array
+          description: Statistical measures present in the dataset.
+          items:
+            type: string
+          examples:
+          - - ensemble_mean
+            - quantile_0.05
+            - quantile_0.50
+            - quantile_0.95
+        data_downscaled:
+          type: boolean
+          description: Whether the data was spatially downscaled.
+          examples:
+          - false
+    MetaLocation:
+      type: object
+      description: Resolved location of the served data.
+      properties:
+        latitude:
+          type: string
+          examples:
+          - '9.12'
+        longitude:
+          type: string
+          examples:
+          - '-79.40'
+    HistoryTimeStep:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2022-09-01
+        type:
+          type: string
+          examples:
+          - History
+        id:
+          type: integer
+          examples:
+          - 0
+        attributes:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HistoryStatisticsModel'
+          examples:
+          - precipitation:
+              units: mm
+              values: 3.2
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          examples:
+          - Input validation failed
+        code:
+          type: string
+          description: Machine-readable error code (when available).
+          examples:
+          - VALIDATION_ERROR
+    ClimatologyResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/LegacyMeta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClimatologyTimeStep'
+      examples:
+      - meta:
+          variables:
+          - temp_mean
+          granularity: month
+          location:
+            latitude: '39.70'
+            longitude: '-100.10'
+          data_version: climatology-v1
+          statistics:
+          - quantile_0.05
+          - quantile_0.50
+          - quantile_0.95
+          data_downscaled: false
+        data:
+        - date: 2022-09-01
+          type: Climatology
+          id: 0
+          attributes:
+            temp_mean:
+              units: °C
+              quantile:
+                quantile_0.05: 14.2
+                quantile_0.50: 16.7
+                quantile_0.95: 19.1
+  parameters:
+    VarSubseasonalQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableSubseasonal'
+        examples:
+        - - temp_mean
+          - precipitation
+    VarSeasonalQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableSeasonal'
+        examples:
+        - - temp_mean
+          - precipitation
+    LocationIdPath:
+      name: id
+      in: path
+      required: true
+      description: Stored location identifier.
+      schema:
+        type: string
+    LatQuery:
+      name: lat
+      in: query
+      required: true
+      description: Latitude coordinate in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -90
+        maximum: 90
+        examples:
+        - 9.119
+    VarFullQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableFull'
+        examples:
+        - - temp_mean
+          - precipitation
+    GranularitySeasonalQuery:
+      name: granularity
+      in: query
+      required: false
+      description: Temporal granularity. Seasonal supports daily and monthly only.
+      schema:
+        type: string
+        enum:
+        - daily
+        - monthly
+        default: daily
+    GranularityFullQuery:
+      name: granularity
+      in: query
+      required: false
+      description: Temporal granularity of the returned data.
+      schema:
+        type: string
+        enum:
+        - daily
+        - weekly
+        - monthly
+        default: daily
+    LonQuery:
+      name: lon
+      in: query
+      required: true
+      description: Longitude coordinate in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -180
+        maximum: 180
+        examples:
+        - -79.4021
+    GranularitySubseasonalQuery:
+      name: granularity
+      in: query
+      required: false
+      description: Temporal granularity. Subseasonal supports daily and weekly only.
+      schema:
+        type: string
+        enum:
+        - daily
+        - weekly
+        default: daily
+  responses:
+    NotFound:
+      description: No data found for the requested parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                message: No data found for the requested parameters
+    ServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                message: Internal server error
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                message: Invalid Location. Latitude must be between 90.0 and -90.0
+                code: VALIDATION_ERROR
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-Api-Key
+      description: API key for authenticating requests. Contact sales to obtain one.
+x-ext-urls: {}

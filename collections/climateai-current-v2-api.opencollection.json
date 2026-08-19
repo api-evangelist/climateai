@@ -1,0 +1,191 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Weather Current (v2) Current (v2) API",
+    "version": "2.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Current (v2)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Historical weather (optimized grid lookup)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v2/history",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date (inclusive) in `YYYY-MM-DD` format."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date (inclusive) in `YYYY-MM-DD` format."
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity of the returned data."
+              },
+              {
+                "name": "use_downscaling",
+                "value": "",
+                "type": "query",
+                "description": "Apply ~1 km downscaling when available."
+              }
+            ]
+          },
+          "docs": "Historical weather for a coordinate pair using B-tree indexes on\npre-computed grid indices (`lat_idx`, `lon_idx`) instead of PostGIS\ngeography-based GIST indexes — significantly faster lookups.\n\nProvides 30+ years of ERA5 coverage (auto-fetched on first request),\nautomatic recent-history gap-filling, variable-aware temporal\naggregation, and optional ~1 km downscaling.\n\nGranularity controls how the daily values are aggregated:\n\n- `daily` → dates like `2025-01-15` (every day through the inclusive "
+        },
+        {
+          "info": {
+            "name": "Stitched forecast — raw ensemble members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v2/forecast",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.\n"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date (inclusive) in `YYYY-MM-DD` format."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date (inclusive) in `YYYY-MM-DD` format."
+              },
+              {
+                "name": "use_downscaling",
+                "value": "",
+                "type": "query",
+                "description": "Apply ~1 km downscaling when available."
+              }
+            ]
+          },
+          "docs": "Blended forecast that stitches short-term (~15 days), subseasonal (up to 6 weeks), and seasonal (up to 6 months) horizons into a single continuous timeline, returning the raw ensemble members (~31 values per date).\n\nPick exactly the variables you need. Optional ~1 km downscaling for select variables.\n"
+        },
+        {
+          "info": {
+            "name": "Stitched forecast — statistics (mean + quantiles)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v2/forecast/statistics",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.\n"
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start date (inclusive) in `YYYY-MM-DD` format."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End date (inclusive) in `YYYY-MM-DD` format."
+              },
+              {
+                "name": "use_downscaling",
+                "value": "",
+                "type": "query",
+                "description": "Apply ~1 km downscaling when available."
+              },
+              {
+                "name": "statistics",
+                "value": "",
+                "type": "query",
+                "description": "Quantile values to compute, each between 0.0 and 1.0. The mean is always included. Maximum 20 quantiles per request. Supports comma-separated values (`statistics=0.10,0.50,0.90`) or repeated parameters (`statistics=0.10&statistics=0.50`).\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity of the returned data."
+              }
+            ]
+          },
+          "docs": "Statistical aggregations (mean plus configurable quantiles) over the\nstitched ensemble, with optional temporal aggregation.\n\nTemporal aggregation is variable-aware: precipitation and evaporation\nare **summed**; temperature, humidity, and wind are **averaged** before\nstatistics are computed.\n\n- `daily` → dates like `2025-01-15`\n- `weekly` → ISO weeks like `2025-W03` (Mon–Sun, complete weeks plus the current week)\n- `monthly` → months like `2025-01` (complete calendar months plus the current month"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,58 @@
+{
+  "provider": "climateai",
+  "sources": [
+    "climateai-account-api-openapi.yml",
+    "climateai-account-config-api-openapi.yml",
+    "climateai-auth-api-openapi.yml",
+    "climateai-current-v2-api-openapi.yml",
+    "climateai-device-api-openapi.yml",
+    "climateai-email-api-openapi.yml",
+    "climateai-legacy-v1-api-openapi.yml",
+    "climateai-permission-api-openapi.yml",
+    "climateai-platform-api-openapi.yml",
+    "climateai-product-api-openapi.yml",
+    "climateai-report-api-openapi.yml",
+    "climateai-role-api-openapi.yml",
+    "climateai-routing-api-openapi.yml",
+    "climateai-user-api-openapi.yml"
+  ],
+  "outputs": [
+    "climateai-account-api-openapi.yml",
+    "climateai-account-config-api-openapi.yml",
+    "climateai-auth-api-openapi.yml",
+    "climateai-current-v2-api-openapi.yml",
+    "climateai-device-api-openapi.yml",
+    "climateai-email-api-openapi.yml",
+    "climateai-legacy-v1-api-openapi.yml",
+    "climateai-permission-api-openapi.yml",
+    "climateai-platform-api-openapi.yml",
+    "climateai-product-api-openapi.yml",
+    "climateai-report-api-openapi.yml",
+    "climateai-role-api-openapi.yml",
+    "climateai-routing-api-openapi.yml",
+    "climateai-user-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [
+    "climateai-account-api-openapi.yml: dangling $ref: #/definitions/account%20update"
+  ],
+  "warnings": [],
+  "notes": [
+    "climateai-account-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-account-config-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-auth-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-current-v2-api-openapi.yml: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
+    "climateai-device-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-email-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-legacy-v1-api-openapi.yml: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
+    "climateai-permission-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-platform-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-product-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-report-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-role-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-routing-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "climateai-user-api-openapi.yml: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

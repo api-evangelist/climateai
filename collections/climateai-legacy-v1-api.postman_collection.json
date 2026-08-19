@@ -1,0 +1,3050 @@
+{
+  "item": [
+    {
+      "id": "dd45e2a2-0468-4f50-9ad1-1a58a1a97a40",
+      "name": "Legacy (v1)",
+      "description": {
+        "content": "Original endpoints. Stable and supported, but superseded by the Current (v2) endpoints where noted. Default response shape is the `{ meta, data }` envelope, where each `data` entry nests its per-variable values under `attributes`.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fd2deee7-e112-487f-b5c7-8797e559d64d",
+          "name": "Climatology by coordinates",
+          "request": {
+            "name": "Climatology by coordinates",
+            "description": {
+              "content": "Long-term climate averages and quantiles for a coordinate pair.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "climatology"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity of the returned data."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "863ff996-5cf8-4e3d-b644-e68ab6162892",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": true\n  },\n  \"data\": [\n    {\n      \"date\": \"2004-07-17\",\n      \"type\": \"string\",\n      \"id\": 2100,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 3648.3402738209493\n          },\n          \"probability\": {\n            \"key_0\": 431.4808995439767\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 2095.028550508503,\n            \"key_1\": 8368.926716643426\n          },\n          \"probability\": {\n            \"key_0\": 6915.237233390343,\n            \"key_1\": 2730.5306594271497,\n            \"key_2\": 7110.208739606282\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1957-06-20\",\n      \"type\": \"string\",\n      \"id\": 74,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 1829.1936149037047,\n            \"key_1\": 4691.728050620015\n          },\n          \"probability\": {\n            \"key_0\": 9974.48830245393,\n            \"key_1\": 1683.1269161308537\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 6910.841186102178,\n            \"key_1\": 9501.953111723125\n          },\n          \"probability\": {\n            \"key_0\": 5346.828171780371,\n            \"key_1\": 3319.671337336154\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6fa13578-4fbd-4c83-9e43-b16bbf3715ac",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f9db309-1ac7-47ab-9330-5e17ed2d11bf",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "67482c93-6b14-416c-bcba-5faaa760f0c2",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "abbdd04e-c091-4e1b-9665-c6bdfdca6e72",
+          "name": "Climatology by stored location ID",
+          "request": {
+            "name": "Climatology by stored location ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "climatology",
+                "location",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity of the returned data."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Stored location identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e1efc375-3854-4c52-a347-a3f2805fd949",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"week\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": null,\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": true\n  },\n  \"data\": [\n    {\n      \"date\": \"1971-11-11\",\n      \"type\": \"string\",\n      \"id\": 4752,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 15.3058097112313,\n            \"key_1\": 9595.41347040188\n          },\n          \"probability\": {\n            \"key_0\": 3284.403859595282,\n            \"key_1\": 4172.060388867739\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 5977.369090089246,\n            \"key_1\": 4948.955875541984\n          },\n          \"probability\": {\n            \"key_0\": 4708.681300331498\n          }\n        },\n        \"key_2\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 8666.908146752166,\n            \"key_1\": 9190.184534619915\n          },\n          \"probability\": {\n            \"key_0\": 1696.4890333356352,\n            \"key_1\": 4638.924564817692\n          }\n        },\n        \"key_3\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 6638.891167898473\n          },\n          \"probability\": {\n            \"key_0\": 6354.645025145108,\n            \"key_1\": 7019.957241527214,\n            \"key_2\": 8081.3669401928955\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"2006-04-03\",\n      \"type\": \"string\",\n      \"id\": 9806,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"quantile\": {\n            \"key_0\": 7437.800329261571,\n            \"key_1\": 8231.992234540267,\n            \"key_2\": 6956.684138389668,\n            \"key_3\": 5440.274997171153,\n            \"key_4\": 6176.422001920428\n          },\n          \"probability\": {\n            \"key_0\": 1187.5330268896112,\n            \"key_1\": 4063.6539042223885,\n            \"key_2\": 3215.545584446139,\n            \"key_3\": 3630.786950727639\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "631fcd4f-8134-4cc7-9532-fb37b7f5be85",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d069b27-eb3c-4323-afd2-7203fbb598a6",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f1dd659e-aee2-47ad-8a7f-482af6e2b21b",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "climatology",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "81087b80-3000-486f-9d4c-48bdeed40a4b",
+          "name": "Historical observations by coordinates",
+          "request": {
+            "name": "Historical observations by coordinates",
+            "description": {
+              "content": "Historical weather observations for a coordinate pair (last 366 days). **Superseded by** `GET /v2/history/`, which provides 30+ years of coverage, automatic gap-filling, and faster grid-index lookups.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9afe5187-69d1-4733-9fd9-c39d1ef071c4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"week\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": null,\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": true\n  },\n  \"data\": [\n    {\n      \"date\": \"1961-06-25\",\n      \"type\": \"string\",\n      \"id\": 6369,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"values\": 5519.8472034549795,\n          \"quantile\": {\n            \"key_0\": 857.6567667824276,\n            \"key_1\": 2315.320902401444,\n            \"key_2\": 5564.0817491539565\n          },\n          \"probability\": {\n            \"key_0\": 4200.083607472541,\n            \"key_1\": 8223.748902239866,\n            \"key_2\": 7149.8501066148465\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"values\": 9889.394005827766,\n          \"quantile\": {\n            \"key_0\": 2414.073665099139\n          },\n          \"probability\": {\n            \"key_0\": 5543.285534522441,\n            \"key_1\": 1886.443983982824,\n            \"key_2\": 1143.7939784686491\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1962-03-10\",\n      \"type\": \"string\",\n      \"id\": 6817,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"values\": 6031.203903568303,\n          \"quantile\": {\n            \"key_0\": 1624.7614456589\n          },\n          \"probability\": {\n            \"key_0\": 1621.5689639407383,\n            \"key_1\": 1597.7236403900663\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"values\": 4466.935533806473,\n          \"quantile\": {\n            \"key_0\": 166.6404442995706\n          },\n          \"probability\": {\n            \"key_0\": 5804.851215652985,\n            \"key_1\": 3904.568753429778\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "481c45da-71a5-4bf3-b294-1eb7ad20db2d",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9a2b002c-455c-4470-9b64-f95bd5e0f21c",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8597cdd3-2802-4495-9011-943369f54167",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c7c382ce-f6ca-41b0-afb7-c642483b5a2c",
+          "name": "Historical observations by stored location ID",
+          "request": {
+            "name": "Historical observations by stored location ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "history",
+                "location",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Stored location identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1fa5203d-cb36-4aac-97e8-ecbeb4db480d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"week\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": true\n  },\n  \"data\": [\n    {\n      \"date\": \"1992-06-17\",\n      \"type\": \"string\",\n      \"id\": 5111,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"values\": 7985.646255915582,\n          \"quantile\": {\n            \"key_0\": 2902.5522891706833\n          },\n          \"probability\": {\n            \"key_0\": 7641.930404392583,\n            \"key_1\": 107.02031410519398,\n            \"key_2\": 9881.73136216073\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1998-11-27\",\n      \"type\": \"string\",\n      \"id\": 1824,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"values\": 3365.0181573058544,\n          \"quantile\": {\n            \"key_0\": 5271.137289912066,\n            \"key_1\": 5236.7443415333\n          },\n          \"probability\": {\n            \"key_0\": 4547.354862327638,\n            \"key_1\": 1762.8490383742057,\n            \"key_2\": 2167.5667246422527,\n            \"key_3\": 2926.926924141974\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"values\": 9479.99803355525,\n          \"quantile\": {\n            \"key_0\": 2095.796682584098\n          },\n          \"probability\": {\n            \"key_0\": 5783.293613735674,\n            \"key_1\": 6256.238768274255,\n            \"key_2\": 7627.566903429935\n          }\n        },\n        \"key_2\": {\n          \"units\": \"string\",\n          \"values\": 910.3187939102053,\n          \"quantile\": {\n            \"key_0\": 3915.1077594496674\n          },\n          \"probability\": {\n            \"key_0\": 3010.511768505685\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "af8e8150-6a67-4d17-8750-c1c086f17012",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "90b9b84f-db28-46ab-9cc3-7dca4f0feac6",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "12f3a4d2-5915-48f7-841e-1c25fa6e7be3",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "history",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6768f419-fdc1-4567-bc3c-ecdf085fb903",
+          "name": "Short-term forecast by coordinates",
+          "request": {
+            "name": "Short-term forecast by coordinates",
+            "description": {
+              "content": "Short-term forecast (next days to weeks) for a coordinate pair. **Superseded by** `GET /v2/forecast/`, which blends short-term, subseasonal, and seasonal models into one continuous timeline.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "forecast",
+                "short-term"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b5685aa7-b07f-4507-b9b1-9ba3ed4db71b",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": null,\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": false\n  },\n  \"data\": [\n    {\n      \"date\": \"1989-08-14\",\n      \"type\": \"string\",\n      \"id\": 2459,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 566.2309680594512,\n          \"quantile\": {\n            \"key_0\": 7635.4798637387175,\n            \"key_1\": 2388.3852335183665,\n            \"key_2\": 1916.1069440796718\n          },\n          \"probability\": {\n            \"key_0\": 8604.829281948229,\n            \"key_1\": 3693.3922321028767,\n            \"key_2\": 8232.687732654387,\n            \"key_3\": 5079.91330245762\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1988-08-02\",\n      \"type\": \"string\",\n      \"id\": 2818,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 8844.585783907103,\n          \"quantile\": {\n            \"key_0\": 2036.0372429950758\n          },\n          \"probability\": {\n            \"key_0\": 1830.00247970715,\n            \"key_1\": 2941.0547592673543,\n            \"key_2\": 9092.615971707155,\n            \"key_3\": 43.17508126964964\n          }\n        },\n        \"key_1\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 3199.4468834541467,\n          \"quantile\": {\n            \"key_0\": 2959.6087024714834,\n            \"key_1\": 1259.2952827535587\n          },\n          \"probability\": {\n            \"key_0\": 1012.8605482810971,\n            \"key_1\": 8687.292249853526\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c96e9a0c-81c8-45ea-afc5-805a8b76e430",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5fbb8bed-b7a4-4dbd-95ee-7feb84dc897d",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b69c32b0-3012-4ffa-acb9-ae5276f9ce83",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "15b13b9e-1533-4379-b8e2-7ebf662dcfda",
+          "name": "Subseasonal forecast by coordinates",
+          "request": {
+            "name": "Subseasonal forecast by coordinates",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "forecast",
+                "subseasonal"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity. Subseasonal supports daily and weekly only."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "149aec9c-1296-463b-ac25-06502222154d",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": false\n  },\n  \"data\": [\n    {\n      \"date\": \"2017-09-25\",\n      \"type\": \"string\",\n      \"id\": 3086,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 6680.6353614060645,\n          \"quantile\": {\n            \"key_0\": 6259.647584852576,\n            \"key_1\": 962.392957151541,\n            \"key_2\": 2039.7960284829176,\n            \"key_3\": 4824.946623991303\n          },\n          \"probability\": {\n            \"key_0\": 4082.0338145329106,\n            \"key_1\": 9623.625175760417,\n            \"key_2\": 3274.935576890502,\n            \"key_3\": 8793.706816403652\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1965-11-09\",\n      \"type\": \"string\",\n      \"id\": 6113,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 7165.184835482673,\n          \"quantile\": {\n            \"key_0\": 4895.955962160678,\n            \"key_1\": 2658.4094433303117\n          },\n          \"probability\": {\n            \"key_0\": 6651.592526398703,\n            \"key_1\": 9277.195958230368\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "691a448c-1f24-4ef0-aedf-c1dd9d7fb3ee",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "08e575af-db63-4548-a833-534d04b9e497",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3f178cfa-64ff-4aa6-a519-ec98172d255b",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f8c1c12d-1be0-4314-9527-ad8d9338fc0c",
+          "name": "Seasonal forecast by coordinates",
+          "request": {
+            "name": "Seasonal forecast by coordinates",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "forecast",
+                "seasonal"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity. Seasonal supports daily and monthly only."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f0adb2d8-7717-4869-a4f1-4a6edfc97b0f",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": false\n  },\n  \"data\": [\n    {\n      \"date\": \"2017-09-25\",\n      \"type\": \"string\",\n      \"id\": 3086,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 6680.6353614060645,\n          \"quantile\": {\n            \"key_0\": 6259.647584852576,\n            \"key_1\": 962.392957151541,\n            \"key_2\": 2039.7960284829176,\n            \"key_3\": 4824.946623991303\n          },\n          \"probability\": {\n            \"key_0\": 4082.0338145329106,\n            \"key_1\": 9623.625175760417,\n            \"key_2\": 3274.935576890502,\n            \"key_3\": 8793.706816403652\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1965-11-09\",\n      \"type\": \"string\",\n      \"id\": 6113,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 7165.184835482673,\n          \"quantile\": {\n            \"key_0\": 4895.955962160678,\n            \"key_1\": 2658.4094433303117\n          },\n          \"probability\": {\n            \"key_0\": 6651.592526398703,\n            \"key_1\": 9277.195958230368\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ce4ff41-3f87-461f-ad7d-d861610eaf5c",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f34ae881-ced1-4da3-8640-cd4750208f2c",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba7e274f-4872-4660-81c8-f0e23b4451c5",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1181aff3-6b50-434b-9e4e-5ebbe0453ee0",
+          "name": "Short-term forecast by stored location ID",
+          "request": {
+            "name": "Short-term forecast by stored location ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "forecast",
+                "short-term",
+                "location",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Stored location identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fcbffa2a-9661-4b59-9a1c-043b0ce16b09",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": false\n  },\n  \"data\": [\n    {\n      \"date\": \"2017-09-25\",\n      \"type\": \"string\",\n      \"id\": 3086,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 6680.6353614060645,\n          \"quantile\": {\n            \"key_0\": 6259.647584852576,\n            \"key_1\": 962.392957151541,\n            \"key_2\": 2039.7960284829176,\n            \"key_3\": 4824.946623991303\n          },\n          \"probability\": {\n            \"key_0\": 4082.0338145329106,\n            \"key_1\": 9623.625175760417,\n            \"key_2\": 3274.935576890502,\n            \"key_3\": 8793.706816403652\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1965-11-09\",\n      \"type\": \"string\",\n      \"id\": 6113,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 7165.184835482673,\n          \"quantile\": {\n            \"key_0\": 4895.955962160678,\n            \"key_1\": 2658.4094433303117\n          },\n          \"probability\": {\n            \"key_0\": 6651.592526398703,\n            \"key_1\": 9277.195958230368\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9190029a-c8f3-4c01-b1f4-d9eb741bc334",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "13d3155e-1e29-486c-ae56-0522ea19868c",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bfaf981f-4fb0-443c-89c0-549d0c1f1f34",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "short-term",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6293ba3c-aade-4764-a641-5f734fb8f94f",
+          "name": "Subseasonal forecast by stored location ID",
+          "request": {
+            "name": "Subseasonal forecast by stored location ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "forecast",
+                "subseasonal",
+                "location",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity. Subseasonal supports daily and weekly only."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Stored location identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b1ebc07d-43ca-406a-bd17-1d4f2d69bb54",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": false\n  },\n  \"data\": [\n    {\n      \"date\": \"2017-09-25\",\n      \"type\": \"string\",\n      \"id\": 3086,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 6680.6353614060645,\n          \"quantile\": {\n            \"key_0\": 6259.647584852576,\n            \"key_1\": 962.392957151541,\n            \"key_2\": 2039.7960284829176,\n            \"key_3\": 4824.946623991303\n          },\n          \"probability\": {\n            \"key_0\": 4082.0338145329106,\n            \"key_1\": 9623.625175760417,\n            \"key_2\": 3274.935576890502,\n            \"key_3\": 8793.706816403652\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1965-11-09\",\n      \"type\": \"string\",\n      \"id\": 6113,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 7165.184835482673,\n          \"quantile\": {\n            \"key_0\": 4895.955962160678,\n            \"key_1\": 2658.4094433303117\n          },\n          \"probability\": {\n            \"key_0\": 6651.592526398703,\n            \"key_1\": 9277.195958230368\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "be4541bf-4cc6-4ce4-81f2-4e1c8e7a69db",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "064bc500-775e-4746-810c-a4c4834921dc",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b10ae392-5fd0-4341-b270-452f30ffaa90",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "subseasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "df960a3a-90f0-419a-a553-1b66b161f457",
+          "name": "Seasonal forecast by stored location ID",
+          "request": {
+            "name": "Seasonal forecast by stored location ID",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "forecast",
+                "seasonal",
+                "location",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>,<string>",
+                  "description": "Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity. Seasonal supports daily and monthly only."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Stored location identifier."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "84f5f420-4607-4cb4-8c69-b36760eebbe4",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"meta\": {\n    \"variables\": [\n      \"string\",\n      \"string\"\n    ],\n    \"granularity\": \"day\",\n    \"location\": {\n      \"latitude\": \"string\",\n      \"longitude\": \"string\"\n    },\n    \"data_version\": \"string\",\n    \"statistics\": [\n      \"string\",\n      \"string\"\n    ],\n    \"data_downscaled\": false\n  },\n  \"data\": [\n    {\n      \"date\": \"2017-09-25\",\n      \"type\": \"string\",\n      \"id\": 3086,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 6680.6353614060645,\n          \"quantile\": {\n            \"key_0\": 6259.647584852576,\n            \"key_1\": 962.392957151541,\n            \"key_2\": 2039.7960284829176,\n            \"key_3\": 4824.946623991303\n          },\n          \"probability\": {\n            \"key_0\": 4082.0338145329106,\n            \"key_1\": 9623.625175760417,\n            \"key_2\": 3274.935576890502,\n            \"key_3\": 8793.706816403652\n          }\n        }\n      }\n    },\n    {\n      \"date\": \"1965-11-09\",\n      \"type\": \"string\",\n      \"id\": 6113,\n      \"attributes\": {\n        \"key_0\": {\n          \"units\": \"string\",\n          \"ensemble_mean\": 7165.184835482673,\n          \"quantile\": {\n            \"key_0\": 4895.955962160678,\n            \"key_1\": 2658.4094433303117\n          },\n          \"probability\": {\n            \"key_0\": 6651.592526398703,\n            \"key_1\": 9277.195958230368\n          }\n        }\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04172439-0092-4771-a7d6-32607267229d",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5636127-d4fa-4c79-a670-f900ab7bd0cd",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0a63b96b-e6a5-48f1-9744-8a4b89a231cd",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "forecast",
+                    "seasonal",
+                    "location",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "var",
+                      "value": "<string>,<string>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Stored location identifier."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prod.climate.ai/weather",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bada608b-c335-4419-b781-c1c7c80e6fa3",
+    "name": "ClimateAI Weather Legacy (v1) Legacy (v1) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI specification for the ClimateAI Weather API.\n\nForecasts, historical observations, and climatology for any point on Earth, accessible by latitude and longitude.\n\nEndpoints are grouped by version:\n\n- **Current (v2)** — recommended for new integrations. Multi-timescale forecasts (short-term through seasonal in a single call), custom quantiles, configurable granularity, and date-range control. All paths start with `/v2/`.\n- **Legacy (v1)** — original endpoints. Stable and fully supported, but superseded by v2 where noted: `/v1/history` → `/v2/history`; the three legacy forecast endpoints (short-term, subseasonal, seasonal) → `/v2/forecast`.\n\nSee the **Datasets** section for the full variable-availability matrix (which variable is in which dataset, units, granularities, resolution, and statistics).\n\n# Authentication\n\nAll endpoints require an API key, sent in the `X-Api-Key` header. Contact our sales team to get your API key.\n\nContact Support:\n Name: API Support\n Email: customersuccess@climate.ai",
+      "type": "text/plain"
+    }
+  }
+}

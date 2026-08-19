@@ -1,0 +1,1321 @@
+{
+  "item": [
+    {
+      "id": "1e1993ee-fd2d-4945-8a6c-d6d548395653",
+      "name": "Current (v2)",
+      "description": {
+        "content": "Modern endpoints (recommended). Faster grid-index lookups, blended multi-model forecasts, explicit downscaling control, and a compact, date-keyed response shape. All paths start with `/v2/`.\n",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "97ab1821-02a7-4016-9981-9dc0325afea1",
+          "name": "Historical weather (optimized grid lookup)",
+          "request": {
+            "name": "Historical weather (optimized grid lookup)",
+            "description": {
+              "content": "Historical weather for a coordinate pair using B-tree indexes on\npre-computed grid indices (`lat_idx`, `lon_idx`) instead of PostGIS\ngeography-based GIST indexes — significantly faster lookups.\n\nProvides 30+ years of ERA5 coverage (auto-fetched on first request),\nautomatic recent-history gap-filling, variable-aware temporal\naggregation, and optional ~1 km downscaling.\n\nGranularity controls how the daily values are aggregated:\n\n- `daily` → dates like `2025-01-15` (every day through the inclusive `end_date`)\n- `weekly` → ISO weeks like `2025-W03` (Mon–Sun, complete weeks only)\n- `monthly` → months like `2025-01` (complete calendar months only)\n\nCoordinates are snapped to the 0.25° grid. When both `start_date` and\n`end_date` are omitted, returns roughly the last 3 months.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>",
+                  "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>",
+                  "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Start date (inclusive) in `YYYY-MM-DD` format."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "End date (inclusive) in `YYYY-MM-DD` format."
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity of the returned data."
+                },
+                {
+                  "disabled": false,
+                  "key": "use_downscaling",
+                  "value": "true",
+                  "description": "Apply ~1 km downscaling when available."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "177a85bc-bc6f-4f64-989e-b3ea9f2db804",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"2026-01-15 12:00:00+00:00\",\n  \"kind\": \"history\",\n  \"location\": {\n    \"requested\": {\n      \"lat\": 40,\n      \"lon\": -89\n    },\n    \"resolved\": {\n      \"lat\": 40,\n      \"lon\": -89\n    }\n  },\n  \"granularity\": \"daily\",\n  \"variables\": {\n    \"temp_mean\": {\n      \"downscaled\": false,\n      \"units\": \"degrees_C\",\n      \"values\": {\n        \"2025-01-01\": 1.4,\n        \"2025-01-02\": 2.1\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6009a050-82bf-430f-8235-bbecdc355fcc",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0ce1dd63-1895-42ca-b388-21a79905c92c",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d0708156-2ea2-4c98-9912-d1c8f7d7b686",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3aa30ea2-6c4e-45e0-8c2d-9296034e6a79",
+          "name": "Stitched forecast — raw ensemble members",
+          "request": {
+            "name": "Stitched forecast — raw ensemble members",
+            "description": {
+              "content": "Blended forecast that stitches short-term (~15 days), subseasonal (up to 6 weeks), and seasonal (up to 6 months) horizons into a single continuous timeline, returning the raw ensemble members (~31 values per date).\n\nPick exactly the variables you need. Optional ~1 km downscaling for select variables.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "forecast"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>",
+                  "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>",
+                  "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Start date (inclusive) in `YYYY-MM-DD` format."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "End date (inclusive) in `YYYY-MM-DD` format."
+                },
+                {
+                  "disabled": false,
+                  "key": "use_downscaling",
+                  "value": "true",
+                  "description": "Apply ~1 km downscaling when available."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8c6815e0-cbd3-4777-b850-9abc3aac34cd",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"2025-09-18 12:00:00+00:00\",\n  \"init_time\": \"2025-09-18 12:00:00+00:00\",\n  \"kind\": \"forecast\",\n  \"location\": {\n    \"requested\": {\n      \"lat\": 9.119,\n      \"lon\": -79.4021\n    },\n    \"resolved\": {\n      \"lat\": 9.12,\n      \"lon\": -79.4\n    },\n    \"downscaled\": {\n      \"lat\": 9.1208,\n      \"lon\": -79.4042\n    }\n  },\n  \"granularity\": \"daily\",\n  \"variables\": {\n    \"temp_mean\": {\n      \"units\": \"degrees_C\",\n      \"downscaled\": true,\n      \"version\": \"v2.1.0\",\n      \"generation\": \"stitch-gen-123-2025-09-18-12Z\",\n      \"values\": {\n        \"2025-09-19\": [\n          15.2,\n          15.8,\n          16.1,\n          15.5,\n          16.4\n        ],\n        \"2025-09-20\": [\n          15.9,\n          16.3,\n          16.7,\n          16,\n          17.1\n        ]\n      }\n    },\n    \"precipitation\": {\n      \"units\": \"mm\",\n      \"downscaled\": false,\n      \"version\": \"v2.1.0\",\n      \"generation\": \"stitch-gen-123-2025-09-18-12Z\",\n      \"values\": {\n        \"2025-09-19\": [\n          0,\n          0.2,\n          1.1,\n          0,\n          0.5\n        ],\n        \"2025-09-20\": [\n          2.3,\n          0.8,\n          0,\n          1.4,\n          3\n        ]\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "841eceed-edf5-496f-ad0e-08246b196e18",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5633b7ef-c2da-4875-a865-27f2a84c25a7",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "859bb5f8-9a46-4e2a-afd5-a9fb6093194c",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d87eecf2-27fd-407f-8b9a-41f16cdf0590",
+          "name": "Stitched forecast — statistics (mean + quantiles)",
+          "request": {
+            "name": "Stitched forecast — statistics (mean + quantiles)",
+            "description": {
+              "content": "Statistical aggregations (mean plus configurable quantiles) over the\nstitched ensemble, with optional temporal aggregation.\n\nTemporal aggregation is variable-aware: precipitation and evaporation\nare **summed**; temperature, humidity, and wind are **averaged** before\nstatistics are computed.\n\n- `daily` → dates like `2025-01-15`\n- `weekly` → ISO weeks like `2025-W03` (Mon–Sun, complete weeks plus the current week)\n- `monthly` → months like `2025-01` (complete calendar months plus the current month)\n\nFor weekly and monthly granularity the response also includes the\n**current (in-progress) period**: days that have already elapsed use\nobserved history values and the remaining days use the forecast, so the\nperiod reflects the full calendar week/month rather than only its\nremaining forecast days. The `current_period` response object states\nwhich period this is and where the observed/forecast boundary lies.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v2",
+                "forecast",
+                "statistics"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "lat",
+                  "value": "<double>",
+                  "description": "(Required) Latitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "lon",
+                  "value": "<double>",
+                  "description": "(Required) Longitude coordinate in decimal degrees."
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>",
+                  "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "var",
+                  "value": "<string>",
+                  "description": "Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<date>",
+                  "description": "Start date (inclusive) in `YYYY-MM-DD` format."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<date>",
+                  "description": "End date (inclusive) in `YYYY-MM-DD` format."
+                },
+                {
+                  "disabled": false,
+                  "key": "use_downscaling",
+                  "value": "true",
+                  "description": "Apply ~1 km downscaling when available."
+                },
+                {
+                  "disabled": false,
+                  "key": "statistics",
+                  "value": "0.05",
+                  "description": "Quantile values to compute, each between 0.0 and 1.0. The mean is always included. Maximum 20 quantiles per request. Supports comma-separated values (`statistics=0.10,0.50,0.90`) or repeated parameters (`statistics=0.10&statistics=0.50`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "statistics",
+                  "value": "0.25",
+                  "description": "Quantile values to compute, each between 0.0 and 1.0. The mean is always included. Maximum 20 quantiles per request. Supports comma-separated values (`statistics=0.10,0.50,0.90`) or repeated parameters (`statistics=0.10&statistics=0.50`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "statistics",
+                  "value": "0.5",
+                  "description": "Quantile values to compute, each between 0.0 and 1.0. The mean is always included. Maximum 20 quantiles per request. Supports comma-separated values (`statistics=0.10,0.50,0.90`) or repeated parameters (`statistics=0.10&statistics=0.50`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "statistics",
+                  "value": "0.75",
+                  "description": "Quantile values to compute, each between 0.0 and 1.0. The mean is always included. Maximum 20 quantiles per request. Supports comma-separated values (`statistics=0.10,0.50,0.90`) or repeated parameters (`statistics=0.10&statistics=0.50`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "statistics",
+                  "value": "0.95",
+                  "description": "Quantile values to compute, each between 0.0 and 1.0. The mean is always included. Maximum 20 quantiles per request. Supports comma-separated values (`statistics=0.10,0.50,0.90`) or repeated parameters (`statistics=0.10&statistics=0.50`).\n"
+                },
+                {
+                  "disabled": false,
+                  "key": "granularity",
+                  "value": "daily",
+                  "description": "Temporal granularity of the returned data."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54cf132c-a596-4b03-81f0-f2773e05df03",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast",
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.05"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.25"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.5"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.75"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.95"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"2025-09-18 12:00:00+00:00\",\n  \"init_time\": \"2025-09-18 12:00:00+00:00\",\n  \"kind\": \"forecast\",\n  \"location\": {\n    \"requested\": {\n      \"lat\": 40.0123,\n      \"lon\": -89.0456\n    },\n    \"resolved\": {\n      \"lat\": 40,\n      \"lon\": -89\n    },\n    \"downscaled\": {\n      \"lat\": 40.0123,\n      \"lon\": -89.0456\n    }\n  },\n  \"granularity\": \"daily\",\n  \"variables\": {\n    \"temp_mean\": {\n      \"units\": \"degrees_C\",\n      \"downscaled\": true,\n      \"version\": \"v2.1.0\",\n      \"generation\": \"stitch-gen-123-2025-09-18-12Z\",\n      \"statistics\": {\n        \"2025-01-01\": {\n          \"mean\": 15.5,\n          \"q05\": 12.3,\n          \"q25\": 14.2,\n          \"q50\": 15.1,\n          \"q75\": 16.8,\n          \"q95\": 18.9\n        },\n        \"2025-01-02\": {\n          \"mean\": 16.2,\n          \"q05\": 13.1,\n          \"q25\": 15,\n          \"q50\": 16,\n          \"q75\": 17.3,\n          \"q95\": 19.2\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ef64fa24-453b-4123-b2ba-6903c1e607ef",
+              "name": "Invalid request parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast",
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.05"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.25"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.5"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.75"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.95"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Invalid Location. Latitude must be between 90.0 and -90.0\",\n  \"code\": \"VALIDATION_ERROR\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2f50cea-0b9b-4b56-b1ca-618c7d167e18",
+              "name": "No data found for the requested parameters.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast",
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.05"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.25"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.5"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.75"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.95"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"No data found for the requested parameters\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5889650d-f9d2-49c2-aa08-d82cbec67a42",
+              "name": "Internal server error.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v2",
+                    "forecast",
+                    "statistics"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "lat",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "lon",
+                      "value": "<double>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "var",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<date>"
+                    },
+                    {
+                      "key": "use_downscaling",
+                      "value": "true"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.05"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.25"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.5"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.75"
+                    },
+                    {
+                      "key": "statistics",
+                      "value": "0.95"
+                    },
+                    {
+                      "key": "granularity",
+                      "value": "daily"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api-prod.climate.ai/weather",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "2101e569-859c-40d6-b21b-844620aec84d",
+    "name": "ClimateAI Weather Current (v2) Current (v2) API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "OpenAPI specification for the ClimateAI Weather API.\n\nForecasts, historical observations, and climatology for any point on Earth, accessible by latitude and longitude.\n\nEndpoints are grouped by version:\n\n- **Current (v2)** — recommended for new integrations. Multi-timescale forecasts (short-term through seasonal in a single call), custom quantiles, configurable granularity, and date-range control. All paths start with `/v2/`.\n- **Legacy (v1)** — original endpoints. Stable and fully supported, but superseded by v2 where noted: `/v1/history` → `/v2/history`; the three legacy forecast endpoints (short-term, subseasonal, seasonal) → `/v2/forecast`.\n\nSee the **Datasets** section for the full variable-availability matrix (which variable is in which dataset, units, granularities, resolution, and statistics).\n\n# Authentication\n\nAll endpoints require an API key, sent in the `X-Api-Key` header. Contact our sales team to get your API key.\n\nContact Support:\n Name: API Support\n Email: customersuccess@climate.ai",
+      "type": "text/plain"
+    }
+  }
+}

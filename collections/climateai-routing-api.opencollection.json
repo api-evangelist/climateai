@@ -1,0 +1,118 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Platform Routing API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "routing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "get a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "post to an endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "update a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "delete a resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/:path",
+            "params": [
+              {
+                "name": "path",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

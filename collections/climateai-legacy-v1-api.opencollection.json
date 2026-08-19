@@ -1,0 +1,342 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Weather Legacy (v1) Legacy (v1) API",
+    "version": "2.0.1"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-Api-Key",
+      "value": "{{X-Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Legacy (v1)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Climatology by coordinates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/climatology",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity of the returned data."
+              }
+            ]
+          },
+          "docs": "Long-term climate averages and quantiles for a coordinate pair."
+        },
+        {
+          "info": {
+            "name": "Climatology by stored location ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/climatology/location/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Stored location identifier."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity of the returned data."
+              }
+            ]
+          },
+          "docs": "Climatology by stored location ID"
+        },
+        {
+          "info": {
+            "name": "Historical observations by coordinates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/history",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              }
+            ]
+          },
+          "docs": "Historical weather observations for a coordinate pair (last 366 days). **Superseded by** `GET /v2/history/`, which provides 30+ years of coverage, automatic gap-filling, and faster grid-index lookups.\n"
+        },
+        {
+          "info": {
+            "name": "Historical observations by stored location ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/history/location/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Stored location identifier."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              }
+            ]
+          },
+          "docs": "Historical observations by stored location ID"
+        },
+        {
+          "info": {
+            "name": "Short-term forecast by coordinates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/forecast/short-term",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              }
+            ]
+          },
+          "docs": "Short-term forecast (next days to weeks) for a coordinate pair. **Superseded by** `GET /v2/forecast/`, which blends short-term, subseasonal, and seasonal models into one continuous timeline.\n"
+        },
+        {
+          "info": {
+            "name": "Subseasonal forecast by coordinates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/forecast/subseasonal",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity. Subseasonal supports daily and weekly only."
+              }
+            ]
+          },
+          "docs": "Subseasonal forecast by coordinates"
+        },
+        {
+          "info": {
+            "name": "Seasonal forecast by coordinates",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/forecast/seasonal",
+            "params": [
+              {
+                "name": "lat",
+                "value": "",
+                "type": "query",
+                "description": "Latitude coordinate in decimal degrees."
+              },
+              {
+                "name": "lon",
+                "value": "",
+                "type": "query",
+                "description": "Longitude coordinate in decimal degrees."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity. Seasonal supports daily and monthly only."
+              }
+            ]
+          },
+          "docs": "Seasonal forecast by coordinates"
+        },
+        {
+          "info": {
+            "name": "Short-term forecast by stored location ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/forecast/short-term/location/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Stored location identifier."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.\n"
+              }
+            ]
+          },
+          "docs": "Short-term forecast by stored location ID"
+        },
+        {
+          "info": {
+            "name": "Subseasonal forecast by stored location ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/forecast/subseasonal/location/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Stored location identifier."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity. Subseasonal supports daily and weekly only."
+              }
+            ]
+          },
+          "docs": "Subseasonal forecast by stored location ID"
+        },
+        {
+          "info": {
+            "name": "Seasonal forecast by stored location ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api-prod.climate.ai/weather/v1/forecast/seasonal/location/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Stored location identifier."
+              },
+              {
+                "name": "var",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.\n"
+              },
+              {
+                "name": "granularity",
+                "value": "",
+                "type": "query",
+                "description": "Temporal granularity. Seasonal supports daily and monthly only."
+              }
+            ]
+          },
+          "docs": "Seasonal forecast by stored location ID"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

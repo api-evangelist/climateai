@@ -1,0 +1,193 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Platform User API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "user",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all registered users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/user/"
+          },
+          "docs": "List all registered users"
+        },
+        {
+          "info": {
+            "name": "create a new user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/user/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Changes the user's password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/user/change_password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Changes the user's password"
+        },
+        {
+          "info": {
+            "name": "Gets reset password token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/user/reset_password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Gets reset password token"
+        },
+        {
+          "info": {
+            "name": "Resets password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/user/reset_password",
+            "params": [
+              {
+                "name": "token",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Resets password"
+        },
+        {
+          "info": {
+            "name": "Search users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/user/search",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "fetch a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/user/:user_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user id"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "update a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/user/:user_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Deletes a user by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "/user/:user_id/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user id"
+              }
+            ]
+          },
+          "docs": "Deletes a user by id"
+        },
+        {
+          "info": {
+            "name": "Gets account relations associated with the user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/user/:user_id/account/relation",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

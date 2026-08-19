@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Platform Auth API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "user login",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/auth/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "logout a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/auth/logout",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": ""
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "refresh a jwt token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/auth/refresh"
+          }
+        },
+        {
+          "info": {
+            "name": "Returns a 200 code",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/auth/status"
+          },
+          "docs": "Returns a 200 code"
+        },
+        {
+          "info": {
+            "name": "generates a jwt token with the given user_id",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/auth/sudo/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "switch account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/auth/switch_account/:account_id",
+            "params": [
+              {
+                "name": "account_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          }
+        },
+        {
+          "info": {
+            "name": "Returns a 200 code if authentication passes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/auth/verify_token",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns a 200 code if authentication passes"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

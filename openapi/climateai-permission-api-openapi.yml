@@ -1,0 +1,148 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Permission API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: permission
+  description: permission related operations
+paths:
+  /permission/:
+    post:
+      responses:
+        '500':
+          description: Error creating permission.
+        '409':
+          description: Permission already exists.
+        '201':
+          description: Permission successfully created.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/permission_response'
+      summary: Creates a new Permission
+      operationId: create a new permission
+      tags:
+      - permission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/permission_payload'
+        required: true
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved permissions.
+        '500':
+          description: Error retrieving permissions.
+        '204':
+          description: No permissions found.
+      operationId: Get all permissions
+      tags:
+      - permission
+  /permission/{permission_id}:
+    parameters:
+    - in: path
+      description: The permission id
+      name: permission_id
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '404':
+          description: Permission not found.
+        '500':
+          description: Error updating permission.
+        '201':
+          description: Permission successfully updated.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/permission_response'
+      summary: Updates a permission
+      operationId: update a permission
+      tags:
+      - permission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/permission_payload'
+        required: true
+    delete:
+      responses:
+        '404':
+          description: Permission not found.
+        '500':
+          description: Error deleting permission.
+        '200':
+          description: Permission successfully deleted.
+      summary: Deletes a permission by id
+      operationId: delete a permission
+      tags:
+      - permission
+    get:
+      responses:
+        '404':
+          description: Permission not found.
+        '500':
+          description: Error fetching permission.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/permission_response'
+      operationId: fetch a permission
+      tags:
+      - permission
+components:
+  schemas:
+    permission_response:
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: permission identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        name:
+          type: string
+          description: permission name
+      type: object
+    permission_payload:
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: permission name
+      type: object
+      additionalProperties: false
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

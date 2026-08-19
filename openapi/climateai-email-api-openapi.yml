@@ -1,0 +1,84 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Email API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: email
+  description: email sending operations
+paths:
+  /email/send:
+    post:
+      responses:
+        '500':
+          description: Error sending email.
+        '403':
+          description: Invalid or missing email sending key.
+        '400':
+          description: Bad input.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/email_response'
+      summary: Sends an email via notification service proxy
+      operationId: send email
+      tags:
+      - email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/email_payload'
+        required: true
+components:
+  schemas:
+    email_payload:
+      required:
+      - notification_subject
+      - notification_type
+      - recipient
+      properties:
+        recipient:
+          type: string
+          description: Email recipient address
+        notification_type:
+          type: string
+          description: Type of notification
+        notification_subject:
+          type: string
+          description: Email subject
+        content:
+          type: object
+          description: Email content as dict
+        account_id:
+          type: string
+          description: Optional account ID
+      type: object
+      additionalProperties: false
+    email_response:
+      required:
+      - message
+      - status
+      properties:
+        status:
+          type: string
+          description: Response status
+        message:
+          type: string
+          description: Response message
+      type: object
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,99 +1,143 @@
 generated: '2026-08-04'
 method: derived
 status: candidate
-source: >-
-  Derived from openapi/climateai-weather-openapi.yml. No official ClimateAi MCP server
-  exists. Searched climate.ai, docs.climate.ai, the ClimateAI GitHub org
-  (github.com/ClimateAI, 7 public repos — all research/visualization, no client or
-  server tooling), npm, and PyPI on 2026-08-04; nothing published. ClimateAi does
-  market an "AI agents" webinar
-  (https://climate.ai/downloadable-content/webinar-ai-agents/) describing agent-driven
+source: Derived from openapi/climateai-weather-openapi.yml. No official ClimateAi MCP server exists. Searched
+  climate.ai, docs.climate.ai, the ClimateAI GitHub org (github.com/ClimateAI, 7 public repos — all research/visualization,
+  no client or server tooling), npm, and PyPI on 2026-08-04; nothing published. ClimateAi does market
+  an "AI agents" webinar (https://climate.ai/downloadable-content/webinar-ai-agents/) describing agent-driven
   monitoring on its own platform, but ships no agent-facing protocol surface.
 server:
   name: climateai-weather
   transport: http
   url: null
   auth: apiKey header X-Api-Key — see authentication/climateai-authentication.yml
-notes: >-
-  A candidate MCP tool projection over the LensConnect Weather API. Each tool maps 1:1
-  to a real operationId in the published OpenAPI, so each tool's real inputSchema is
-  that operation's `parameters` block — no input contract is invented here. Only the
-  weather surface is projected: the ClimateAI Platform gateway is an internal tenancy
-  and routing API (accounts, users, roles, device keys) with destructive writes and no
-  agent use case, so it is deliberately excluded from the candidate tool set.
-  status: candidate means ClimateAi does not operate this server; it is a design
-  proposal, not a claim about the provider.
+notes: 'A candidate MCP tool projection over the LensConnect Weather API. Each tool maps 1:1 to a real
+  operationId in the published OpenAPI, so each tool''s real inputSchema is that operation''s `parameters`
+  block — no input contract is invented here. Only the weather surface is projected: the ClimateAI Platform
+  gateway is an internal tenancy and routing API (accounts, users, roles, device keys) with destructive
+  writes and no agent use case, so it is deliberately excluded from the candidate tool set. status: candidate
+  means ClimateAi does not operate this server; it is a design proposal, not a claim about the provider.'
 tools:
 - name: get_history
-  description: >-
-    Historical weather for a coordinate, 1995-present (ERA5-backed), with variable
-    selection, date range, daily/weekly/monthly aggregation and optional ~1 km downscaling.
+  description: Historical weather for a coordinate, 1995-present (ERA5-backed), with variable selection,
+    date range, daily/weekly/monthly aggregation and optional ~1 km downscaling.
   source_operation: openapi/climateai-weather-openapi.yml#getHistoryGrid
-  inputs: [lat, lon, var, start_date, end_date, granularity, use_downscaling]
+  inputs:
+  - lat
+  - lon
+  - var
+  - start_date
+  - end_date
+  - granularity
+  - use_downscaling
 - name: get_forecast_ensemble
-  description: >-
-    Stitched forecast from today through ~6 months as raw ensemble members (~31 values
-    per date) for computing custom risk metrics.
+  description: Stitched forecast from today through ~6 months as raw ensemble members (~31 values per
+    date) for computing custom risk metrics.
   source_operation: openapi/climateai-weather-openapi.yml#getStitchedForecast
-  inputs: [lat, lon, var, start_date, end_date, use_downscaling]
+  inputs:
+  - lat
+  - lon
+  - var
+  - start_date
+  - end_date
+  - use_downscaling
 - name: get_forecast_statistics
-  description: >-
-    Stitched forecast as mean plus configurable quantiles, aggregated daily, weekly or
-    monthly. The default agent-facing forecast tool.
+  description: Stitched forecast as mean plus configurable quantiles, aggregated daily, weekly or monthly.
+    The default agent-facing forecast tool.
   source_operation: openapi/climateai-weather-openapi.yml#getStitchedForecastStatistics
-  inputs: [lat, lon, var, start_date, end_date, use_downscaling, statistics, granularity]
+  inputs:
+  - lat
+  - lon
+  - var
+  - start_date
+  - end_date
+  - use_downscaling
+  - statistics
+  - granularity
 - name: get_climatology
-  description: >-
-    Long-term statistical baseline for a coordinate over the fixed 1993-2022 reference
-    period, at daily, weekly or monthly granularity.
+  description: Long-term statistical baseline for a coordinate over the fixed 1993-2022 reference period,
+    at daily, weekly or monthly granularity.
   source_operation: openapi/climateai-weather-openapi.yml#getClimatology
-  inputs: [lat, lon, var, granularity]
+  inputs:
+  - lat
+  - lon
+  - var
+  - granularity
 - name: get_climatology_by_location
   description: Climatology for a stored server-side location ID.
   source_operation: openapi/climateai-weather-openapi.yml#getClimatologyByLocation
-  inputs: [id, var, granularity]
+  inputs:
+  - id
+  - var
+  - granularity
 - name: get_history_legacy
   description: Legacy rolling ~366 days of daily observations for a coordinate.
   source_operation: openapi/climateai-weather-openapi.yml#getHistory
-  inputs: [lat, lon, var]
+  inputs:
+  - lat
+  - lon
+  - var
 - name: get_history_by_location
   description: Legacy history for a stored server-side location ID.
   source_operation: openapi/climateai-weather-openapi.yml#getHistoryByLocation
-  inputs: [id, var]
+  inputs:
+  - id
+  - var
 - name: get_short_term_forecast
   description: Legacy short-term (~15 day) daily forecast for a coordinate.
   source_operation: openapi/climateai-weather-openapi.yml#getShortTermForecast
-  inputs: [lat, lon, var]
+  inputs:
+  - lat
+  - lon
+  - var
 - name: get_subseasonal_forecast
-  description: >-
-    Legacy subseasonal (weeks 2-6) forecast. Weekly responses add probabilistic terciles
-    that no v2 endpoint exposes.
+  description: Legacy subseasonal (weeks 2-6) forecast. Weekly responses add probabilistic terciles that
+    no v2 endpoint exposes.
   source_operation: openapi/climateai-weather-openapi.yml#getSubseasonalForecast
-  inputs: [lat, lon, var, granularity]
+  inputs:
+  - lat
+  - lon
+  - var
+  - granularity
 - name: get_seasonal_forecast
-  description: >-
-    Legacy seasonal (months 1-6) forecast. Monthly responses add probabilistic terciles
-    that no v2 endpoint exposes.
+  description: Legacy seasonal (months 1-6) forecast. Monthly responses add probabilistic terciles that
+    no v2 endpoint exposes.
   source_operation: openapi/climateai-weather-openapi.yml#getSeasonalForecast
-  inputs: [lat, lon, var, granularity]
+  inputs:
+  - lat
+  - lon
+  - var
+  - granularity
 - name: get_short_term_forecast_by_location
   description: Legacy short-term forecast for a stored server-side location ID.
   source_operation: openapi/climateai-weather-openapi.yml#getShortTermForecastByLocation
-  inputs: [id, var]
+  inputs:
+  - id
+  - var
 - name: get_subseasonal_forecast_by_location
   description: Legacy subseasonal forecast for a stored server-side location ID.
   source_operation: openapi/climateai-weather-openapi.yml#getSubseasonalForecastByLocation
-  inputs: [id, var, granularity]
+  inputs:
+  - id
+  - var
+  - granularity
 - name: get_seasonal_forecast_by_location
   description: Legacy seasonal forecast for a stored server-side location ID.
   source_operation: openapi/climateai-weather-openapi.yml#getSeasonalForecastByLocation
-  inputs: [id, var, granularity]
+  inputs:
+  - id
+  - var
+  - granularity
 agent_notes:
 - Every tool is a safe read; there is no destructive operation in this projection.
-- >-
-  Resolution is entitlement-dependent. use_downscaling=true does nothing unless the key
-  is provisioned for 1 km, so an agent must read the response meta rather than assume.
-- >-
-  No rate-limit contract is published, so an agent has no budget signal and should apply
-  its own conservative backoff.
+- Resolution is entitlement-dependent. use_downscaling=true does nothing unless the key is provisioned
+  for 1 km, so an agent must read the response meta rather than assume.
+- No rate-limit contract is published, so an agent has no budget signal and should apply its own conservative
+  backoff.
 - see: mcp/climateai-tool-crosswalk.yml
+deployment:
+  mode: none
+  verified: derived
+  tools: 13
+  checked: '2026-08-12'
+  source: catalog MCP census

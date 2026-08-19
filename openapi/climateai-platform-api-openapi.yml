@@ -1,0 +1,438 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: platform
+  description: platform label related operations
+paths:
+  /platform/:
+    post:
+      responses:
+        '200':
+          description: Successfully created platform.
+        '500':
+          description: Error creating platform.
+        '409':
+          description: Platform already exists.
+      operationId: Create a new platform
+      tags:
+      - platform
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/platform_payload'
+        required: true
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved platforms.
+        '500':
+          description: Error retrieving platforms.
+        '204':
+          description: No platform labels found.
+      operationId: Get all platform information
+      tags:
+      - platform
+  /platform/skins:
+    get:
+      responses:
+        '500':
+          description: Error fetching skins.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/skin_response'
+      summary: Fetches all skins
+      operationId: fetch platform skins
+      tags:
+      - platform
+  /platform/{platform_id}:
+    parameters:
+    - name: platform_id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '500':
+          description: Error updating platform.
+        '404':
+          description: platform not found.
+        '201':
+          description: platform successfully updated.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platform_response'
+      summary: Updates a platform
+      operationId: update a platform
+      tags:
+      - platform
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/platform_payload'
+        required: true
+    get:
+      responses:
+        '500':
+          description: Error fetching platform.
+        '404':
+          description: platform not found.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/platform_response'
+      summary: Fetches a platform by id
+      operationId: fetch a platform
+      tags:
+      - platform
+components:
+  schemas:
+    nested_account:
+      required:
+      - contact_info
+      - created_at
+      - currency
+      - id
+      - is_onboarded
+      - logo_url
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: Account ID
+        logo_url:
+          type: string
+          description: path to stored logo
+          default: https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png
+        is_onboarded:
+          type: boolean
+          description: Is the account onboarded
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        platform_id:
+          type: string
+          description: platform ID
+        logo_b64:
+          type: string
+          description: Account logo image in Base64
+        name:
+          type: string
+          description: Account name.
+        currency:
+          type: string
+          description: Currency used by the account.
+        contact_info:
+          description: Contact information used by the account.
+          allOf:
+          - $ref: '#/components/schemas/contact_info_payload'
+        status:
+          type: string
+          description: Account status
+          example: live
+          enum:
+          - live
+          - sales
+          - terminated
+        parent_id:
+          type: string
+          description: Account ID of the parent account.
+        is_internal:
+          type: boolean
+          description: If account is internal or not
+      type: object
+    account_response:
+      required:
+      - contact_info
+      - created_at
+      - currency
+      - id
+      - is_onboarded
+      - logo_url
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: Account ID
+        logo_url:
+          type: string
+          description: path to stored logo
+          default: https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png
+        is_onboarded:
+          type: boolean
+          description: Is the account onboarded
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        platform_id:
+          type: string
+          description: platform ID
+        logo_b64:
+          type: string
+          description: Account logo image in Base64
+        name:
+          type: string
+          description: Account name.
+        currency:
+          type: string
+          description: Currency used by the account.
+        contact_info:
+          description: Contact information used by the account.
+          allOf:
+          - $ref: '#/components/schemas/contact_info_payload'
+        status:
+          type: string
+          description: Account status
+          example: live
+          enum:
+          - live
+          - sales
+          - terminated
+        parent_id:
+          type: string
+          description: Account ID of the parent account.
+        is_internal:
+          type: boolean
+          description: If account is internal or not
+        children:
+          type: array
+          description: Child accounts
+          items:
+            $ref: '#/components/schemas/nested_account'
+      type: object
+    platform_payload:
+      required:
+      - domain
+      - favicon
+      - footer
+      - header
+      - logo
+      - name
+      - primary_color
+      - top_nav_color
+      - wallpaper
+      - welcome_string
+      properties:
+        name:
+          type: string
+          description: Platform label name.
+        welcome_string:
+          type: string
+          description: Platform welcome string.
+        domain:
+          type: string
+          description: URL representing the platform domain.
+        status:
+          type: string
+          description: Platform status.
+          example: live
+          enum:
+          - live
+          - terminated
+        primary_color:
+          type: string
+          description: Primary color.
+        top_nav_color:
+          type: string
+          description: Primary color.
+        logo:
+          type: string
+          description: Platform logo representation.
+        favicon:
+          type: string
+          description: Platform favicon representation.
+        wallpaper:
+          type: string
+          description: Platform wallpaper representation.
+        header:
+          type: string
+          description: Platform header representation.
+        footer:
+          type: string
+          description: Platform footer representation.
+      type: object
+      additionalProperties: false
+    skin_response:
+      required:
+      - created_at
+      - domain
+      - favicon
+      - footer
+      - header
+      - id
+      - logo
+      - name
+      - primary_color
+      - top_nav_color
+      - updated_at
+      - wallpaper
+      - welcome_string
+      properties:
+        id:
+          type: string
+          description: platform identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        name:
+          type: string
+          description: Platform label name.
+        welcome_string:
+          type: string
+          description: Platform welcome string.
+        domain:
+          type: string
+          description: URL representing the platform domain.
+        status:
+          type: string
+          description: Platform status.
+          example: live
+          enum:
+          - live
+          - terminated
+        primary_color:
+          type: string
+          description: Primary color.
+        top_nav_color:
+          type: string
+          description: Primary color.
+        logo:
+          type: string
+          description: Platform logo representation.
+        favicon:
+          type: string
+          description: Platform favicon representation.
+        wallpaper:
+          type: string
+          description: Platform wallpaper representation.
+        header:
+          type: string
+          description: Platform header representation.
+        footer:
+          type: string
+          description: Platform footer representation.
+      type: object
+    platform_response:
+      required:
+      - created_at
+      - domain
+      - favicon
+      - footer
+      - header
+      - id
+      - logo
+      - name
+      - primary_color
+      - top_nav_color
+      - updated_at
+      - wallpaper
+      - welcome_string
+      properties:
+        accounts:
+          type: array
+          description: role permissions
+          items:
+            $ref: '#/components/schemas/account_response'
+        id:
+          type: string
+          description: platform identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        name:
+          type: string
+          description: Platform label name.
+        welcome_string:
+          type: string
+          description: Platform welcome string.
+        domain:
+          type: string
+          description: URL representing the platform domain.
+        status:
+          type: string
+          description: Platform status.
+          example: live
+          enum:
+          - live
+          - terminated
+        primary_color:
+          type: string
+          description: Primary color.
+        top_nav_color:
+          type: string
+          description: Primary color.
+        logo:
+          type: string
+          description: Platform logo representation.
+        favicon:
+          type: string
+          description: Platform favicon representation.
+        wallpaper:
+          type: string
+          description: Platform wallpaper representation.
+        header:
+          type: string
+          description: Platform header representation.
+        footer:
+          type: string
+          description: Platform footer representation.
+      type: object
+    contact_info_payload:
+      required:
+      - address
+      - email
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the primary contact for the account.
+        email:
+          type: string
+          description: Primary contact email of the account.
+        address:
+          type: string
+          description: Primary address for the account.
+      type: object
+      additionalProperties: false
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

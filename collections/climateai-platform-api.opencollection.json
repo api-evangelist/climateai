@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ClimateAI Platform API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "platform",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all platform information",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/platform/"
+          }
+        },
+        {
+          "info": {
+            "name": "Create a new platform",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "/platform/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          }
+        },
+        {
+          "info": {
+            "name": "Fetches all skins",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/platform/skins"
+          },
+          "docs": "Fetches all skins"
+        },
+        {
+          "info": {
+            "name": "Fetches a platform by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "/platform/:platform_id",
+            "params": [
+              {
+                "name": "platform_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Fetches a platform by id"
+        },
+        {
+          "info": {
+            "name": "Updates a platform",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "/platform/:platform_id",
+            "params": [
+              {
+                "name": "platform_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a platform"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

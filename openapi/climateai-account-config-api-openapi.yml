@@ -1,0 +1,233 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Account Config API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: account_config
+  description: account config related operations
+paths:
+  /account_config/:
+    post:
+      responses:
+        '500':
+          description: Error creating account configs.
+        '409':
+          description: Account config already exists.
+        '201':
+          description: Account configs successfully created.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/account_config_response'
+      operationId: Create account configurations
+      tags:
+      - account_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/account_config_payload'
+        required: true
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved account config.
+        '500':
+          description: Error retrieving account config.
+        '204':
+          description: No account config found.
+      operationId: Get all account configurations
+      tags:
+      - account_config
+  /account_config/account/{account_id}:
+    parameters:
+    - in: path
+      description: The account id related to config
+      name: account_id
+      required: true
+      schema:
+        type: string
+    delete:
+      responses:
+        '500':
+          description: Error deleting account config.
+        '404':
+          description: Account config not found.
+        '200':
+          description: Account config successfully deleted.
+      operationId: delete configuration for an account
+      tags:
+      - account_config
+    get:
+      responses:
+        '500':
+          description: Error fetching account config.
+        '204':
+          description: Account config not found.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/account_config_response'
+      operationId: fetch all configuration for an account
+      parameters:
+      - description: Filter by config type
+        name: config_type
+        in: query
+        schema:
+          type: String
+      tags:
+      - account_config
+  /account_config/delete:
+    post:
+      responses:
+        '500':
+          description: Error deleting account config(s).
+        '409':
+          description: Account config(s) does not exist.
+        '201':
+          description: Account configs successfully deleted.
+      operationId: Delete account configurations by id
+      tags:
+      - account_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/multi_account_config_ids'
+        required: true
+  /account_config/{account_config_id}:
+    parameters:
+    - in: path
+      description: The id of the config object
+      name: account_config_id
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '404':
+          description: Account config not found.
+        '500':
+          description: Error updating account config.
+        '201':
+          description: Account config successfully updated.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account_config_response'
+      operationId: update an account config
+      tags:
+      - account_config
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/account_config_payload'
+        required: true
+    delete:
+      responses:
+        '404':
+          description: Account config not found.
+        '500':
+          description: Error deleting account config.
+        '200':
+          description: Account config successfully deleted.
+      operationId: delete an account config by id
+      tags:
+      - account_config
+    get:
+      responses:
+        '404':
+          description: Account config not found.
+        '500':
+          description: Error fetching account config.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/account_config_response'
+      operationId: fetch an account config object
+      tags:
+      - account_config
+components:
+  schemas:
+    multi_account_config_ids:
+      properties:
+        id:
+          type: array
+          description: Account config ids to delete
+          items:
+            type: string
+      type: object
+    account_config_response:
+      required:
+      - account_id
+      - config_type
+      - config_value
+      - created_at
+      - id
+      - updated_at
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        config_type:
+          type: string
+          description: type of config to control
+        config_value:
+          type: string
+          description: value related to config_type
+        id:
+          type: string
+          description: role identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+      type: object
+    account_config_payload:
+      required:
+      - account_id
+      - config_type
+      - config_value
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        config_type:
+          type: string
+          description: type of config to control
+        config_value:
+          type: string
+          description: value related to config_type
+      type: object
+      additionalProperties: false
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

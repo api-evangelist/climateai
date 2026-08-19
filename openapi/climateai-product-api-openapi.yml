@@ -1,0 +1,109 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Product API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: product
+  description: product listing
+paths:
+  /product/:
+    post:
+      responses:
+        '200':
+          description: Succesfully created new product
+        '500':
+          description: Error creating product
+      summary: Creates a new product
+      operationId: Create a new product
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product_payload'
+        required: true
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved products.
+        '500':
+          description: Error retrieving products.
+        '204':
+          description: No products found.
+      operationId: Get all available products
+      tags:
+      - product
+  /product/{product_id}:
+    parameters:
+    - name: product_id
+      in: path
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '200':
+          description: Successfully updated product.
+        '500':
+          description: Error updating product.
+        '404':
+          description: Product with given ID not found
+      summary: Updates product
+      operationId: Updates information about a specific product
+      tags:
+      - product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/product_payload'
+        required: true
+    delete:
+      responses:
+        '500':
+          description: Error deleting product.
+        '404':
+          description: Product with given ID not found
+        '200':
+          description: Successfully deleted product.
+      summary: Deletes product
+      operationId: Deletes product by ID
+      tags:
+      - product
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved product.
+        '500':
+          description: Error retrieving product.
+        '404':
+          description: Product with given ID not found
+      operationId: Retrieves a product by its id
+      tags:
+      - product
+components:
+  schemas:
+    product_payload:
+      required:
+      - product_name
+      properties:
+        product_name:
+          type: string
+          description: Product name
+      type: object
+      additionalProperties: false
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform Routing API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: routing
+  description: routing and proxy operations
+paths:
+  /{path}:
+    parameters:
+    - name: path
+      in: path
+      required: true
+      schema:
+        type: string
+    post:
+      responses:
+        '200':
+          description: Success
+      operationId: post to an endpoint
+      security:
+      - jwt: []
+      - apikey: []
+      tags:
+      - routing
+    put:
+      responses:
+        '200':
+          description: Success
+      operationId: update a resource
+      security:
+      - jwt: []
+      - apikey: []
+      tags:
+      - routing
+    delete:
+      responses:
+        '200':
+          description: Success
+      operationId: delete a resource
+      security:
+      - jwt: []
+      - apikey: []
+      tags:
+      - routing
+    get:
+      responses:
+        '200':
+          description: Success
+      operationId: get a resource
+      security:
+      - jwt: []
+      - apikey: []
+      tags:
+      - routing
+components:
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

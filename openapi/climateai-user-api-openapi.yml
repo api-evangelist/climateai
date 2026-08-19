@@ -1,0 +1,442 @@
+openapi: 3.2.0
+info:
+  title: ClimateAI Platform User API
+  version: '1.0'
+  description: ClimateAI authentication and routing gateway for platform services
+servers:
+- url: /
+security:
+- jwt: []
+tags:
+- name: user
+  description: user related operations
+paths:
+  /user/:
+    post:
+      responses:
+        '500':
+          description: Error creating user.
+        '409':
+          description: User already exists.
+        '201':
+          description: User successfully created.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+      operationId: create a new user
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/create_user_payload'
+        required: true
+    get:
+      responses:
+        '500':
+          description: Error retrieving users.
+        '204':
+          description: No users found.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user_response'
+      summary: List all registered users
+      operationId: list all registered users
+      tags:
+      - user
+  /user/change_password:
+    post:
+      responses:
+        '500':
+          description: Error changing the user password.
+        '404':
+          description: User not found.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_pwd_response'
+      summary: Changes the user's password
+      operationId: Changes the user's password
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_pwd_payload_a'
+        required: true
+  /user/reset_password:
+    post:
+      responses:
+        '500':
+          description: Error creating reset token.
+        '404':
+          description: User not found.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_pwd_response'
+      summary: Gets reset password token
+      operationId: returns reset password token
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_pwd_payload_a'
+        required: true
+    put:
+      responses:
+        '500':
+          description: Error resetting password.
+        '404':
+          description: Password token not found.
+        '201':
+          description: Successfully reset password.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+      summary: Resets password
+      operationId: performs password reset operation
+      parameters:
+      - name: token
+        in: query
+        required: true
+        schema:
+          type: string
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+        required: true
+  /user/search:
+    post:
+      responses:
+        '200':
+          description: Users successfully fetched.
+        '500':
+          description: Error searching.
+        '204':
+          description: No users found.
+      operationId: Search users
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/search_payload'
+        required: true
+  /user/{user_id}/:
+    parameters:
+    - in: path
+      description: The user id
+      name: user_id
+      required: true
+      schema:
+        type: string
+    put:
+      responses:
+        '404':
+          description: User not found.
+        '500':
+          description: Error updating user.
+        '201':
+          description: User successfully updated.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+      operationId: update a user
+      tags:
+      - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_update_payload'
+        required: true
+    delete:
+      responses:
+        '404':
+          description: User not found.
+        '500':
+          description: Error deleting user.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+      summary: Deletes a user by id
+      operationId: delete a user
+      tags:
+      - user
+    get:
+      responses:
+        '404':
+          description: User not found.
+        '500':
+          description: Error fetching user.
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_response'
+      operationId: fetch a user
+      tags:
+      - user
+  /user/{user_id}/account/relation:
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      schema:
+        type: string
+    get:
+      responses:
+        '200':
+          description: Successfully retrieved information.
+        '500':
+          description: Error retrieving information.
+        '404':
+          description: No user found.
+        '204':
+          description: User does not have any account relations.
+      operationId: Gets account relations associated with the user
+      tags:
+      - user
+components:
+  schemas:
+    create_user_payload:
+      required:
+      - email
+      - language
+      - password
+      - timezone
+      - unit_type
+      - username
+      properties:
+        email:
+          type: string
+          description: user email address
+        username:
+          type: string
+          description: user username
+        unit_type:
+          type: boolean
+          description: shows if the users unit_type is metric
+        language:
+          type: string
+          description: Main language used by the account.
+        timezone:
+          type: string
+          description: timezone of the user
+        status:
+          type: string
+          description: user status
+          example: active
+          enum:
+          - active
+          - inactive
+          - draft
+        password:
+          type: string
+          description: user password
+      type: object
+      additionalProperties: false
+    criteria:
+      properties:
+        and:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+        or:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+      type: object
+    search_payload:
+      properties:
+        filter_by:
+          $ref: '#/components/schemas/criteria'
+        order_by:
+          type: array
+          items:
+            type: string
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      type: object
+    user_role_info:
+      required:
+      - account_id
+      - role_id
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        role_id:
+          type: string
+          description: role identifier
+      type: object
+    user_pwd_payload_a:
+      required:
+      - email
+      - password
+      properties:
+        email:
+          type: string
+          description: user email address
+        password:
+          type: string
+          description: user password
+      type: object
+      additionalProperties: false
+    search_filter:
+      required:
+      - field_name
+      - field_value
+      - operator
+      properties:
+        field_name:
+          type: string
+        operator:
+          type: string
+        field_value:
+          type: string
+      type: object
+    pagination:
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        all:
+          type: boolean
+      type: object
+    user_pwd_response:
+      required:
+      - created_at
+      - email
+      - reset_token
+      properties:
+        reset_token:
+          type: string
+          description: user password reset token
+        email:
+          type: string
+          description: user email address
+        created_at:
+          type: string
+          description: Token created at timestamp
+      type: object
+    user_update_payload:
+      properties:
+        username:
+          type: string
+          description: user username
+        unit_type:
+          type: boolean
+          description: shows if the users unit_type is metric
+        language:
+          type: string
+          description: Main language used by the account.
+        timezone:
+          type: string
+          description: timezone of the user
+        status:
+          type: string
+          description: user status
+          example: active
+          enum:
+          - active
+          - inactive
+      type: object
+      additionalProperties: false
+    user_response:
+      required:
+      - created_at
+      - email
+      - id
+      - language
+      - roles
+      - timezone
+      - unit_type
+      - updated_at
+      - username
+      properties:
+        id:
+          type: string
+          description: user unique id
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        roles:
+          type: array
+          description: Roles related to the user
+          items:
+            $ref: '#/components/schemas/user_role_info'
+        email:
+          type: string
+          description: user email address
+        username:
+          type: string
+          description: user username
+        unit_type:
+          type: boolean
+          description: shows if the users unit_type is metric
+        language:
+          type: string
+          description: Main language used by the account.
+        timezone:
+          type: string
+          description: timezone of the user
+        status:
+          type: string
+          description: user status
+          example: active
+          enum:
+          - active
+          - inactive
+          - draft
+      type: object
+  securitySchemes:
+    jwt:
+      type: apiKey
+      in: header
+      name: Authorization
+    apikey:
+      type: apiKey
+      in: header
+      name: X-Api-Key

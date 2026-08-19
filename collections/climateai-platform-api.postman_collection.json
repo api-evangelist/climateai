@@ -1,0 +1,970 @@
+{
+  "item": [
+    {
+      "id": "a386857c-f2ab-4a2f-8c31-2ecd89309283",
+      "name": "platform",
+      "description": {
+        "content": "platform label related operations",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e39d227d-9626-431a-8622-71f35baf87e4",
+          "name": "Create a new platform",
+          "request": {
+            "name": "Create a new platform",
+            "description": {},
+            "url": {
+              "path": [
+                "platform",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6c8ebb63-04fb-41ef-bc29-a56bce06c0ee",
+              "name": "Successfully created platform.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5eb292ba-8011-40c9-95ad-0bd2862821a2",
+              "name": "Platform already exists.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e5dc0a75-51c5-4843-9f0b-89cbda738056",
+              "name": "Error creating platform.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5f5b9204-979a-48c7-925a-2f83870670a0",
+          "name": "Get all platform information",
+          "request": {
+            "name": "Get all platform information",
+            "description": {},
+            "url": {
+              "path": [
+                "platform",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c4899727-815a-48c5-b8b3-21d96061518d",
+              "name": "Successfully retrieved platforms.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9158ff9e-b339-401d-b9c8-80e47a62f0d1",
+              "name": "No platform labels found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9c64d733-ea5a-4b4d-97bb-781467b669e9",
+              "name": "Error retrieving platforms.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "956baebd-e9db-45b7-809c-5c0c5699129b",
+          "name": "Fetches all skins",
+          "request": {
+            "name": "Fetches all skins",
+            "description": {},
+            "url": {
+              "path": [
+                "platform",
+                "skins"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ffcf0760-b902-4a4e-8bb0-3ac08ce455de",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"created_at\": \"string\",\n    \"domain\": \"string\",\n    \"favicon\": \"string\",\n    \"footer\": \"string\",\n    \"header\": \"string\",\n    \"id\": \"string\",\n    \"logo\": \"string\",\n    \"name\": \"string\",\n    \"primary_color\": \"string\",\n    \"top_nav_color\": \"string\",\n    \"updated_at\": \"string\",\n    \"wallpaper\": \"string\",\n    \"welcome_string\": \"string\",\n    \"status\": \"live\"\n  },\n  {\n    \"created_at\": \"string\",\n    \"domain\": \"string\",\n    \"favicon\": \"string\",\n    \"footer\": \"string\",\n    \"header\": \"string\",\n    \"id\": \"string\",\n    \"logo\": \"string\",\n    \"name\": \"string\",\n    \"primary_color\": \"string\",\n    \"top_nav_color\": \"string\",\n    \"updated_at\": \"string\",\n    \"wallpaper\": \"string\",\n    \"welcome_string\": \"string\",\n    \"status\": \"live\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "db52b627-cdd8-4fdb-8b3d-e7203755ce65",
+              "name": "Error fetching skins.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    "skins"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65be4f76-962e-47ae-b678-d8d22f5dd571",
+          "name": "Updates a platform",
+          "request": {
+            "name": "Updates a platform",
+            "description": {},
+            "url": {
+              "path": [
+                "platform",
+                ":platform_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "platform_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f9af83ae-96cc-4808-add7-e28948e623d8",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"string\",\n  \"domain\": \"string\",\n  \"favicon\": \"string\",\n  \"footer\": \"string\",\n  \"header\": \"string\",\n  \"id\": \"string\",\n  \"logo\": \"string\",\n  \"name\": \"string\",\n  \"primary_color\": \"string\",\n  \"top_nav_color\": \"string\",\n  \"updated_at\": \"string\",\n  \"wallpaper\": \"string\",\n  \"welcome_string\": \"string\",\n  \"accounts\": [\n    {\n      \"contact_info\": {\n        \"address\": \"string\",\n        \"email\": \"string\",\n        \"name\": \"string\"\n      },\n      \"created_at\": \"string\",\n      \"currency\": \"string\",\n      \"id\": \"string\",\n      \"is_onboarded\": true,\n      \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n      \"name\": \"string\",\n      \"updated_at\": \"string\",\n      \"platform_id\": \"string\",\n      \"logo_b64\": \"string\",\n      \"status\": \"live\",\n      \"parent_id\": \"string\",\n      \"is_internal\": true,\n      \"children\": [\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": false,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": false\n        },\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": false,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": true\n        }\n      ]\n    },\n    {\n      \"contact_info\": {\n        \"address\": \"string\",\n        \"email\": \"string\",\n        \"name\": \"string\"\n      },\n      \"created_at\": \"string\",\n      \"currency\": \"string\",\n      \"id\": \"string\",\n      \"is_onboarded\": true,\n      \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n      \"name\": \"string\",\n      \"updated_at\": \"string\",\n      \"platform_id\": \"string\",\n      \"logo_b64\": \"string\",\n      \"status\": \"live\",\n      \"parent_id\": \"string\",\n      \"is_internal\": true,\n      \"children\": [\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": true,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": false\n        },\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": false,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": true\n        }\n      ]\n    }\n  ],\n  \"status\": \"live\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4a746a70-3ce0-4ab7-9f02-3ce328989907",
+              "name": "platform successfully updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9da7aad3-c4fc-42a2-9836-80839c916730",
+              "name": "platform not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "20d4cec2-b639-4036-b255-6e6a31616491",
+              "name": "Error updating platform.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"favicon\": \"<string>\",\n  \"footer\": \"<string>\",\n  \"header\": \"<string>\",\n  \"logo\": \"<string>\",\n  \"name\": \"<string>\",\n  \"primary_color\": \"<string>\",\n  \"top_nav_color\": \"<string>\",\n  \"wallpaper\": \"<string>\",\n  \"welcome_string\": \"<string>\",\n  \"status\": \"live\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a20efa29-72bb-45ce-8e9f-5817e60d6741",
+          "name": "Fetches a platform by id",
+          "request": {
+            "name": "Fetches a platform by id",
+            "description": {},
+            "url": {
+              "path": [
+                "platform",
+                ":platform_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "platform_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0818947e-0020-47a5-abcb-4d7559c3bedc",
+              "name": "Success",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"created_at\": \"string\",\n  \"domain\": \"string\",\n  \"favicon\": \"string\",\n  \"footer\": \"string\",\n  \"header\": \"string\",\n  \"id\": \"string\",\n  \"logo\": \"string\",\n  \"name\": \"string\",\n  \"primary_color\": \"string\",\n  \"top_nav_color\": \"string\",\n  \"updated_at\": \"string\",\n  \"wallpaper\": \"string\",\n  \"welcome_string\": \"string\",\n  \"accounts\": [\n    {\n      \"contact_info\": {\n        \"address\": \"string\",\n        \"email\": \"string\",\n        \"name\": \"string\"\n      },\n      \"created_at\": \"string\",\n      \"currency\": \"string\",\n      \"id\": \"string\",\n      \"is_onboarded\": false,\n      \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n      \"name\": \"string\",\n      \"updated_at\": \"string\",\n      \"platform_id\": \"string\",\n      \"logo_b64\": \"string\",\n      \"status\": \"live\",\n      \"parent_id\": \"string\",\n      \"is_internal\": false,\n      \"children\": [\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": false,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": false\n        },\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": true,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": false\n        }\n      ]\n    },\n    {\n      \"contact_info\": {\n        \"address\": \"string\",\n        \"email\": \"string\",\n        \"name\": \"string\"\n      },\n      \"created_at\": \"string\",\n      \"currency\": \"string\",\n      \"id\": \"string\",\n      \"is_onboarded\": true,\n      \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n      \"name\": \"string\",\n      \"updated_at\": \"string\",\n      \"platform_id\": \"string\",\n      \"logo_b64\": \"string\",\n      \"status\": \"live\",\n      \"parent_id\": \"string\",\n      \"is_internal\": true,\n      \"children\": [\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": false,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": true\n        },\n        {\n          \"contact_info\": {\n            \"address\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"email\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"name\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"created_at\": \"string\",\n          \"currency\": \"string\",\n          \"id\": \"string\",\n          \"is_onboarded\": false,\n          \"logo_url\": \"https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png\",\n          \"name\": \"string\",\n          \"updated_at\": \"string\",\n          \"platform_id\": \"string\",\n          \"logo_b64\": \"string\",\n          \"status\": \"live\",\n          \"parent_id\": \"string\",\n          \"is_internal\": false\n        }\n      ]\n    }\n  ],\n  \"status\": \"live\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bb0f6deb-61da-4820-9319-178d25fc5304",
+              "name": "platform not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "55672b00-956e-4acc-b2f1-bf2d1dbbf5a8",
+              "name": "Error fetching platform.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "platform",
+                    ":platform_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "platform_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3aefdff1-28d6-4e45-9b2e-08d4df148622",
+    "name": "ClimateAI Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ClimateAI authentication and routing gateway for platform services",
+      "type": "text/plain"
+    }
+  }
+}
