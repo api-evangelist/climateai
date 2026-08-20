@@ -42,6 +42,11 @@ apis:
   baseURL: https://api-prod.climate.ai
   tags:
   - Authentication
+  - Account
+  - User
+  - Permissions
+  tags_raw:
+  - Authentication
   - Accounts
   - Users
   - Permissions
@@ -56,6 +61,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Account
+  tags_raw:
   - account
   properties:
   - type: OpenAPI
@@ -73,7 +80,8 @@ apis:
   description: account config related operations
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
-  tags:
+  tags: []
+  tags_raw:
   - account_config
   properties:
   - type: OpenAPI
@@ -92,6 +100,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -130,6 +140,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Device
+  tags_raw:
   - device
   properties:
   - type: OpenAPI
@@ -148,6 +160,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Email
+  tags_raw:
   - email
   properties:
   - type: OpenAPI
@@ -187,6 +201,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Permission
+  tags_raw:
   - permission
   properties:
   - type: OpenAPI
@@ -205,6 +221,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Platform
+  tags_raw:
   - platform
   properties:
   - type: OpenAPI
@@ -223,6 +241,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Product
+  tags_raw:
   - product
   properties:
   - type: OpenAPI
@@ -241,6 +261,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Report
+  tags_raw:
   - report
   properties:
   - type: OpenAPI
@@ -259,6 +281,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Role
+  tags_raw:
   - role
   properties:
   - type: OpenAPI
@@ -277,6 +301,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - Routing
+  tags_raw:
   - routing
   properties:
   - type: OpenAPI
@@ -295,6 +321,8 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
+  - User
+  tags_raw:
   - user
   properties:
   - type: OpenAPI
