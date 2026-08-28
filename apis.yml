@@ -11,6 +11,18 @@ description: 'ClimateAi (climate.ai) is a climate-intelligence company that turn
   downscaling for select variables. A separate ClimateAI Platform gateway handles accounts,
   users, roles, permissions, device API keys and product routing.'
 url: https://raw.githubusercontent.com/api-evangelist/climateai/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://climate.ai/wp-content/uploads/2022/09/Logo_orange_dark.png
 x-type: company
 x-source: harvest:secondary-market
