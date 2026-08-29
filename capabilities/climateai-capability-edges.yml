@@ -1,0 +1,35 @@
+slug: climateai
+provider: ClimateAI
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: user
+  spec_file: climateai-user-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: POST /user/ create a new user; POST /user/change_password Changes the user's password; PUT
+    /user/reset_password performs password reset operation
+  reason: Platform user account administration with credential/password lifecycle — identity and access
+    management rather than any domain capability.
+- tag: role
+  spec_file: climateai-role-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: POST /role/{role_id}/permission/{permission_id} add a permission to a role Adds a new Role/Permission
+    association
+  reason: Role CRUD plus role-to-permission association is textbook role-based access control administration,
+    which sits under identity and access management.
