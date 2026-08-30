@@ -152,7 +152,7 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
-  - Device
+  - device
   tags_raw:
   - device
   properties:
@@ -213,7 +213,7 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
-  - Permission
+  - permission
   tags_raw:
   - permission
   properties:
@@ -313,7 +313,7 @@ apis:
   humanURL: https://docs.climate.ai/climateai-weather-api
   baseURL: https://api-prod.climate.ai/weather
   tags:
-  - Routing
+  - routing
   tags_raw:
   - routing
   properties:
