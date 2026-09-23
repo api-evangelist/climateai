@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: email
+- name: Email
   description: email sending operations
 paths:
   /email/send:
@@ -29,7 +29,7 @@ paths:
       summary: Sends an email via notification service proxy
       operationId: send email
       tags:
-      - email
+      - Email
       requestBody:
         content:
           application/json:

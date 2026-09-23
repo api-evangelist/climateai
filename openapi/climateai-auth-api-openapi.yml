@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: auth
+- name: Auth
   description: authentication related operations
 paths:
   /auth/login:
@@ -26,13 +26,15 @@ paths:
           description: Logged in
       operationId: user login
       tags:
-      - auth
+      - Auth
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/auth_details'
         required: true
+      summary: User login
+      x-summary-source: derived
   /auth/logout:
     post:
       responses:
@@ -50,7 +52,9 @@ paths:
         schema:
           type: string
       tags:
-      - auth
+      - Auth
+      summary: Logout a user
+      x-summary-source: derived
   /auth/refresh:
     post:
       responses:
@@ -60,7 +64,9 @@ paths:
           description: Refresh successful
       operationId: refresh a jwt token
       tags:
-      - auth
+      - Auth
+      summary: Refresh a jwt token
+      x-summary-source: derived
   /auth/status:
     get:
       responses:
@@ -69,7 +75,7 @@ paths:
       summary: Returns a 200 code
       operationId: test request to check status
       tags:
-      - auth
+      - Auth
   /auth/sudo/{user_id}:
     parameters:
     - name: user_id
@@ -87,7 +93,9 @@ paths:
           description: Sudo token generated
       operationId: generates a jwt token with the given user_id
       tags:
-      - auth
+      - Auth
+      summary: Generates a jwt token with the given user id
+      x-summary-source: derived
   /auth/switch_account/{account_id}:
     parameters:
     - name: account_id
@@ -105,7 +113,9 @@ paths:
           description: Switched account
       operationId: switch account
       tags:
-      - auth
+      - Auth
+      summary: Switch account
+      x-summary-source: derived
   /auth/verify_token:
     get:
       responses:
@@ -121,7 +131,7 @@ paths:
       - jwt: []
       - apikey: []
       tags:
-      - auth
+      - Auth
 components:
   schemas:
     auth_details:

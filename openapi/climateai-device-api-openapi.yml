@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: device
+- name: Device
   description: device api key related operations
 paths:
   /device/:
@@ -23,7 +23,7 @@ paths:
       summary: Gets a listing of the available devices
       operationId: Get all devices
       tags:
-      - device
+      - Device
   /device/account/{account_id}:
     parameters:
     - in: path
@@ -53,7 +53,7 @@ paths:
       summary: Creates a new device for account by id
       operationId: register a new device for account by id
       tags:
-      - device
+      - Device
       requestBody:
         content:
           application/json:
@@ -70,7 +70,9 @@ paths:
           description: Error retrieving devices.
       operationId: Get all devices for account by id
       tags:
-      - device
+      - Device
+      summary: Get all devices for account by id
+      x-summary-source: derived
   /device/api_trial:
     post:
       responses:
@@ -91,7 +93,7 @@ paths:
       summary: Creates an api trial api key
       operationId: get api trial
       tags:
-      - device
+      - Device
       requestBody:
         content:
           application/json:
@@ -125,7 +127,7 @@ paths:
       summary: Updates a device
       operationId: update a device
       tags:
-      - device
+      - Device
       requestBody:
         content:
           application/json:
@@ -143,7 +145,7 @@ paths:
       summary: Deletes a device by id
       operationId: delete a device
       tags:
-      - device
+      - Device
     get:
       responses:
         '404':
@@ -158,24 +160,11 @@ paths:
                 $ref: '#/components/schemas/device_response'
       operationId: fetch a device
       tags:
-      - device
+      - Device
+      summary: Fetch a device
+      x-summary-source: derived
 components:
   schemas:
-    device_payload:
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Device name
-        uber_admin:
-          type: boolean
-          description: shows if device has uber_admin permissions
-        days_valid:
-          type: integer
-          description: Number of days the device is valid for
-      type: object
-      additionalProperties: false
     device_response:
       required:
       - account_id
@@ -220,6 +209,21 @@ components:
           type: integer
           description: Number of days the device is valid for
       type: object
+    device_payload:
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Device name
+        uber_admin:
+          type: boolean
+          description: shows if device has uber_admin permissions
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+      type: object
+      additionalProperties: false
     api_trial_payload:
       required:
       - company_name

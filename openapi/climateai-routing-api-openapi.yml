@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: routing
+- name: Routing
   description: routing and proxy operations
 paths:
   /{path}:
@@ -27,7 +27,9 @@ paths:
       - jwt: []
       - apikey: []
       tags:
-      - routing
+      - Routing
+      summary: Post to an endpoint
+      x-summary-source: derived
     put:
       responses:
         '200':
@@ -37,7 +39,9 @@ paths:
       - jwt: []
       - apikey: []
       tags:
-      - routing
+      - Routing
+      summary: Update a resource
+      x-summary-source: derived
     delete:
       responses:
         '200':
@@ -47,7 +51,9 @@ paths:
       - jwt: []
       - apikey: []
       tags:
-      - routing
+      - Routing
+      summary: Delete a resource
+      x-summary-source: derived
     get:
       responses:
         '200':
@@ -57,7 +63,9 @@ paths:
       - jwt: []
       - apikey: []
       tags:
-      - routing
+      - Routing
+      summary: Get a resource
+      x-summary-source: derived
 components:
   securitySchemes:
     jwt:

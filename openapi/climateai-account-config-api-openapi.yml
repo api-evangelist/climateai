@@ -39,6 +39,8 @@ paths:
               items:
                 $ref: '#/components/schemas/account_config_payload'
         required: true
+      summary: Create account configurations
+      x-summary-source: derived
     get:
       responses:
         '200':
@@ -50,6 +52,8 @@ paths:
       operationId: Get all account configurations
       tags:
       - account_config
+      summary: Get all account configurations
+      x-summary-source: derived
   /account_config/account/{account_id}:
     parameters:
     - in: path
@@ -69,6 +73,8 @@ paths:
       operationId: delete configuration for an account
       tags:
       - account_config
+      summary: Delete configuration for an account
+      x-summary-source: derived
     get:
       responses:
         '500':
@@ -92,6 +98,8 @@ paths:
           type: String
       tags:
       - account_config
+      summary: Fetch all configuration for an account
+      x-summary-source: derived
   /account_config/delete:
     post:
       responses:
@@ -110,6 +118,8 @@ paths:
             schema:
               $ref: '#/components/schemas/multi_account_config_ids'
         required: true
+      summary: Delete account configurations by id
+      x-summary-source: derived
   /account_config/{account_config_id}:
     parameters:
     - in: path
@@ -141,6 +151,8 @@ paths:
             schema:
               $ref: '#/components/schemas/account_config_payload'
         required: true
+      summary: Update an account config
+      x-summary-source: derived
     delete:
       responses:
         '404':
@@ -152,6 +164,8 @@ paths:
       operationId: delete an account config by id
       tags:
       - account_config
+      summary: Delete an account config by id
+      x-summary-source: derived
     get:
       responses:
         '404':
@@ -167,6 +181,8 @@ paths:
       operationId: fetch an account config object
       tags:
       - account_config
+      summary: Fetch an account config object
+      x-summary-source: derived
 components:
   schemas:
     multi_account_config_ids:
@@ -177,6 +193,23 @@ components:
           items:
             type: string
       type: object
+    account_config_payload:
+      required:
+      - account_id
+      - config_type
+      - config_value
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        config_type:
+          type: string
+          description: type of config to control
+        config_value:
+          type: string
+          description: value related to config_type
+      type: object
+      additionalProperties: false
     account_config_response:
       required:
       - account_id
@@ -205,23 +238,6 @@ components:
           type: string
           description: last updated timestamp
       type: object
-    account_config_payload:
-      required:
-      - account_id
-      - config_type
-      - config_value
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        config_type:
-          type: string
-          description: type of config to control
-        config_value:
-          type: string
-          description: value related to config_type
-      type: object
-      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey

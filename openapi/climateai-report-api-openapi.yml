@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: report
+- name: Report
   description: report related operations
 paths:
   /report/:
@@ -27,7 +27,7 @@ paths:
       summary: Creates a new report
       operationId: Create custom report
       tags:
-      - report
+      - Report
       requestBody:
         content:
           application/json:
@@ -43,7 +43,7 @@ paths:
       summary: Gets all accounts
       operationId: Retrieve all custom reports
       tags:
-      - report
+      - Report
   /report/{report_id}:
     parameters:
     - name: report_id
@@ -68,7 +68,7 @@ paths:
       summary: Disables an account
       operationId: Delete report by id
       tags:
-      - report
+      - Report
     get:
       responses:
         '200':
@@ -80,15 +80,27 @@ paths:
       summary: Gets a specific account by its id
       operationId: Retrieve report by id
       tags:
-      - report
+      - Report
 components:
   schemas:
-    report_payload:
+    report_response:
       required:
+      - created_at
       - description
+      - id
       - name
+      - updated_at
       - url
       properties:
+        id:
+          type: string
+          description: Report id
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
         account_id:
           type: string
           description: Custom report account.
@@ -110,24 +122,12 @@ components:
           - pdf
           - url
       type: object
-    report_response:
+    report_payload:
       required:
-      - created_at
       - description
-      - id
       - name
-      - updated_at
       - url
       properties:
-        id:
-          type: string
-          description: Report id
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
         account_id:
           type: string
           description: Custom report account.

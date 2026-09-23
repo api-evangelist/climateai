@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: platform
+- name: Platform
   description: platform label related operations
 paths:
   /platform/:
@@ -22,13 +22,15 @@ paths:
           description: Platform already exists.
       operationId: Create a new platform
       tags:
-      - platform
+      - Platform
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/platform_payload'
         required: true
+      summary: Create a new platform
+      x-summary-source: derived
     get:
       responses:
         '200':
@@ -39,7 +41,9 @@ paths:
           description: No platform labels found.
       operationId: Get all platform information
       tags:
-      - platform
+      - Platform
+      summary: Get all platform information
+      x-summary-source: derived
   /platform/skins:
     get:
       responses:
@@ -56,7 +60,7 @@ paths:
       summary: Fetches all skins
       operationId: fetch platform skins
       tags:
-      - platform
+      - Platform
   /platform/{platform_id}:
     parameters:
     - name: platform_id
@@ -81,7 +85,7 @@ paths:
       summary: Updates a platform
       operationId: update a platform
       tags:
-      - platform
+      - Platform
       requestBody:
         content:
           application/json:
@@ -103,67 +107,9 @@ paths:
       summary: Fetches a platform by id
       operationId: fetch a platform
       tags:
-      - platform
+      - Platform
 components:
   schemas:
-    nested_account:
-      required:
-      - contact_info
-      - created_at
-      - currency
-      - id
-      - is_onboarded
-      - logo_url
-      - name
-      - updated_at
-      properties:
-        id:
-          type: string
-          description: Account ID
-        logo_url:
-          type: string
-          description: path to stored logo
-          default: https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png
-        is_onboarded:
-          type: boolean
-          description: Is the account onboarded
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
-        platform_id:
-          type: string
-          description: platform ID
-        logo_b64:
-          type: string
-          description: Account logo image in Base64
-        name:
-          type: string
-          description: Account name.
-        currency:
-          type: string
-          description: Currency used by the account.
-        contact_info:
-          description: Contact information used by the account.
-          allOf:
-          - $ref: '#/components/schemas/contact_info_payload'
-        status:
-          type: string
-          description: Account status
-          example: live
-          enum:
-          - live
-          - sales
-          - terminated
-        parent_id:
-          type: string
-          description: Account ID of the parent account.
-        is_internal:
-          type: boolean
-          description: If account is internal or not
-      type: object
     account_response:
       required:
       - contact_info
@@ -279,7 +225,7 @@ components:
           description: Platform footer representation.
       type: object
       additionalProperties: false
-    skin_response:
+    platform_response:
       required:
       - created_at
       - domain
@@ -295,6 +241,11 @@ components:
       - wallpaper
       - welcome_string
       properties:
+        accounts:
+          type: array
+          description: role permissions
+          items:
+            $ref: '#/components/schemas/account_response'
         id:
           type: string
           description: platform identifier
@@ -342,7 +293,65 @@ components:
           type: string
           description: Platform footer representation.
       type: object
-    platform_response:
+    nested_account:
+      required:
+      - contact_info
+      - created_at
+      - currency
+      - id
+      - is_onboarded
+      - logo_url
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: Account ID
+        logo_url:
+          type: string
+          description: path to stored logo
+          default: https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png
+        is_onboarded:
+          type: boolean
+          description: Is the account onboarded
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        platform_id:
+          type: string
+          description: platform ID
+        logo_b64:
+          type: string
+          description: Account logo image in Base64
+        name:
+          type: string
+          description: Account name.
+        currency:
+          type: string
+          description: Currency used by the account.
+        contact_info:
+          description: Contact information used by the account.
+          allOf:
+          - $ref: '#/components/schemas/contact_info_payload'
+        status:
+          type: string
+          description: Account status
+          example: live
+          enum:
+          - live
+          - sales
+          - terminated
+        parent_id:
+          type: string
+          description: Account ID of the parent account.
+        is_internal:
+          type: boolean
+          description: If account is internal or not
+      type: object
+    skin_response:
       required:
       - created_at
       - domain
@@ -358,11 +367,6 @@ components:
       - wallpaper
       - welcome_string
       properties:
-        accounts:
-          type: array
-          description: role permissions
-          items:
-            $ref: '#/components/schemas/account_response'
         id:
           type: string
           description: platform identifier

@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: permission
+- name: Permission
   description: permission related operations
 paths:
   /permission/:
@@ -29,7 +29,7 @@ paths:
       summary: Creates a new Permission
       operationId: create a new permission
       tags:
-      - permission
+      - Permission
       requestBody:
         content:
           application/json:
@@ -46,7 +46,9 @@ paths:
           description: No permissions found.
       operationId: Get all permissions
       tags:
-      - permission
+      - Permission
+      summary: Get all permissions
+      x-summary-source: derived
   /permission/{permission_id}:
     parameters:
     - in: path
@@ -72,7 +74,7 @@ paths:
       summary: Updates a permission
       operationId: update a permission
       tags:
-      - permission
+      - Permission
       requestBody:
         content:
           application/json:
@@ -90,7 +92,7 @@ paths:
       summary: Deletes a permission by id
       operationId: delete a permission
       tags:
-      - permission
+      - Permission
     get:
       responses:
         '404':
@@ -105,7 +107,9 @@ paths:
                 $ref: '#/components/schemas/permission_response'
       operationId: fetch a permission
       tags:
-      - permission
+      - Permission
+      summary: Fetch a permission
+      x-summary-source: derived
 components:
   schemas:
     permission_response:

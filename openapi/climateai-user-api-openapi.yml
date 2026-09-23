@@ -8,7 +8,7 @@ servers:
 security:
 - jwt: []
 tags:
-- name: user
+- name: User
   description: user related operations
 paths:
   /user/:
@@ -28,13 +28,15 @@ paths:
                 $ref: '#/components/schemas/user_response'
       operationId: create a new user
       tags:
-      - user
+      - User
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/create_user_payload'
         required: true
+      summary: Create a new user
+      x-summary-source: derived
     get:
       responses:
         '500':
@@ -54,7 +56,7 @@ paths:
       summary: List all registered users
       operationId: list all registered users
       tags:
-      - user
+      - User
   /user/change_password:
     post:
       responses:
@@ -71,7 +73,7 @@ paths:
       summary: Changes the user's password
       operationId: Changes the user's password
       tags:
-      - user
+      - User
       requestBody:
         content:
           application/json:
@@ -94,7 +96,7 @@ paths:
       summary: Gets reset password token
       operationId: returns reset password token
       tags:
-      - user
+      - User
       requestBody:
         content:
           application/json:
@@ -124,7 +126,7 @@ paths:
         schema:
           type: string
       tags:
-      - user
+      - User
       requestBody:
         content:
           application/json:
@@ -145,13 +147,15 @@ paths:
           description: No users found.
       operationId: Search users
       tags:
-      - user
+      - User
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/search_payload'
         required: true
+      summary: Search users
+      x-summary-source: derived
   /user/{user_id}/:
     parameters:
     - in: path
@@ -176,13 +180,15 @@ paths:
                 $ref: '#/components/schemas/user_response'
       operationId: update a user
       tags:
-      - user
+      - User
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/user_update_payload'
         required: true
+      summary: Update a user
+      x-summary-source: derived
     delete:
       responses:
         '404':
@@ -198,7 +204,7 @@ paths:
       summary: Deletes a user by id
       operationId: delete a user
       tags:
-      - user
+      - User
     get:
       responses:
         '404':
@@ -213,7 +219,9 @@ paths:
                 $ref: '#/components/schemas/user_response'
       operationId: fetch a user
       tags:
-      - user
+      - User
+      summary: Fetch a user
+      x-summary-source: derived
   /user/{user_id}/account/relation:
     parameters:
     - name: user_id
@@ -233,7 +241,9 @@ paths:
           description: User does not have any account relations.
       operationId: Gets account relations associated with the user
       tags:
-      - user
+      - User
+      summary: Gets account relations associated with the user
+      x-summary-source: derived
 components:
   schemas:
     create_user_payload:
@@ -273,17 +283,6 @@ components:
           description: user password
       type: object
       additionalProperties: false
-    criteria:
-      properties:
-        and:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-        or:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-      type: object
     search_payload:
       properties:
         filter_by:
@@ -294,69 +293,6 @@ components:
             type: string
         pagination:
           $ref: '#/components/schemas/pagination'
-      type: object
-    user_role_info:
-      required:
-      - account_id
-      - role_id
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        role_id:
-          type: string
-          description: role identifier
-      type: object
-    user_pwd_payload_a:
-      required:
-      - email
-      - password
-      properties:
-        email:
-          type: string
-          description: user email address
-        password:
-          type: string
-          description: user password
-      type: object
-      additionalProperties: false
-    search_filter:
-      required:
-      - field_name
-      - field_value
-      - operator
-      properties:
-        field_name:
-          type: string
-        operator:
-          type: string
-        field_value:
-          type: string
-      type: object
-    pagination:
-      properties:
-        page:
-          type: integer
-        per_page:
-          type: integer
-        all:
-          type: boolean
-      type: object
-    user_pwd_response:
-      required:
-      - created_at
-      - email
-      - reset_token
-      properties:
-        reset_token:
-          type: string
-          description: user password reset token
-        email:
-          type: string
-          description: user email address
-        created_at:
-          type: string
-          description: Token created at timestamp
       type: object
     user_update_payload:
       properties:
@@ -381,6 +317,40 @@ components:
           - inactive
       type: object
       additionalProperties: false
+    pagination:
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        all:
+          type: boolean
+      type: object
+    user_role_info:
+      required:
+      - account_id
+      - role_id
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        role_id:
+          type: string
+          description: role identifier
+      type: object
+    search_filter:
+      required:
+      - field_name
+      - field_value
+      - operator
+      properties:
+        field_name:
+          type: string
+        operator:
+          type: string
+        field_value:
+          type: string
+      type: object
     user_response:
       required:
       - created_at
@@ -430,6 +400,46 @@ components:
           - active
           - inactive
           - draft
+      type: object
+    criteria:
+      properties:
+        and:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+        or:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+      type: object
+    user_pwd_payload_a:
+      required:
+      - email
+      - password
+      properties:
+        email:
+          type: string
+          description: user email address
+        password:
+          type: string
+          description: user password
+      type: object
+      additionalProperties: false
+    user_pwd_response:
+      required:
+      - created_at
+      - email
+      - reset_token
+      properties:
+        reset_token:
+          type: string
+          description: user password reset token
+        email:
+          type: string
+          description: user email address
+        created_at:
+          type: string
+          description: Token created at timestamp
       type: object
   securitySchemes:
     jwt:
