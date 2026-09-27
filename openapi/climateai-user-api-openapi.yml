@@ -26,7 +26,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user_response'
-      operationId: create a new user
+      operationId: createANewUser
       tags:
       - User
       requestBody:
@@ -37,6 +37,8 @@ paths:
         required: true
       summary: Create a new user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: create a new user
     get:
       responses:
         '500':
@@ -54,9 +56,11 @@ paths:
                     items:
                       $ref: '#/components/schemas/user_response'
       summary: List all registered users
-      operationId: list all registered users
+      operationId: listAllRegisteredUsers
       tags:
       - User
+      x-operation-id-source: normalized
+      x-operation-id-original: list all registered users
   /user/change_password:
     post:
       responses:
@@ -71,7 +75,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user_pwd_response'
       summary: Changes the user's password
-      operationId: Changes the user's password
+      operationId: ChangesTheUser'sPassword
       tags:
       - User
       requestBody:
@@ -80,6 +84,8 @@ paths:
             schema:
               $ref: '#/components/schemas/user_pwd_payload_a'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Changes the user's password
   /user/reset_password:
     post:
       responses:
@@ -94,7 +100,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user_pwd_response'
       summary: Gets reset password token
-      operationId: returns reset password token
+      operationId: returnsResetPasswordToken
       tags:
       - User
       requestBody:
@@ -103,6 +109,8 @@ paths:
             schema:
               $ref: '#/components/schemas/user_pwd_payload_a'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: returns reset password token
     put:
       responses:
         '500':
@@ -118,7 +126,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user_response'
       summary: Resets password
-      operationId: performs password reset operation
+      operationId: performsPasswordResetOperation
       parameters:
       - name: token
         in: query
@@ -136,6 +144,8 @@ paths:
                 password:
                   type: string
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: performs password reset operation
   /user/search:
     post:
       responses:
@@ -145,7 +155,7 @@ paths:
           description: Error searching.
         '204':
           description: No users found.
-      operationId: Search users
+      operationId: SearchUsers
       tags:
       - User
       requestBody:
@@ -156,6 +166,8 @@ paths:
         required: true
       summary: Search users
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Search users
   /user/{user_id}/:
     parameters:
     - in: path
@@ -178,7 +190,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user_response'
-      operationId: update a user
+      operationId: updateAUser
       tags:
       - User
       requestBody:
@@ -189,6 +201,8 @@ paths:
         required: true
       summary: Update a user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update a user
     delete:
       responses:
         '404':
@@ -202,9 +216,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/user_response'
       summary: Deletes a user by id
-      operationId: delete a user
+      operationId: deleteAUser
       tags:
       - User
+      x-operation-id-source: normalized
+      x-operation-id-original: delete a user
     get:
       responses:
         '404':
@@ -217,11 +233,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user_response'
-      operationId: fetch a user
+      operationId: fetchAUser
       tags:
       - User
       summary: Fetch a user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: fetch a user
   /user/{user_id}/account/relation:
     parameters:
     - name: user_id
@@ -239,11 +257,13 @@ paths:
           description: No user found.
         '204':
           description: User does not have any account relations.
-      operationId: Gets account relations associated with the user
+      operationId: GetsAccountRelationsAssociatedWithTheUser
       tags:
       - User
       summary: Gets account relations associated with the user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Gets account relations associated with the user
 components:
   schemas:
     create_user_payload:
@@ -283,38 +303,17 @@ components:
           description: user password
       type: object
       additionalProperties: false
-    search_payload:
+    user_pwd_payload_a:
+      required:
+      - email
+      - password
       properties:
-        filter_by:
-          $ref: '#/components/schemas/criteria'
-        order_by:
-          type: array
-          items:
-            type: string
-        pagination:
-          $ref: '#/components/schemas/pagination'
-      type: object
-    user_update_payload:
-      properties:
-        username:
+        email:
           type: string
-          description: user username
-        unit_type:
-          type: boolean
-          description: shows if the users unit_type is metric
-        language:
+          description: user email address
+        password:
           type: string
-          description: Main language used by the account.
-        timezone:
-          type: string
-          description: timezone of the user
-        status:
-          type: string
-          description: user status
-          example: active
-          enum:
-          - active
-          - inactive
+          description: user password
       type: object
       additionalProperties: false
     pagination:
@@ -325,18 +324,6 @@ components:
           type: integer
         all:
           type: boolean
-      type: object
-    user_role_info:
-      required:
-      - account_id
-      - role_id
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        role_id:
-          type: string
-          description: role identifier
       type: object
     search_filter:
       required:
@@ -350,6 +337,28 @@ components:
           type: string
         field_value:
           type: string
+      type: object
+    criteria:
+      properties:
+        and:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+        or:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+      type: object
+    search_payload:
+      properties:
+        filter_by:
+          $ref: '#/components/schemas/criteria'
+        order_by:
+          type: array
+          items:
+            type: string
+        pagination:
+          $ref: '#/components/schemas/pagination'
       type: object
     user_response:
       required:
@@ -401,30 +410,41 @@ components:
           - inactive
           - draft
       type: object
-    criteria:
+    user_update_payload:
       properties:
-        and:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-        or:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-      type: object
-    user_pwd_payload_a:
-      required:
-      - email
-      - password
-      properties:
-        email:
+        username:
           type: string
-          description: user email address
-        password:
+          description: user username
+        unit_type:
+          type: boolean
+          description: shows if the users unit_type is metric
+        language:
           type: string
-          description: user password
+          description: Main language used by the account.
+        timezone:
+          type: string
+          description: timezone of the user
+        status:
+          type: string
+          description: user status
+          example: active
+          enum:
+          - active
+          - inactive
       type: object
       additionalProperties: false
+    user_role_info:
+      required:
+      - account_id
+      - role_id
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        role_id:
+          type: string
+          description: role identifier
+      type: object
     user_pwd_response:
       required:
       - created_at

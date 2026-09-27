@@ -19,7 +19,7 @@ paths:
         '500':
           description: Error creating product
       summary: Creates a new product
-      operationId: Create a new product
+      operationId: CreateANewProduct
       tags:
       - Product
       requestBody:
@@ -28,6 +28,8 @@ paths:
             schema:
               $ref: '#/components/schemas/product_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create a new product
     get:
       responses:
         '200':
@@ -36,11 +38,13 @@ paths:
           description: Error retrieving products.
         '204':
           description: No products found.
-      operationId: Get all available products
+      operationId: GetAllAvailableProducts
       tags:
       - Product
       summary: Get all available products
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Get all available products
   /product/{product_id}:
     parameters:
     - name: product_id
@@ -57,7 +61,7 @@ paths:
         '404':
           description: Product with given ID not found
       summary: Updates product
-      operationId: Updates information about a specific product
+      operationId: UpdatesInformationAboutASpecificProduct
       tags:
       - Product
       requestBody:
@@ -66,6 +70,8 @@ paths:
             schema:
               $ref: '#/components/schemas/product_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Updates information about a specific product
     delete:
       responses:
         '500':
@@ -75,9 +81,11 @@ paths:
         '200':
           description: Successfully deleted product.
       summary: Deletes product
-      operationId: Deletes product by ID
+      operationId: DeletesProductByID
       tags:
       - Product
+      x-operation-id-source: normalized
+      x-operation-id-original: Deletes product by ID
     get:
       responses:
         '200':
@@ -86,11 +94,13 @@ paths:
           description: Error retrieving product.
         '404':
           description: Product with given ID not found
-      operationId: Retrieves a product by its id
+      operationId: RetrievesAProductByItsId
       tags:
       - Product
       summary: Retrieves a product by its id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Retrieves a product by its id
 components:
   schemas:
     product_payload:

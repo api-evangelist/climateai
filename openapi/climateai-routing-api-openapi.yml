@@ -22,7 +22,7 @@ paths:
       responses:
         '200':
           description: Success
-      operationId: post to an endpoint
+      operationId: postToAnEndpoint
       security:
       - jwt: []
       - apikey: []
@@ -30,11 +30,13 @@ paths:
       - Routing
       summary: Post to an endpoint
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: post to an endpoint
     put:
       responses:
         '200':
           description: Success
-      operationId: update a resource
+      operationId: updateAResource
       security:
       - jwt: []
       - apikey: []
@@ -42,11 +44,13 @@ paths:
       - Routing
       summary: Update a resource
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update a resource
     delete:
       responses:
         '200':
           description: Success
-      operationId: delete a resource
+      operationId: deleteAResource
       security:
       - jwt: []
       - apikey: []
@@ -54,11 +58,13 @@ paths:
       - Routing
       summary: Delete a resource
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: delete a resource
     get:
       responses:
         '200':
           description: Success
-      operationId: get a resource
+      operationId: getAResource
       security:
       - jwt: []
       - apikey: []
@@ -66,6 +72,8 @@ paths:
       - Routing
       summary: Get a resource
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: get a resource
 components:
   securitySchemes:
     jwt:

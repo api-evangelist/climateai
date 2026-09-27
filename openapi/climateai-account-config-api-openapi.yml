@@ -28,7 +28,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/account_config_response'
-      operationId: Create account configurations
+      operationId: CreateAccountConfigurations
       tags:
       - account_config
       requestBody:
@@ -41,6 +41,8 @@ paths:
         required: true
       summary: Create account configurations
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Create account configurations
     get:
       responses:
         '200':
@@ -49,11 +51,13 @@ paths:
           description: Error retrieving account config.
         '204':
           description: No account config found.
-      operationId: Get all account configurations
+      operationId: GetAllAccountConfigurations
       tags:
       - account_config
       summary: Get all account configurations
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Get all account configurations
   /account_config/account/{account_id}:
     parameters:
     - in: path
@@ -70,11 +74,13 @@ paths:
           description: Account config not found.
         '200':
           description: Account config successfully deleted.
-      operationId: delete configuration for an account
+      operationId: deleteConfigurationForAnAccount
       tags:
       - account_config
       summary: Delete configuration for an account
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: delete configuration for an account
     get:
       responses:
         '500':
@@ -89,7 +95,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/account_config_response'
-      operationId: fetch all configuration for an account
+      operationId: fetchAllConfigurationForAnAccount
       parameters:
       - description: Filter by config type
         name: config_type
@@ -100,6 +106,8 @@ paths:
       - account_config
       summary: Fetch all configuration for an account
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: fetch all configuration for an account
   /account_config/delete:
     post:
       responses:
@@ -109,7 +117,7 @@ paths:
           description: Account config(s) does not exist.
         '201':
           description: Account configs successfully deleted.
-      operationId: Delete account configurations by id
+      operationId: DeleteAccountConfigurationsById
       tags:
       - account_config
       requestBody:
@@ -120,6 +128,8 @@ paths:
         required: true
       summary: Delete account configurations by id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete account configurations by id
   /account_config/{account_config_id}:
     parameters:
     - in: path
@@ -142,7 +152,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/account_config_response'
-      operationId: update an account config
+      operationId: updateAnAccountConfig
       tags:
       - account_config
       requestBody:
@@ -153,6 +163,8 @@ paths:
         required: true
       summary: Update an account config
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: update an account config
     delete:
       responses:
         '404':
@@ -161,11 +173,13 @@ paths:
           description: Error deleting account config.
         '200':
           description: Account config successfully deleted.
-      operationId: delete an account config by id
+      operationId: deleteAnAccountConfigById
       tags:
       - account_config
       summary: Delete an account config by id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: delete an account config by id
     get:
       responses:
         '404':
@@ -178,11 +192,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/account_config_response'
-      operationId: fetch an account config object
+      operationId: fetchAnAccountConfigObject
       tags:
       - account_config
       summary: Fetch an account config object
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: fetch an account config object
 components:
   schemas:
     multi_account_config_ids:
@@ -193,23 +209,6 @@ components:
           items:
             type: string
       type: object
-    account_config_payload:
-      required:
-      - account_id
-      - config_type
-      - config_value
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        config_type:
-          type: string
-          description: type of config to control
-        config_value:
-          type: string
-          description: value related to config_type
-      type: object
-      additionalProperties: false
     account_config_response:
       required:
       - account_id
@@ -238,6 +237,23 @@ components:
           type: string
           description: last updated timestamp
       type: object
+    account_config_payload:
+      required:
+      - account_id
+      - config_type
+      - config_value
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        config_type:
+          type: string
+          description: type of config to control
+        config_value:
+          type: string
+          description: value related to config_type
+      type: object
+      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey

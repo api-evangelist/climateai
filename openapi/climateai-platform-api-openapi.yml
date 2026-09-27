@@ -20,7 +20,7 @@ paths:
           description: Error creating platform.
         '409':
           description: Platform already exists.
-      operationId: Create a new platform
+      operationId: CreateANewPlatform
       tags:
       - Platform
       requestBody:
@@ -31,6 +31,8 @@ paths:
         required: true
       summary: Create a new platform
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Create a new platform
     get:
       responses:
         '200':
@@ -39,11 +41,13 @@ paths:
           description: Error retrieving platforms.
         '204':
           description: No platform labels found.
-      operationId: Get all platform information
+      operationId: GetAllPlatformInformation
       tags:
       - Platform
       summary: Get all platform information
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Get all platform information
   /platform/skins:
     get:
       responses:
@@ -58,9 +62,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/skin_response'
       summary: Fetches all skins
-      operationId: fetch platform skins
+      operationId: fetchPlatformSkins
       tags:
       - Platform
+      x-operation-id-source: normalized
+      x-operation-id-original: fetch platform skins
   /platform/{platform_id}:
     parameters:
     - name: platform_id
@@ -83,7 +89,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/platform_response'
       summary: Updates a platform
-      operationId: update a platform
+      operationId: updateAPlatform
       tags:
       - Platform
       requestBody:
@@ -92,6 +98,8 @@ paths:
             schema:
               $ref: '#/components/schemas/platform_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: update a platform
     get:
       responses:
         '500':
@@ -105,9 +113,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/platform_response'
       summary: Fetches a platform by id
-      operationId: fetch a platform
+      operationId: fetchAPlatform
       tags:
       - Platform
+      x-operation-id-source: normalized
+      x-operation-id-original: fetch a platform
 components:
   schemas:
     account_response:
@@ -173,58 +183,6 @@ components:
           items:
             $ref: '#/components/schemas/nested_account'
       type: object
-    platform_payload:
-      required:
-      - domain
-      - favicon
-      - footer
-      - header
-      - logo
-      - name
-      - primary_color
-      - top_nav_color
-      - wallpaper
-      - welcome_string
-      properties:
-        name:
-          type: string
-          description: Platform label name.
-        welcome_string:
-          type: string
-          description: Platform welcome string.
-        domain:
-          type: string
-          description: URL representing the platform domain.
-        status:
-          type: string
-          description: Platform status.
-          example: live
-          enum:
-          - live
-          - terminated
-        primary_color:
-          type: string
-          description: Primary color.
-        top_nav_color:
-          type: string
-          description: Primary color.
-        logo:
-          type: string
-          description: Platform logo representation.
-        favicon:
-          type: string
-          description: Platform favicon representation.
-        wallpaper:
-          type: string
-          description: Platform wallpaper representation.
-        header:
-          type: string
-          description: Platform header representation.
-        footer:
-          type: string
-          description: Platform footer representation.
-      type: object
-      additionalProperties: false
     platform_response:
       required:
       - created_at
@@ -293,64 +251,23 @@ components:
           type: string
           description: Platform footer representation.
       type: object
-    nested_account:
+    contact_info_payload:
       required:
-      - contact_info
-      - created_at
-      - currency
-      - id
-      - is_onboarded
-      - logo_url
+      - address
+      - email
       - name
-      - updated_at
       properties:
-        id:
-          type: string
-          description: Account ID
-        logo_url:
-          type: string
-          description: path to stored logo
-          default: https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png
-        is_onboarded:
-          type: boolean
-          description: Is the account onboarded
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
-        platform_id:
-          type: string
-          description: platform ID
-        logo_b64:
-          type: string
-          description: Account logo image in Base64
         name:
           type: string
-          description: Account name.
-        currency:
+          description: Name of the primary contact for the account.
+        email:
           type: string
-          description: Currency used by the account.
-        contact_info:
-          description: Contact information used by the account.
-          allOf:
-          - $ref: '#/components/schemas/contact_info_payload'
-        status:
+          description: Primary contact email of the account.
+        address:
           type: string
-          description: Account status
-          example: live
-          enum:
-          - live
-          - sales
-          - terminated
-        parent_id:
-          type: string
-          description: Account ID of the parent account.
-        is_internal:
-          type: boolean
-          description: If account is internal or not
+          description: Primary address for the account.
       type: object
+      additionalProperties: false
     skin_response:
       required:
       - created_at
@@ -414,23 +331,116 @@ components:
           type: string
           description: Platform footer representation.
       type: object
-    contact_info_payload:
+    platform_payload:
       required:
-      - address
-      - email
+      - domain
+      - favicon
+      - footer
+      - header
+      - logo
       - name
+      - primary_color
+      - top_nav_color
+      - wallpaper
+      - welcome_string
       properties:
         name:
           type: string
-          description: Name of the primary contact for the account.
-        email:
+          description: Platform label name.
+        welcome_string:
           type: string
-          description: Primary contact email of the account.
-        address:
+          description: Platform welcome string.
+        domain:
           type: string
-          description: Primary address for the account.
+          description: URL representing the platform domain.
+        status:
+          type: string
+          description: Platform status.
+          example: live
+          enum:
+          - live
+          - terminated
+        primary_color:
+          type: string
+          description: Primary color.
+        top_nav_color:
+          type: string
+          description: Primary color.
+        logo:
+          type: string
+          description: Platform logo representation.
+        favicon:
+          type: string
+          description: Platform favicon representation.
+        wallpaper:
+          type: string
+          description: Platform wallpaper representation.
+        header:
+          type: string
+          description: Platform header representation.
+        footer:
+          type: string
+          description: Platform footer representation.
       type: object
       additionalProperties: false
+    nested_account:
+      required:
+      - contact_info
+      - created_at
+      - currency
+      - id
+      - is_onboarded
+      - logo_url
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: Account ID
+        logo_url:
+          type: string
+          description: path to stored logo
+          default: https://climate-ai-platform-prod-storage.s3.us-east-2.amazonaws.com/account_logos/climateai_logo.png
+        is_onboarded:
+          type: boolean
+          description: Is the account onboarded
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        platform_id:
+          type: string
+          description: platform ID
+        logo_b64:
+          type: string
+          description: Account logo image in Base64
+        name:
+          type: string
+          description: Account name.
+        currency:
+          type: string
+          description: Currency used by the account.
+        contact_info:
+          description: Contact information used by the account.
+          allOf:
+          - $ref: '#/components/schemas/contact_info_payload'
+        status:
+          type: string
+          description: Account status
+          example: live
+          enum:
+          - live
+          - sales
+          - terminated
+        parent_id:
+          type: string
+          description: Account ID of the parent account.
+        is_internal:
+          type: boolean
+          description: If account is internal or not
+      type: object
   securitySchemes:
     jwt:
       type: apiKey

@@ -24,7 +24,7 @@ paths:
           description: Error creating account
         '201':
           description: Successfully created new account.
-      operationId: Create an account
+      operationId: CreateAnAccount
       tags:
       - Account
       requestBody:
@@ -35,6 +35,8 @@ paths:
         required: true
       summary: Create an account
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Create an account
     get:
       responses:
         '200':
@@ -44,9 +46,11 @@ paths:
         '204':
           description: No accounts found.
       summary: Gets all accounts
-      operationId: Retrieve all accounts
+      operationId: RetrieveAllAccounts
       tags:
       - Account
+      x-operation-id-source: normalized
+      x-operation-id-original: Retrieve all accounts
   /account/search:
     post:
       responses:
@@ -56,7 +60,7 @@ paths:
           description: Error searching.
         '204':
           description: No accounts found.
-      operationId: Search accounts
+      operationId: SearchAccounts
       tags:
       - Account
       requestBody:
@@ -67,6 +71,8 @@ paths:
         required: true
       summary: Search accounts
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Search accounts
   /account/{account_id}:
     parameters:
     - name: account_id
@@ -82,7 +88,7 @@ paths:
           description: Error updating account.
         '404':
           description: No account with given ID found.
-      operationId: Update information about a specific account
+      operationId: UpdateInformationAboutASpecificAccount
       tags:
       - Account
       requestBody:
@@ -93,6 +99,8 @@ paths:
         required: true
       summary: Update information about a specific account
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Update information about a specific account
     delete:
       responses:
         '200':
@@ -101,11 +109,13 @@ paths:
           description: Error disabling account.
         '404':
           description: No account with given ID found.
-      operationId: Disable account by id
+      operationId: DisableAccountById
       tags:
       - Account
       summary: Disable account by id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Disable account by id
     get:
       responses:
         '200':
@@ -114,11 +124,13 @@ paths:
           description: Error retrieving account.
         '404':
           description: No account with given ID found.
-      operationId: Retrieve account by id
+      operationId: RetrieveAccountById
       tags:
       - Account
       summary: Retrieve account by id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Retrieve account by id
   /account/{account_id}/is_onboarded:
     parameters:
     - name: account_id
@@ -134,7 +146,7 @@ paths:
           description: Error updating account.
         '404':
           description: No account with given ID found.
-      operationId: Update an account is_onboarded
+      operationId: UpdateAnAccountIs_onboarded
       tags:
       - Account
       requestBody:
@@ -145,6 +157,8 @@ paths:
         required: true
       summary: Update an account is onboarded
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Update an account is_onboarded
   /account/{account_id}/platform:
     parameters:
     - name: account_id
@@ -160,11 +174,13 @@ paths:
           description: Error getting platform linked to account
         '404':
           description: Account not found.
-      operationId: Gets a platform based on the account_id
+      operationId: GetsAPlatformBasedOnTheAccount_id
       tags:
       - Account
       summary: Gets a platform based on the account id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Gets a platform based on the account_id
   /account/{account_id}/user/{user_id}/relation:
     parameters:
     - name: account_id
@@ -189,7 +205,7 @@ paths:
           description: Error creating account-user relationship.
         '201':
           description: Successfully created new account-user relationship.
-      operationId: Add a new account-user relationship
+      operationId: AddANewAccount-userRelationship
       tags:
       - Account
       requestBody:
@@ -200,13 +216,15 @@ paths:
         required: true
       summary: Add a new account user relationship
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Add a new account-user relationship
     put:
       responses:
         '200':
           description: Successfully modified account-user relationship.
         '500':
           description: Error modifying account-user relationship.
-      operationId: Modify an existing account-user relationship
+      operationId: ModifyAnExistingAccount-userRelationship
       tags:
       - Account
       requestBody:
@@ -217,6 +235,8 @@ paths:
         required: true
       summary: Modify an existing account user relationship
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Modify an existing account-user relationship
     delete:
       responses:
         '500':
@@ -225,11 +245,13 @@ paths:
           description: No relation found for the account/user combination.
         '200':
           description: Successfully deleted account-user relation.
-      operationId: Delete an account-user relation
+      operationId: DeleteAnAccount-userRelation
       tags:
       - Account
       summary: Delete an account user relation
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete an account-user relation
     get:
       responses:
         '200':
@@ -238,11 +260,13 @@ paths:
           description: Error retrieving relation.
         '404':
           description: No relation found for the account/user combination.
-      operationId: Get a relation between the account/user
+      operationId: GetARelationBetweenTheAccount/user
       tags:
       - Account
       summary: Get a relation between the account/user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Get a relation between the account/user
   /account/{account_id}/user/{user_id}/relation/activate:
     parameters:
     - name: account_id
@@ -261,24 +285,15 @@ paths:
           description: Successfully activated account-user relationship.
         '500':
           description: Error activating account-user relationship.
-      operationId: Activate an account-user relationship
+      operationId: ActivateAnAccount-userRelationship
       tags:
       - Account
       summary: Activate an account user relationship
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Activate an account-user relationship
 components:
   schemas:
-    search_payload:
-      properties:
-        filter_by:
-          $ref: '#/components/schemas/criteria'
-        order_by:
-          type: array
-          items:
-            type: string
-        pagination:
-          $ref: '#/components/schemas/pagination'
-      type: object
     account_response:
       required:
       - contact_info
@@ -351,6 +366,142 @@ components:
         all:
           type: boolean
       type: object
+    contact_info_payload:
+      required:
+      - address
+      - email
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the primary contact for the account.
+        email:
+          type: string
+          description: Primary contact email of the account.
+        address:
+          type: string
+          description: Primary address for the account.
+      type: object
+      additionalProperties: false
+    account_is_onboarded:
+      required:
+      - is_onboarded
+      properties:
+        is_onboarded:
+          type: boolean
+          description: Boolean for is_onboarded
+      type: object
+    account_user_relation_response:
+      required:
+      - account_id
+      - created_at
+      - email_sent
+      - last_used
+      - updated_at
+      - user_id
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        user_id:
+          type: string
+          description: User ID
+        role_id:
+          type: string
+          description: Role ID
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        email_sent:
+          type: string
+          description: email type sent
+        last_used:
+          type: string
+          description: last time this relation was used
+      type: object
+      additionalProperties: false
+    search_filter:
+      required:
+      - field_name
+      - field_value
+      - operator
+      properties:
+        field_name:
+          type: string
+        operator:
+          type: string
+        field_value:
+          type: string
+      type: object
+    criteria:
+      properties:
+        and:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+        or:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+      type: object
+    search_payload:
+      properties:
+        filter_by:
+          $ref: '#/components/schemas/criteria'
+        order_by:
+          type: array
+          items:
+            type: string
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      type: object
+    account_user_relation_payload:
+      properties:
+        role_id:
+          type: string
+          description: Role ID
+      type: object
+      additionalProperties: false
+    account_payload:
+      required:
+      - contact_info
+      - currency
+      - name
+      properties:
+        logo_b64:
+          type: string
+          description: Account logo image in Base64
+        name:
+          type: string
+          description: Account name.
+        currency:
+          type: string
+          description: Currency used by the account.
+        contact_info:
+          description: Contact information used by the account.
+          allOf:
+          - $ref: '#/components/schemas/contact_info_payload'
+        status:
+          type: string
+          description: Account status
+          example: live
+          enum:
+          - live
+          - sales
+          - terminated
+        platform_id:
+          type: string
+          description: platform ID
+        parent_id:
+          type: string
+          description: Account ID of the parent account.
+        is_internal:
+          type: boolean
+          description: If account is internal or not
+      type: object
     nested_account:
       required:
       - contact_info
@@ -409,131 +560,6 @@ components:
           type: boolean
           description: If account is internal or not
       type: object
-    account_payload:
-      required:
-      - contact_info
-      - currency
-      - name
-      properties:
-        logo_b64:
-          type: string
-          description: Account logo image in Base64
-        name:
-          type: string
-          description: Account name.
-        currency:
-          type: string
-          description: Currency used by the account.
-        contact_info:
-          description: Contact information used by the account.
-          allOf:
-          - $ref: '#/components/schemas/contact_info_payload'
-        status:
-          type: string
-          description: Account status
-          example: live
-          enum:
-          - live
-          - sales
-          - terminated
-        platform_id:
-          type: string
-          description: platform ID
-        parent_id:
-          type: string
-          description: Account ID of the parent account.
-        is_internal:
-          type: boolean
-          description: If account is internal or not
-      type: object
-    account_is_onboarded:
-      required:
-      - is_onboarded
-      properties:
-        is_onboarded:
-          type: boolean
-          description: Boolean for is_onboarded
-      type: object
-    search_filter:
-      required:
-      - field_name
-      - field_value
-      - operator
-      properties:
-        field_name:
-          type: string
-        operator:
-          type: string
-        field_value:
-          type: string
-      type: object
-    account_user_relation_response:
-      required:
-      - account_id
-      - created_at
-      - email_sent
-      - last_used
-      - updated_at
-      - user_id
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        user_id:
-          type: string
-          description: User ID
-        role_id:
-          type: string
-          description: Role ID
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
-        email_sent:
-          type: string
-          description: email type sent
-        last_used:
-          type: string
-          description: last time this relation was used
-      type: object
-      additionalProperties: false
-    criteria:
-      properties:
-        and:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-        or:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-      type: object
-    account_user_relation_payload:
-      properties:
-        role_id:
-          type: string
-          description: Role ID
-      type: object
-      additionalProperties: false
-    contact_info_payload:
-      required:
-      - address
-      - email
-      - name
-      properties:
-        name:
-          type: string
-          description: Name of the primary contact for the account.
-        email:
-          type: string
-          description: Primary contact email of the account.
-        address:
-          type: string
-          description: Primary address for the account.
-      type: object
-      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey

@@ -27,7 +27,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/role_response'
       summary: Creates a new Role
-      operationId: create a new role
+      operationId: createANewRole
       tags:
       - Role
       requestBody:
@@ -36,6 +36,8 @@ paths:
             schema:
               $ref: '#/components/schemas/role_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: create a new role
     get:
       responses:
         '200':
@@ -44,11 +46,13 @@ paths:
           description: Error retrieving roles.
         '204':
           description: No roles found.
-      operationId: Get all roles
+      operationId: GetAllRoles
       tags:
       - Role
       summary: Get all roles
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Get all roles
   /role/{role_id}:
     parameters:
     - in: path
@@ -72,7 +76,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/role_response'
       summary: Updates a role
-      operationId: update a role
+      operationId: updateARole
       tags:
       - Role
       requestBody:
@@ -81,6 +85,8 @@ paths:
             schema:
               $ref: '#/components/schemas/role_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: update a role
     delete:
       responses:
         '404':
@@ -90,9 +96,11 @@ paths:
         '200':
           description: Role successfully deleted.
       summary: Deletes a role by id
-      operationId: delete a role
+      operationId: deleteARole
       tags:
       - Role
+      x-operation-id-source: normalized
+      x-operation-id-original: delete a role
     get:
       responses:
         '404':
@@ -105,11 +113,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/role_response'
-      operationId: fetch a role
+      operationId: fetchARole
       tags:
       - Role
       summary: Fetch a role
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: fetch a role
   /role/{role_id}/permission/{permission_id}:
     parameters:
     - in: path
@@ -141,9 +151,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/role_response'
       summary: Adds a new Role/Permission association
-      operationId: add a permission to a role
+      operationId: addAPermissionToARole
       tags:
       - Role
+      x-operation-id-source: normalized
+      x-operation-id-original: add a permission to a role
     delete:
       responses:
         '404':
@@ -157,24 +169,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/role_response'
       summary: Removes a Role/Permission association
-      operationId: remove a permission from a role
+      operationId: removeAPermissionFromARole
       tags:
       - Role
+      x-operation-id-source: normalized
+      x-operation-id-original: remove a permission from a role
 components:
   schemas:
-    role_payload:
-      required:
-      - description
-      - name
-      properties:
-        name:
-          type: string
-          description: role name
-        description:
-          type: string
-          description: role description
-      type: object
-      additionalProperties: false
     permission_response:
       required:
       - created_at
@@ -195,6 +196,19 @@ components:
           type: string
           description: permission name
       type: object
+    role_payload:
+      required:
+      - description
+      - name
+      properties:
+        name:
+          type: string
+          description: role name
+        description:
+          type: string
+          description: role description
+      type: object
+      additionalProperties: false
     role_response:
       required:
       - created_at

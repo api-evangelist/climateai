@@ -27,7 +27,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/email_response'
       summary: Sends an email via notification service proxy
-      operationId: send email
+      operationId: sendEmail
       tags:
       - Email
       requestBody:
@@ -36,6 +36,8 @@ paths:
             schema:
               $ref: '#/components/schemas/email_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: send email
 components:
   schemas:
     email_payload:

@@ -24,7 +24,7 @@ paths:
           description: Bad input
         '200':
           description: Logged in
-      operationId: user login
+      operationId: userLogin
       tags:
       - Auth
       requestBody:
@@ -35,6 +35,8 @@ paths:
         required: true
       summary: User login
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: user login
   /auth/logout:
     post:
       responses:
@@ -44,7 +46,7 @@ paths:
           description: Invalid auth token
         '200':
           description: Logged out
-      operationId: logout a user
+      operationId: logoutAUser
       parameters:
       - name: Authorization
         in: header
@@ -55,6 +57,8 @@ paths:
       - Auth
       summary: Logout a user
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: logout a user
   /auth/refresh:
     post:
       responses:
@@ -62,20 +66,24 @@ paths:
           description: Error refreshing token
         '200':
           description: Refresh successful
-      operationId: refresh a jwt token
+      operationId: refreshAJwtToken
       tags:
       - Auth
       summary: Refresh a jwt token
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: refresh a jwt token
   /auth/status:
     get:
       responses:
         '200':
           description: OK.
       summary: Returns a 200 code
-      operationId: test request to check status
+      operationId: testRequestToCheckStatus
       tags:
       - Auth
+      x-operation-id-source: normalized
+      x-operation-id-original: test request to check status
   /auth/sudo/{user_id}:
     parameters:
     - name: user_id
@@ -91,11 +99,13 @@ paths:
           description: Not allowed to generate token
         '200':
           description: Sudo token generated
-      operationId: generates a jwt token with the given user_id
+      operationId: generatesAJwtTokenWithTheGivenUser_id
       tags:
       - Auth
       summary: Generates a jwt token with the given user id
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: generates a jwt token with the given user_id
   /auth/switch_account/{account_id}:
     parameters:
     - name: account_id
@@ -111,11 +121,13 @@ paths:
           description: Bad input
         '200':
           description: Switched account
-      operationId: switch account
+      operationId: switchAccount
       tags:
       - Auth
       summary: Switch account
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: switch account
   /auth/verify_token:
     get:
       responses:
@@ -126,12 +138,14 @@ paths:
         '200':
           description: OK.
       summary: Returns a 200 code if authentication passes
-      operationId: Verify credentials for reverse proxy
+      operationId: VerifyCredentialsForReverseProxy
       security:
       - jwt: []
       - apikey: []
       tags:
       - Auth
+      x-operation-id-source: normalized
+      x-operation-id-original: Verify credentials for reverse proxy
 components:
   schemas:
     auth_details:

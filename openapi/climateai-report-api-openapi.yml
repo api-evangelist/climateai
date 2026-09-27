@@ -25,7 +25,7 @@ paths:
         '201':
           description: Successfully created new account.
       summary: Creates a new report
-      operationId: Create custom report
+      operationId: CreateCustomReport
       tags:
       - Report
       requestBody:
@@ -34,6 +34,8 @@ paths:
             schema:
               $ref: '#/components/schemas/report_payload'
         required: true
+      x-operation-id-source: normalized
+      x-operation-id-original: Create custom report
     get:
       responses:
         '200':
@@ -41,9 +43,11 @@ paths:
         '500':
           description: Error retrieving accounts.
       summary: Gets all accounts
-      operationId: Retrieve all custom reports
+      operationId: RetrieveAllCustomReports
       tags:
       - Report
+      x-operation-id-source: normalized
+      x-operation-id-original: Retrieve all custom reports
   /report/{report_id}:
     parameters:
     - name: report_id
@@ -66,9 +70,11 @@ paths:
         '204':
           description: Report successfully deleted.
       summary: Disables an account
-      operationId: Delete report by id
+      operationId: DeleteReportById
       tags:
       - Report
+      x-operation-id-source: normalized
+      x-operation-id-original: Delete report by id
     get:
       responses:
         '200':
@@ -78,9 +84,11 @@ paths:
         '404':
           description: No report with given ID found.
       summary: Gets a specific account by its id
-      operationId: Retrieve report by id
+      operationId: RetrieveReportById
       tags:
       - Report
+      x-operation-id-source: normalized
+      x-operation-id-original: Retrieve report by id
 components:
   schemas:
     report_response:
