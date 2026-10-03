@@ -266,100 +266,6 @@ paths:
       x-operation-id-original: Gets account relations associated with the user
 components:
   schemas:
-    create_user_payload:
-      required:
-      - email
-      - language
-      - password
-      - timezone
-      - unit_type
-      - username
-      properties:
-        email:
-          type: string
-          description: user email address
-        username:
-          type: string
-          description: user username
-        unit_type:
-          type: boolean
-          description: shows if the users unit_type is metric
-        language:
-          type: string
-          description: Main language used by the account.
-        timezone:
-          type: string
-          description: timezone of the user
-        status:
-          type: string
-          description: user status
-          example: active
-          enum:
-          - active
-          - inactive
-          - draft
-        password:
-          type: string
-          description: user password
-      type: object
-      additionalProperties: false
-    user_pwd_payload_a:
-      required:
-      - email
-      - password
-      properties:
-        email:
-          type: string
-          description: user email address
-        password:
-          type: string
-          description: user password
-      type: object
-      additionalProperties: false
-    pagination:
-      properties:
-        page:
-          type: integer
-        per_page:
-          type: integer
-        all:
-          type: boolean
-      type: object
-    search_filter:
-      required:
-      - field_name
-      - field_value
-      - operator
-      properties:
-        field_name:
-          type: string
-        operator:
-          type: string
-        field_value:
-          type: string
-      type: object
-    criteria:
-      properties:
-        and:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-        or:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-      type: object
-    search_payload:
-      properties:
-        filter_by:
-          $ref: '#/components/schemas/criteria'
-        order_by:
-          type: array
-          items:
-            type: string
-        pagination:
-          $ref: '#/components/schemas/pagination'
-      type: object
     user_response:
       required:
       - created_at
@@ -433,18 +339,80 @@ components:
           - inactive
       type: object
       additionalProperties: false
-    user_role_info:
+    create_user_payload:
       required:
-      - account_id
-      - role_id
+      - email
+      - language
+      - password
+      - timezone
+      - unit_type
+      - username
       properties:
-        account_id:
+        email:
           type: string
-          description: Account ID
-        role_id:
+          description: user email address
+        username:
           type: string
-          description: role identifier
+          description: user username
+        unit_type:
+          type: boolean
+          description: shows if the users unit_type is metric
+        language:
+          type: string
+          description: Main language used by the account.
+        timezone:
+          type: string
+          description: timezone of the user
+        status:
+          type: string
+          description: user status
+          example: active
+          enum:
+          - active
+          - inactive
+          - draft
+        password:
+          type: string
+          description: user password
       type: object
+      additionalProperties: false
+    search_payload:
+      properties:
+        filter_by:
+          $ref: '#/components/schemas/criteria'
+        order_by:
+          type: array
+          items:
+            type: string
+        pagination:
+          $ref: '#/components/schemas/pagination'
+      type: object
+    search_filter:
+      required:
+      - field_name
+      - field_value
+      - operator
+      properties:
+        field_name:
+          type: string
+        operator:
+          type: string
+        field_value:
+          type: string
+      type: object
+    user_pwd_payload_a:
+      required:
+      - email
+      - password
+      properties:
+        email:
+          type: string
+          description: user email address
+        password:
+          type: string
+          description: user password
+      type: object
+      additionalProperties: false
     user_pwd_response:
       required:
       - created_at
@@ -460,6 +428,38 @@ components:
         created_at:
           type: string
           description: Token created at timestamp
+      type: object
+    criteria:
+      properties:
+        and:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+        or:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+      type: object
+    user_role_info:
+      required:
+      - account_id
+      - role_id
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        role_id:
+          type: string
+          description: role identifier
+      type: object
+    pagination:
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        all:
+          type: boolean
       type: object
   securitySchemes:
     jwt:

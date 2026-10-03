@@ -179,21 +179,6 @@ paths:
       x-operation-id-original: fetch a device
 components:
   schemas:
-    device_payload:
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Device name
-        uber_admin:
-          type: boolean
-          description: shows if device has uber_admin permissions
-        days_valid:
-          type: integer
-          description: Number of days the device is valid for
-      type: object
-      additionalProperties: false
     device_response:
       required:
       - account_id
@@ -238,6 +223,21 @@ components:
           type: integer
           description: Number of days the device is valid for
       type: object
+    device_payload:
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Device name
+        uber_admin:
+          type: boolean
+          description: shows if device has uber_admin permissions
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+      type: object
+      additionalProperties: false
     api_trial_payload:
       required:
       - company_name

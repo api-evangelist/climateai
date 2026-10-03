@@ -40,6 +40,18 @@ paths:
       x-operation-id-original: send email
 components:
   schemas:
+    email_response:
+      required:
+      - message
+      - status
+      properties:
+        status:
+          type: string
+          description: Response status
+        message:
+          type: string
+          description: Response message
+      type: object
     email_payload:
       required:
       - notification_subject
@@ -63,18 +75,6 @@ components:
           description: Optional account ID
       type: object
       additionalProperties: false
-    email_response:
-      required:
-      - message
-      - status
-      properties:
-        status:
-          type: string
-          description: Response status
-        message:
-          type: string
-          description: Response message
-      type: object
   securitySchemes:
     jwt:
       type: apiKey

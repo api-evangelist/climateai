@@ -176,39 +176,6 @@ paths:
       x-operation-id-original: remove a permission from a role
 components:
   schemas:
-    permission_response:
-      required:
-      - created_at
-      - id
-      - name
-      - updated_at
-      properties:
-        id:
-          type: string
-          description: permission identifier
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
-        name:
-          type: string
-          description: permission name
-      type: object
-    role_payload:
-      required:
-      - description
-      - name
-      properties:
-        name:
-          type: string
-          description: role name
-        description:
-          type: string
-          description: role description
-      type: object
-      additionalProperties: false
     role_response:
       required:
       - created_at
@@ -237,6 +204,39 @@ components:
         description:
           type: string
           description: role description
+      type: object
+    role_payload:
+      required:
+      - description
+      - name
+      properties:
+        name:
+          type: string
+          description: role name
+        description:
+          type: string
+          description: role description
+      type: object
+      additionalProperties: false
+    permission_response:
+      required:
+      - created_at
+      - id
+      - name
+      - updated_at
+      properties:
+        id:
+          type: string
+          description: permission identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        name:
+          type: string
+          description: permission name
       type: object
   securitySchemes:
     jwt:

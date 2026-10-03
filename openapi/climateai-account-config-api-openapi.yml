@@ -209,6 +209,23 @@ components:
           items:
             type: string
       type: object
+    account_config_payload:
+      required:
+      - account_id
+      - config_type
+      - config_value
+      properties:
+        account_id:
+          type: string
+          description: Account ID
+        config_type:
+          type: string
+          description: type of config to control
+        config_value:
+          type: string
+          description: value related to config_type
+      type: object
+      additionalProperties: false
     account_config_response:
       required:
       - account_id
@@ -237,23 +254,6 @@ components:
           type: string
           description: last updated timestamp
       type: object
-    account_config_payload:
-      required:
-      - account_id
-      - config_type
-      - config_value
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        config_type:
-          type: string
-          description: type of config to control
-        config_value:
-          type: string
-          description: value related to config_type
-      type: object
-      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey

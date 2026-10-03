@@ -91,24 +91,12 @@ paths:
       x-operation-id-original: Retrieve report by id
 components:
   schemas:
-    report_response:
+    report_payload:
       required:
-      - created_at
       - description
-      - id
       - name
-      - updated_at
       - url
       properties:
-        id:
-          type: string
-          description: Report id
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
         account_id:
           type: string
           description: Custom report account.
@@ -130,12 +118,24 @@ components:
           - pdf
           - url
       type: object
-    report_payload:
+    report_response:
       required:
+      - created_at
       - description
+      - id
       - name
+      - updated_at
       - url
       properties:
+        id:
+          type: string
+          description: Report id
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
         account_id:
           type: string
           description: Custom report account.

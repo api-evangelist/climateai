@@ -257,15 +257,76 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    ForecastStatisticsModel:
+    WeatherVariableFull:
+      type: string
+      description: 'Variable available for History, Climatology, and Short-term Forecast. See the Datasets section for units.
+
+        '
+      enum:
+      - evapotranspiration
+      - humidity
+      - soil_moisture
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+      - max_wind_speed
+      - max_wind_gust
+    ForecastTimeStep:
       type: object
-      description: Per-variable forecast statistics.
+      description: One timestep; variable values are nested under `attributes`.
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2025-09-01
+        type:
+          type: string
+          examples:
+          - Short-term Forecast
+        id:
+          type: integer
+          examples:
+          - 0
+        attributes:
+          type: object
+          description: One entry per variable in `meta.variables`.
+          additionalProperties:
+            $ref: '#/components/schemas/ForecastStatisticsModel'
+          examples:
+          - temp_mean:
+              units: °C
+              ensemble_mean: 20.53
+              quantile:
+                quantile_0.05: 18.1
+                quantile_0.50: 20.4
+                quantile_0.95: 23
+    WeatherVariableSeasonal:
+      type: string
+      description: Variable available for the Seasonal Forecast.
+      enum:
+      - evapotranspiration
+      - humidity
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+    HistoryStatisticsModel:
+      type: object
+      description: Per-variable historical values.
       properties:
         units:
           type: string
           examples:
           - mm
-        ensemble_mean:
+        values:
           type: number
           examples:
           - 20.53
@@ -273,31 +334,101 @@ components:
           type: object
           additionalProperties:
             type: number
-          examples:
-          - quantile_0.05: 7.59
-            quantile_0.50: 21.16
-            quantile_0.95: 31.5
         probability:
           type: object
-          description: Climatological probability ranges (weekly/monthly only).
           additionalProperties:
             type: number
+    LegacyMeta:
+      type: object
+      properties:
+        variables:
+          type: array
+          description: Variables included in the payload.
+          items:
+            type: string
           examples:
-          - clim_prob_0.00-0.33: 0.53
-            clim_prob_0.33-0.67: 0.1
-            clim_prob_0.67-1.00: 0.37
-    HistoryTimeStep:
+          - - temp_mean
+            - precipitation
+        granularity:
+          type: string
+          description: Temporal granularity of the data.
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          examples:
+          - day
+        location:
+          $ref: '#/components/schemas/MetaLocation'
+        data_version:
+          type:
+          - string
+          - 'null'
+          description: Identifier of the dataset version that produced the data.
+          examples:
+          - forecast-v1
+        statistics:
+          type: array
+          description: Statistical measures present in the dataset.
+          items:
+            type: string
+          examples:
+          - - ensemble_mean
+            - quantile_0.05
+            - quantile_0.50
+            - quantile_0.95
+        data_downscaled:
+          type: boolean
+          description: Whether the data was spatially downscaled.
+          examples:
+          - false
+    ClimatologyResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/LegacyMeta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClimatologyTimeStep'
+      examples:
+      - meta:
+          variables:
+          - temp_mean
+          granularity: month
+          location:
+            latitude: '39.70'
+            longitude: '-100.10'
+          data_version: climatology-v1
+          statistics:
+          - quantile_0.05
+          - quantile_0.50
+          - quantile_0.95
+          data_downscaled: false
+        data:
+        - date: 2022-09-01
+          type: Climatology
+          id: 0
+          attributes:
+            temp_mean:
+              units: °C
+              quantile:
+                quantile_0.05: 14.2
+                quantile_0.50: 16.7
+                quantile_0.95: 19.1
+    ClimatologyTimeStep:
       type: object
       properties:
         date:
           type: string
           format: date
           examples:
-          - 2022-09-01
+          - 2025-09-01
         type:
           type: string
           examples:
-          - History
+          - Climatology
         id:
           type: integer
           examples:
@@ -305,9 +436,54 @@ components:
         attributes:
           type: object
           additionalProperties:
-            $ref: '#/components/schemas/HistoryStatisticsModel'
+            $ref: '#/components/schemas/ClimatologyStatisticsModel'
           examples:
-          - precipitation:
+          - temp_mean:
+              units: °C
+              quantile:
+                quantile_0.05: 14.2
+                quantile_0.50: 16.7
+                quantile_0.95: 19.1
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          examples:
+          - Input validation failed
+        code:
+          type: string
+          description: Machine-readable error code (when available).
+          examples:
+          - VALIDATION_ERROR
+    HistoryResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/LegacyMeta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryTimeStep'
+      examples:
+      - meta:
+          variables:
+          - precipitation
+          granularity: day
+          location:
+            latitude: '39.70'
+            longitude: '-100.10'
+          data_version: history-v1
+          statistics:
+          - values
+          data_downscaled: false
+        data:
+        - date: 2022-09-01
+          type: History
+          id: 0
+          attributes:
+            precipitation:
               units: mm
               values: 3.2
     ForecastDatasetResponse:
@@ -355,157 +531,6 @@ components:
                 quantile_0.05: 0
                 quantile_0.50: 2.1
                 quantile_0.95: 9.8
-    LegacyMeta:
-      type: object
-      properties:
-        variables:
-          type: array
-          description: Variables included in the payload.
-          items:
-            type: string
-          examples:
-          - - temp_mean
-            - precipitation
-        granularity:
-          type: string
-          description: Temporal granularity of the data.
-          enum:
-          - hour
-          - day
-          - week
-          - month
-          examples:
-          - day
-        location:
-          $ref: '#/components/schemas/MetaLocation'
-        data_version:
-          type:
-          - string
-          - 'null'
-          description: Identifier of the dataset version that produced the data.
-          examples:
-          - forecast-v1
-        statistics:
-          type: array
-          description: Statistical measures present in the dataset.
-          items:
-            type: string
-          examples:
-          - - ensemble_mean
-            - quantile_0.05
-            - quantile_0.50
-            - quantile_0.95
-        data_downscaled:
-          type: boolean
-          description: Whether the data was spatially downscaled.
-          examples:
-          - false
-    ClimatologyTimeStep:
-      type: object
-      properties:
-        date:
-          type: string
-          format: date
-          examples:
-          - 2025-09-01
-        type:
-          type: string
-          examples:
-          - Climatology
-        id:
-          type: integer
-          examples:
-          - 0
-        attributes:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ClimatologyStatisticsModel'
-          examples:
-          - temp_mean:
-              units: °C
-              quantile:
-                quantile_0.05: 14.2
-                quantile_0.50: 16.7
-                quantile_0.95: 19.1
-    WeatherVariableSeasonal:
-      type: string
-      description: Variable available for the Seasonal Forecast.
-      enum:
-      - evapotranspiration
-      - humidity
-      - solar_radiation
-      - soil_temperature
-      - temp_mean
-      - temp_max
-      - temp_min
-      - precipitation
-      - wind_speed
-    WeatherVariableFull:
-      type: string
-      description: 'Variable available for History, Climatology, and Short-term Forecast. See the Datasets section for units.
-
-        '
-      enum:
-      - evapotranspiration
-      - humidity
-      - soil_moisture
-      - solar_radiation
-      - soil_temperature
-      - temp_mean
-      - temp_max
-      - temp_min
-      - precipitation
-      - wind_speed
-      - max_wind_speed
-      - max_wind_gust
-    WeatherVariableSubseasonal:
-      type: string
-      description: Variable available for the Subseasonal Forecast.
-      enum:
-      - evapotranspiration
-      - humidity
-      - soil_moisture
-      - solar_radiation
-      - soil_temperature
-      - temp_mean
-      - temp_max
-      - temp_min
-      - precipitation
-      - wind_speed
-    ClimatologyResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/LegacyMeta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ClimatologyTimeStep'
-      examples:
-      - meta:
-          variables:
-          - temp_mean
-          granularity: month
-          location:
-            latitude: '39.70'
-            longitude: '-100.10'
-          data_version: climatology-v1
-          statistics:
-          - quantile_0.05
-          - quantile_0.50
-          - quantile_0.95
-          data_downscaled: false
-        data:
-        - date: 2022-09-01
-          type: Climatology
-          id: 0
-          attributes:
-            temp_mean:
-              units: °C
-              quantile:
-                quantile_0.05: 14.2
-                quantile_0.50: 16.7
-                quantile_0.95: 19.1
     ClimatologyStatisticsModel:
       type: object
       description: Per-variable climatology statistics.
@@ -526,87 +551,15 @@ components:
           type: object
           additionalProperties:
             type: number
-    ForecastTimeStep:
+    ForecastStatisticsModel:
       type: object
-      description: One timestep; variable values are nested under `attributes`.
-      properties:
-        date:
-          type: string
-          format: date
-          examples:
-          - 2025-09-01
-        type:
-          type: string
-          examples:
-          - Short-term Forecast
-        id:
-          type: integer
-          examples:
-          - 0
-        attributes:
-          type: object
-          description: One entry per variable in `meta.variables`.
-          additionalProperties:
-            $ref: '#/components/schemas/ForecastStatisticsModel'
-          examples:
-          - temp_mean:
-              units: °C
-              ensemble_mean: 20.53
-              quantile:
-                quantile_0.05: 18.1
-                quantile_0.50: 20.4
-                quantile_0.95: 23
-    HistoryResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/LegacyMeta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/HistoryTimeStep'
-      examples:
-      - meta:
-          variables:
-          - precipitation
-          granularity: day
-          location:
-            latitude: '39.70'
-            longitude: '-100.10'
-          data_version: history-v1
-          statistics:
-          - values
-          data_downscaled: false
-        data:
-        - date: 2022-09-01
-          type: History
-          id: 0
-          attributes:
-            precipitation:
-              units: mm
-              values: 3.2
-    ErrorResponse:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          examples:
-          - Input validation failed
-        code:
-          type: string
-          description: Machine-readable error code (when available).
-          examples:
-          - VALIDATION_ERROR
-    HistoryStatisticsModel:
-      type: object
-      description: Per-variable historical values.
+      description: Per-variable forecast statistics.
       properties:
         units:
           type: string
           examples:
           - mm
-        values:
+        ensemble_mean:
           type: number
           examples:
           - 20.53
@@ -614,10 +567,57 @@ components:
           type: object
           additionalProperties:
             type: number
+          examples:
+          - quantile_0.05: 7.59
+            quantile_0.50: 21.16
+            quantile_0.95: 31.5
         probability:
           type: object
+          description: Climatological probability ranges (weekly/monthly only).
           additionalProperties:
             type: number
+          examples:
+          - clim_prob_0.00-0.33: 0.53
+            clim_prob_0.33-0.67: 0.1
+            clim_prob_0.67-1.00: 0.37
+    WeatherVariableSubseasonal:
+      type: string
+      description: Variable available for the Subseasonal Forecast.
+      enum:
+      - evapotranspiration
+      - humidity
+      - soil_moisture
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+    HistoryTimeStep:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2022-09-01
+        type:
+          type: string
+          examples:
+          - History
+        id:
+          type: integer
+          examples:
+          - 0
+        attributes:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HistoryStatisticsModel'
+          examples:
+          - precipitation:
+              units: mm
+              values: 3.2
     MetaLocation:
       type: object
       description: Resolved location of the served data.
@@ -631,6 +631,18 @@ components:
           examples:
           - '-79.40'
   parameters:
+    LatQuery:
+      name: lat
+      in: query
+      required: true
+      description: Latitude coordinate in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -90
+        maximum: 90
+        examples:
+        - 9.119
     GranularitySeasonalQuery:
       name: granularity
       in: query
@@ -642,68 +654,6 @@ components:
         - daily
         - monthly
         default: daily
-    GranularityFullQuery:
-      name: granularity
-      in: query
-      required: false
-      description: Temporal granularity of the returned data.
-      schema:
-        type: string
-        enum:
-        - daily
-        - weekly
-        - monthly
-        default: daily
-    LocationIdPath:
-      name: id
-      in: path
-      required: true
-      description: Stored location identifier.
-      schema:
-        type: string
-    GranularitySubseasonalQuery:
-      name: granularity
-      in: query
-      required: false
-      description: Temporal granularity. Subseasonal supports daily and weekly only.
-      schema:
-        type: string
-        enum:
-        - daily
-        - weekly
-        default: daily
-    VarSubseasonalQuery:
-      name: var
-      in: query
-      required: false
-      description: 'Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.
-
-        '
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/WeatherVariableSubseasonal'
-        examples:
-        - - temp_mean
-          - precipitation
-    VarSeasonalQuery:
-      name: var
-      in: query
-      required: false
-      description: 'Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.
-
-        '
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/WeatherVariableSeasonal'
-        examples:
-        - - temp_mean
-          - precipitation
     VarFullQuery:
       name: var
       in: query
@@ -732,29 +682,69 @@ components:
         maximum: 180
         examples:
         - -79.4021
-    LatQuery:
-      name: lat
+    VarSeasonalQuery:
+      name: var
       in: query
-      required: true
-      description: Latitude coordinate in decimal degrees.
+      required: false
+      description: 'Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.
+
+        '
+      style: form
+      explode: false
       schema:
-        type: number
-        format: double
-        minimum: -90
-        maximum: 90
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableSeasonal'
         examples:
-        - 9.119
+        - - temp_mean
+          - precipitation
+    VarSubseasonalQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Comma-separated list of variables. Subseasonal does not provide `max_wind_speed` or `max_wind_gust`. If omitted, all available variables are returned.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableSubseasonal'
+        examples:
+        - - temp_mean
+          - precipitation
+    GranularitySubseasonalQuery:
+      name: granularity
+      in: query
+      required: false
+      description: Temporal granularity. Subseasonal supports daily and weekly only.
+      schema:
+        type: string
+        enum:
+        - daily
+        - weekly
+        default: daily
+    LocationIdPath:
+      name: id
+      in: path
+      required: true
+      description: Stored location identifier.
+      schema:
+        type: string
+    GranularityFullQuery:
+      name: granularity
+      in: query
+      required: false
+      description: Temporal granularity of the returned data.
+      schema:
+        type: string
+        enum:
+        - daily
+        - weekly
+        - monthly
+        default: daily
   responses:
-    NotFound:
-      description: No data found for the requested parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                message: No data found for the requested parameters
     BadRequest:
       description: Invalid request parameters.
       content:
@@ -766,6 +756,16 @@ components:
               value:
                 message: Invalid Location. Latitude must be between 90.0 and -90.0
                 code: VALIDATION_ERROR
+    NotFound:
+      description: No data found for the requested parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                message: No data found for the requested parameters
     ServerError:
       description: Internal server error.
       content:
