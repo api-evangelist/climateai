@@ -122,15 +122,6 @@ paths:
       x-operation-id-original: fetch a permission
 components:
   schemas:
-    permission_payload:
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: permission name
-      type: object
-      additionalProperties: false
     permission_response:
       required:
       - created_at
@@ -151,6 +142,15 @@ components:
           type: string
           description: permission name
       type: object
+    permission_payload:
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: permission name
+      type: object
+      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey

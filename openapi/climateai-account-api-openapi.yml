@@ -294,6 +294,17 @@ paths:
       x-operation-id-original: Activate an account-user relationship
 components:
   schemas:
+    criteria:
+      properties:
+        and:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+        or:
+          type: array
+          items:
+            $ref: '#/components/schemas/search_filter'
+      type: object
     account_response:
       required:
       - contact_info
@@ -357,19 +368,47 @@ components:
           items:
             $ref: '#/components/schemas/nested_account'
       type: object
-    account_is_onboarded:
-      required:
-      - is_onboarded
+    search_payload:
       properties:
-        is_onboarded:
-          type: boolean
-          description: Boolean for is_onboarded
+        filter_by:
+          $ref: '#/components/schemas/criteria'
+        order_by:
+          type: array
+          items:
+            type: string
+        pagination:
+          $ref: '#/components/schemas/pagination'
       type: object
-    account_user_relation_payload:
+    account_user_relation_response:
+      required:
+      - account_id
+      - created_at
+      - email_sent
+      - last_used
+      - updated_at
+      - user_id
       properties:
+        account_id:
+          type: string
+          description: Account ID
+        user_id:
+          type: string
+          description: User ID
         role_id:
           type: string
           description: Role ID
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        email_sent:
+          type: string
+          description: email type sent
+        last_used:
+          type: string
+          description: last time this relation was used
       type: object
       additionalProperties: false
     nested_account:
@@ -430,16 +469,59 @@ components:
           type: boolean
           description: If account is internal or not
       type: object
-    search_payload:
+    account_is_onboarded:
+      required:
+      - is_onboarded
       properties:
-        filter_by:
-          $ref: '#/components/schemas/criteria'
-        order_by:
-          type: array
-          items:
-            type: string
-        pagination:
-          $ref: '#/components/schemas/pagination'
+        is_onboarded:
+          type: boolean
+          description: Boolean for is_onboarded
+      type: object
+    account_user_relation_payload:
+      properties:
+        role_id:
+          type: string
+          description: Role ID
+      type: object
+      additionalProperties: false
+    contact_info_payload:
+      required:
+      - address
+      - email
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the primary contact for the account.
+        email:
+          type: string
+          description: Primary contact email of the account.
+        address:
+          type: string
+          description: Primary address for the account.
+      type: object
+      additionalProperties: false
+    pagination:
+      properties:
+        page:
+          type: integer
+        per_page:
+          type: integer
+        all:
+          type: boolean
+      type: object
+    search_filter:
+      required:
+      - field_name
+      - field_value
+      - operator
+      properties:
+        field_name:
+          type: string
+        operator:
+          type: string
+        field_value:
+          type: string
       type: object
     account_payload:
       required:
@@ -477,88 +559,6 @@ components:
         is_internal:
           type: boolean
           description: If account is internal or not
-      type: object
-    search_filter:
-      required:
-      - field_name
-      - field_value
-      - operator
-      properties:
-        field_name:
-          type: string
-        operator:
-          type: string
-        field_value:
-          type: string
-      type: object
-    account_user_relation_response:
-      required:
-      - account_id
-      - created_at
-      - email_sent
-      - last_used
-      - updated_at
-      - user_id
-      properties:
-        account_id:
-          type: string
-          description: Account ID
-        user_id:
-          type: string
-          description: User ID
-        role_id:
-          type: string
-          description: Role ID
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
-        email_sent:
-          type: string
-          description: email type sent
-        last_used:
-          type: string
-          description: last time this relation was used
-      type: object
-      additionalProperties: false
-    criteria:
-      properties:
-        and:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-        or:
-          type: array
-          items:
-            $ref: '#/components/schemas/search_filter'
-      type: object
-    contact_info_payload:
-      required:
-      - address
-      - email
-      - name
-      properties:
-        name:
-          type: string
-          description: Name of the primary contact for the account.
-        email:
-          type: string
-          description: Primary contact email of the account.
-        address:
-          type: string
-          description: Primary address for the account.
-      type: object
-      additionalProperties: false
-    pagination:
-      properties:
-        page:
-          type: integer
-        per_page:
-          type: integer
-        all:
-          type: boolean
       type: object
   securitySchemes:
     jwt:

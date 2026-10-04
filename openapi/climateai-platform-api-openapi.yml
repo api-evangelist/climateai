@@ -241,6 +241,86 @@ components:
           type: boolean
           description: If account is internal or not
       type: object
+    skin_response:
+      required:
+      - created_at
+      - domain
+      - favicon
+      - footer
+      - header
+      - id
+      - logo
+      - name
+      - primary_color
+      - top_nav_color
+      - updated_at
+      - wallpaper
+      - welcome_string
+      properties:
+        id:
+          type: string
+          description: platform identifier
+        created_at:
+          type: string
+          description: created timestamp
+        updated_at:
+          type: string
+          description: last updated timestamp
+        name:
+          type: string
+          description: Platform label name.
+        welcome_string:
+          type: string
+          description: Platform welcome string.
+        domain:
+          type: string
+          description: URL representing the platform domain.
+        status:
+          type: string
+          description: Platform status.
+          example: live
+          enum:
+          - live
+          - terminated
+        primary_color:
+          type: string
+          description: Primary color.
+        top_nav_color:
+          type: string
+          description: Primary color.
+        logo:
+          type: string
+          description: Platform logo representation.
+        favicon:
+          type: string
+          description: Platform favicon representation.
+        wallpaper:
+          type: string
+          description: Platform wallpaper representation.
+        header:
+          type: string
+          description: Platform header representation.
+        footer:
+          type: string
+          description: Platform footer representation.
+      type: object
+    contact_info_payload:
+      required:
+      - address
+      - email
+      - name
+      properties:
+        name:
+          type: string
+          description: Name of the primary contact for the account.
+        email:
+          type: string
+          description: Primary contact email of the account.
+        address:
+          type: string
+          description: Primary address for the account.
+      type: object
+      additionalProperties: false
     platform_response:
       required:
       - created_at
@@ -359,86 +439,6 @@ components:
         footer:
           type: string
           description: Platform footer representation.
-      type: object
-      additionalProperties: false
-    skin_response:
-      required:
-      - created_at
-      - domain
-      - favicon
-      - footer
-      - header
-      - id
-      - logo
-      - name
-      - primary_color
-      - top_nav_color
-      - updated_at
-      - wallpaper
-      - welcome_string
-      properties:
-        id:
-          type: string
-          description: platform identifier
-        created_at:
-          type: string
-          description: created timestamp
-        updated_at:
-          type: string
-          description: last updated timestamp
-        name:
-          type: string
-          description: Platform label name.
-        welcome_string:
-          type: string
-          description: Platform welcome string.
-        domain:
-          type: string
-          description: URL representing the platform domain.
-        status:
-          type: string
-          description: Platform status.
-          example: live
-          enum:
-          - live
-          - terminated
-        primary_color:
-          type: string
-          description: Primary color.
-        top_nav_color:
-          type: string
-          description: Primary color.
-        logo:
-          type: string
-          description: Platform logo representation.
-        favicon:
-          type: string
-          description: Platform favicon representation.
-        wallpaper:
-          type: string
-          description: Platform wallpaper representation.
-        header:
-          type: string
-          description: Platform header representation.
-        footer:
-          type: string
-          description: Platform footer representation.
-      type: object
-    contact_info_payload:
-      required:
-      - address
-      - email
-      - name
-      properties:
-        name:
-          type: string
-          description: Name of the primary contact for the account.
-        email:
-          type: string
-          description: Primary contact email of the account.
-        address:
-          type: string
-          description: Primary address for the account.
       type: object
       additionalProperties: false
   securitySchemes:

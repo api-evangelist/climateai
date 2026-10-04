@@ -275,114 +275,6 @@ components:
       - wind_speed
       - max_wind_speed
       - max_wind_gust
-    ForecastTimeStep:
-      type: object
-      description: One timestep; variable values are nested under `attributes`.
-      properties:
-        date:
-          type: string
-          format: date
-          examples:
-          - 2025-09-01
-        type:
-          type: string
-          examples:
-          - Short-term Forecast
-        id:
-          type: integer
-          examples:
-          - 0
-        attributes:
-          type: object
-          description: One entry per variable in `meta.variables`.
-          additionalProperties:
-            $ref: '#/components/schemas/ForecastStatisticsModel'
-          examples:
-          - temp_mean:
-              units: °C
-              ensemble_mean: 20.53
-              quantile:
-                quantile_0.05: 18.1
-                quantile_0.50: 20.4
-                quantile_0.95: 23
-    WeatherVariableSeasonal:
-      type: string
-      description: Variable available for the Seasonal Forecast.
-      enum:
-      - evapotranspiration
-      - humidity
-      - solar_radiation
-      - soil_temperature
-      - temp_mean
-      - temp_max
-      - temp_min
-      - precipitation
-      - wind_speed
-    HistoryStatisticsModel:
-      type: object
-      description: Per-variable historical values.
-      properties:
-        units:
-          type: string
-          examples:
-          - mm
-        values:
-          type: number
-          examples:
-          - 20.53
-        quantile:
-          type: object
-          additionalProperties:
-            type: number
-        probability:
-          type: object
-          additionalProperties:
-            type: number
-    LegacyMeta:
-      type: object
-      properties:
-        variables:
-          type: array
-          description: Variables included in the payload.
-          items:
-            type: string
-          examples:
-          - - temp_mean
-            - precipitation
-        granularity:
-          type: string
-          description: Temporal granularity of the data.
-          enum:
-          - hour
-          - day
-          - week
-          - month
-          examples:
-          - day
-        location:
-          $ref: '#/components/schemas/MetaLocation'
-        data_version:
-          type:
-          - string
-          - 'null'
-          description: Identifier of the dataset version that produced the data.
-          examples:
-          - forecast-v1
-        statistics:
-          type: array
-          description: Statistical measures present in the dataset.
-          items:
-            type: string
-          examples:
-          - - ensemble_mean
-            - quantile_0.05
-            - quantile_0.50
-            - quantile_0.95
-        data_downscaled:
-          type: boolean
-          description: Whether the data was spatially downscaled.
-          examples:
-          - false
     ClimatologyResponse:
       type: object
       properties:
@@ -417,75 +309,18 @@ components:
                 quantile_0.05: 14.2
                 quantile_0.50: 16.7
                 quantile_0.95: 19.1
-    ClimatologyTimeStep:
+    MetaLocation:
       type: object
+      description: Resolved location of the served data.
       properties:
-        date:
-          type: string
-          format: date
-          examples:
-          - 2025-09-01
-        type:
+        latitude:
           type: string
           examples:
-          - Climatology
-        id:
-          type: integer
-          examples:
-          - 0
-        attributes:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/ClimatologyStatisticsModel'
-          examples:
-          - temp_mean:
-              units: °C
-              quantile:
-                quantile_0.05: 14.2
-                quantile_0.50: 16.7
-                quantile_0.95: 19.1
-    ErrorResponse:
-      type: object
-      properties:
-        message:
+          - '9.12'
+        longitude:
           type: string
-          description: Human-readable error message.
           examples:
-          - Input validation failed
-        code:
-          type: string
-          description: Machine-readable error code (when available).
-          examples:
-          - VALIDATION_ERROR
-    HistoryResponse:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/LegacyMeta'
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/HistoryTimeStep'
-      examples:
-      - meta:
-          variables:
-          - precipitation
-          granularity: day
-          location:
-            latitude: '39.70'
-            longitude: '-100.10'
-          data_version: history-v1
-          statistics:
-          - values
-          data_downscaled: false
-        data:
-        - date: 2022-09-01
-          type: History
-          id: 0
-          attributes:
-            precipitation:
-              units: mm
-              values: 3.2
+          - '-79.40'
     ForecastDatasetResponse:
       type: object
       description: Default envelope for legacy short-term, subseasonal, and seasonal forecasts.
@@ -531,6 +366,40 @@ components:
                 quantile_0.05: 0
                 quantile_0.50: 2.1
                 quantile_0.95: 9.8
+    HistoryStatisticsModel:
+      type: object
+      description: Per-variable historical values.
+      properties:
+        units:
+          type: string
+          examples:
+          - mm
+        values:
+          type: number
+          examples:
+          - 20.53
+        quantile:
+          type: object
+          additionalProperties:
+            type: number
+        probability:
+          type: object
+          additionalProperties:
+            type: number
+    WeatherVariableSubseasonal:
+      type: string
+      description: Variable available for the Subseasonal Forecast.
+      enum:
+      - evapotranspiration
+      - humidity
+      - soil_moisture
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
     ClimatologyStatisticsModel:
       type: object
       description: Per-variable climatology statistics.
@@ -580,13 +449,57 @@ components:
           - clim_prob_0.00-0.33: 0.53
             clim_prob_0.33-0.67: 0.1
             clim_prob_0.67-1.00: 0.37
-    WeatherVariableSubseasonal:
+    LegacyMeta:
+      type: object
+      properties:
+        variables:
+          type: array
+          description: Variables included in the payload.
+          items:
+            type: string
+          examples:
+          - - temp_mean
+            - precipitation
+        granularity:
+          type: string
+          description: Temporal granularity of the data.
+          enum:
+          - hour
+          - day
+          - week
+          - month
+          examples:
+          - day
+        location:
+          $ref: '#/components/schemas/MetaLocation'
+        data_version:
+          type:
+          - string
+          - 'null'
+          description: Identifier of the dataset version that produced the data.
+          examples:
+          - forecast-v1
+        statistics:
+          type: array
+          description: Statistical measures present in the dataset.
+          items:
+            type: string
+          examples:
+          - - ensemble_mean
+            - quantile_0.05
+            - quantile_0.50
+            - quantile_0.95
+        data_downscaled:
+          type: boolean
+          description: Whether the data was spatially downscaled.
+          examples:
+          - false
+    WeatherVariableSeasonal:
       type: string
-      description: Variable available for the Subseasonal Forecast.
+      description: Variable available for the Seasonal Forecast.
       enum:
       - evapotranspiration
       - humidity
-      - soil_moisture
       - solar_radiation
       - soil_temperature
       - temp_mean
@@ -594,6 +507,65 @@ components:
       - temp_min
       - precipitation
       - wind_speed
+    ForecastTimeStep:
+      type: object
+      description: One timestep; variable values are nested under `attributes`.
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2025-09-01
+        type:
+          type: string
+          examples:
+          - Short-term Forecast
+        id:
+          type: integer
+          examples:
+          - 0
+        attributes:
+          type: object
+          description: One entry per variable in `meta.variables`.
+          additionalProperties:
+            $ref: '#/components/schemas/ForecastStatisticsModel'
+          examples:
+          - temp_mean:
+              units: °C
+              ensemble_mean: 20.53
+              quantile:
+                quantile_0.05: 18.1
+                quantile_0.50: 20.4
+                quantile_0.95: 23
+    HistoryResponse:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/LegacyMeta'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoryTimeStep'
+      examples:
+      - meta:
+          variables:
+          - precipitation
+          granularity: day
+          location:
+            latitude: '39.70'
+            longitude: '-100.10'
+          data_version: history-v1
+          statistics:
+          - values
+          data_downscaled: false
+        data:
+        - date: 2022-09-01
+          type: History
+          id: 0
+          attributes:
+            precipitation:
+              units: mm
+              values: 3.2
     HistoryTimeStep:
       type: object
       properties:
@@ -618,31 +590,59 @@ components:
           - precipitation:
               units: mm
               values: 3.2
-    MetaLocation:
+    ErrorResponse:
       type: object
-      description: Resolved location of the served data.
       properties:
-        latitude:
+        message:
+          type: string
+          description: Human-readable error message.
+          examples:
+          - Input validation failed
+        code:
+          type: string
+          description: Machine-readable error code (when available).
+          examples:
+          - VALIDATION_ERROR
+    ClimatologyTimeStep:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          examples:
+          - 2025-09-01
+        type:
           type: string
           examples:
-          - '9.12'
-        longitude:
-          type: string
+          - Climatology
+        id:
+          type: integer
           examples:
-          - '-79.40'
+          - 0
+        attributes:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/ClimatologyStatisticsModel'
+          examples:
+          - temp_mean:
+              units: °C
+              quantile:
+                quantile_0.05: 14.2
+                quantile_0.50: 16.7
+                quantile_0.95: 19.1
   parameters:
-    LatQuery:
-      name: lat
+    GranularityFullQuery:
+      name: granularity
       in: query
-      required: true
-      description: Latitude coordinate in decimal degrees.
+      required: false
+      description: Temporal granularity of the returned data.
       schema:
-        type: number
-        format: double
-        minimum: -90
-        maximum: 90
-        examples:
-        - 9.119
+        type: string
+        enum:
+        - daily
+        - weekly
+        - monthly
+        default: daily
     GranularitySeasonalQuery:
       name: granularity
       in: query
@@ -654,22 +654,6 @@ components:
         - daily
         - monthly
         default: daily
-    VarFullQuery:
-      name: var
-      in: query
-      required: false
-      description: 'Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.
-
-        '
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/WeatherVariableFull'
-        examples:
-        - - temp_mean
-          - precipitation
     LonQuery:
       name: lon
       in: query
@@ -682,22 +666,6 @@ components:
         maximum: 180
         examples:
         - -79.4021
-    VarSeasonalQuery:
-      name: var
-      in: query
-      required: false
-      description: 'Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.
-
-        '
-      style: form
-      explode: false
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/WeatherVariableSeasonal'
-        examples:
-        - - temp_mean
-          - precipitation
     VarSubseasonalQuery:
       name: var
       in: query
@@ -714,6 +682,57 @@ components:
         examples:
         - - temp_mean
           - precipitation
+    VarSeasonalQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Comma-separated list of variables. Seasonal does not provide `soil_moisture`, `max_wind_speed`, or `max_wind_gust`. If omitted, all available variables are returned.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableSeasonal'
+        examples:
+        - - temp_mean
+          - precipitation
+    LocationIdPath:
+      name: id
+      in: path
+      required: true
+      description: Stored location identifier.
+      schema:
+        type: string
+    VarFullQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Comma-separated list of variables (e.g. `temp_mean,precipitation`). If omitted, all available variables are returned. See the Datasets section for units and availability.
+
+        '
+      style: form
+      explode: false
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableFull'
+        examples:
+        - - temp_mean
+          - precipitation
+    LatQuery:
+      name: lat
+      in: query
+      required: true
+      description: Latitude coordinate in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -90
+        maximum: 90
+        examples:
+        - 9.119
     GranularitySubseasonalQuery:
       name: granularity
       in: query
@@ -725,37 +744,7 @@ components:
         - daily
         - weekly
         default: daily
-    LocationIdPath:
-      name: id
-      in: path
-      required: true
-      description: Stored location identifier.
-      schema:
-        type: string
-    GranularityFullQuery:
-      name: granularity
-      in: query
-      required: false
-      description: Temporal granularity of the returned data.
-      schema:
-        type: string
-        enum:
-        - daily
-        - weekly
-        - monthly
-        default: daily
   responses:
-    BadRequest:
-      description: Invalid request parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                message: Invalid Location. Latitude must be between 90.0 and -90.0
-                code: VALIDATION_ERROR
     NotFound:
       description: No data found for the requested parameters.
       content:
@@ -776,6 +765,17 @@ components:
             default:
               value:
                 message: Internal server error
+    BadRequest:
+      description: Invalid request parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                message: Invalid Location. Latitude must be between 90.0 and -90.0
+                code: VALIDATION_ERROR
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

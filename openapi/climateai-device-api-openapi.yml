@@ -179,6 +179,41 @@ paths:
       x-operation-id-original: fetch a device
 components:
   schemas:
+    device_payload:
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Device name
+        uber_admin:
+          type: boolean
+          description: shows if device has uber_admin permissions
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+      type: object
+      additionalProperties: false
+    api_trial_payload:
+      required:
+      - company_name
+      - email
+      properties:
+        email:
+          type: string
+          description: Email address
+        company_name:
+          type: string
+          description: Company name
+        account_id:
+          type: string
+          description: Account id for device
+        days_valid:
+          type: integer
+          description: Number of days the device is valid for
+          default: 7
+      type: object
+      additionalProperties: false
     device_response:
       required:
       - account_id
@@ -223,41 +258,6 @@ components:
           type: integer
           description: Number of days the device is valid for
       type: object
-    device_payload:
-      required:
-      - name
-      properties:
-        name:
-          type: string
-          description: Device name
-        uber_admin:
-          type: boolean
-          description: shows if device has uber_admin permissions
-        days_valid:
-          type: integer
-          description: Number of days the device is valid for
-      type: object
-      additionalProperties: false
-    api_trial_payload:
-      required:
-      - company_name
-      - email
-      properties:
-        email:
-          type: string
-          description: Email address
-        company_name:
-          type: string
-          description: Company name
-        account_id:
-          type: string
-          description: Account id for device
-        days_valid:
-          type: integer
-          description: Number of days the device is valid for
-          default: 7
-      type: object
-      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey
