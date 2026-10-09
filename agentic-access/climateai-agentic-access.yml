@@ -1,17 +1,21 @@
-generated: '2026-08-02'
+generated: '2026-09-23'
 method: generated
-source: openapi/climateai-platform-swagger.json, openapi/climateai-weather-openapi.yml
+source: openapi/climateai-account-api-openapi.yml, openapi/climateai-account-config-api-openapi.yml,
+  openapi/climateai-auth-api-openapi.yml, openapi/climateai-current-v2-api-openapi.yml, openapi/climateai-device-api-openapi.yml,
+  openapi/climateai-email-api-openapi.yml, openapi/climateai-legacy-v1-api-openapi.yml, openapi/climateai-permission-api-openapi.yml,
+  openapi/climateai-platform-api-openapi.yml, openapi/climateai-product-api-openapi.yml, openapi/climateai-report-api-openapi.yml,
+  openapi/climateai-role-api-openapi.yml, openapi/climateai-routing-api-openapi.yml, openapi/climateai-user-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 89
   by_action_class:
-    acting: 49
-    connected: 40
+    acting: 46
+    connected: 43
   by_consequence:
-    write: 41
-    read: 40
+    write: 38
+    read: 43
     safety-critical: 4
     physical: 4
   human_in_the_loop_required: 4
@@ -46,18 +50,12 @@ operations:
   method: post
   operationId: Search accounts
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /account/{account_id}
   method: put
   operationId: Update information about a specific account
@@ -416,6 +414,36 @@ operations:
     token:
       max-ttl: 3600
     audit: none
+- path: /v2/history
+  method: get
+  operationId: getHistoryGrid
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/forecast
+  method: get
+  operationId: getStitchedForecast
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v2/forecast/statistics
+  method: get
+  operationId: getStitchedForecastStatistics
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /device/
   method: get
   operationId: Get all devices
@@ -456,18 +484,12 @@ operations:
   method: post
   operationId: get api trial
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /device/{device_id}
   method: put
   operationId: update a device
@@ -528,6 +550,106 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /v1/climatology
+  method: get
+  operationId: getClimatology
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/climatology/location/{id}
+  method: get
+  operationId: getClimatologyByLocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/history
+  method: get
+  operationId: getHistory
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/history/location/{id}
+  method: get
+  operationId: getHistoryByLocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/forecast/short-term
+  method: get
+  operationId: getShortTermForecast
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/forecast/subseasonal
+  method: get
+  operationId: getSubseasonalForecast
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/forecast/seasonal
+  method: get
+  operationId: getSeasonalForecast
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/forecast/short-term/location/{id}
+  method: get
+  operationId: getShortTermForecastByLocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/forecast/subseasonal/location/{id}
+  method: get
+  operationId: getSubseasonalForecastByLocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/forecast/seasonal/location/{id}
+  method: get
+  operationId: getSeasonalForecastByLocation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /permission/
   method: post
   operationId: create a new permission
@@ -878,6 +1000,64 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /{path}
+  method: post
+  operationId: post to an endpoint
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /{path}
+  method: put
+  operationId: update a resource
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /{path}
+  method: delete
+  operationId: delete a resource
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /{path}
+  method: get
+  operationId: get a resource
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /user/
   method: post
   operationId: create a new user
@@ -956,18 +1136,12 @@ operations:
   method: post
   operationId: Search users
   x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
+    action-class: connected
+    consequence: read
+    subject: optional
     token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
+      max-ttl: 3600
+    audit: none
 - path: /user/{user_id}/
   method: put
   operationId: update a user
@@ -1013,194 +1187,6 @@ operations:
 - path: /user/{user_id}/account/relation
   method: get
   operationId: Gets account relations associated with the user
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /{path}
-  method: post
-  operationId: post to an endpoint
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /{path}
-  method: put
-  operationId: update a resource
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /{path}
-  method: delete
-  operationId: delete a resource
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /{path}
-  method: get
-  operationId: get a resource
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v2/history
-  method: get
-  operationId: getHistoryGrid
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v2/forecast
-  method: get
-  operationId: getStitchedForecast
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v2/forecast/statistics
-  method: get
-  operationId: getStitchedForecastStatistics
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/climatology
-  method: get
-  operationId: getClimatology
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/climatology/location/{id}
-  method: get
-  operationId: getClimatologyByLocation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/history
-  method: get
-  operationId: getHistory
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/history/location/{id}
-  method: get
-  operationId: getHistoryByLocation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/forecast/short-term
-  method: get
-  operationId: getShortTermForecast
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/forecast/subseasonal
-  method: get
-  operationId: getSubseasonalForecast
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/forecast/seasonal
-  method: get
-  operationId: getSeasonalForecast
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/forecast/short-term/location/{id}
-  method: get
-  operationId: getShortTermForecastByLocation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/forecast/subseasonal/location/{id}
-  method: get
-  operationId: getSubseasonalForecastByLocation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /v1/forecast/seasonal/location/{id}
-  method: get
-  operationId: getSeasonalForecastByLocation
   x-agentic-access:
     action-class: connected
     consequence: read
