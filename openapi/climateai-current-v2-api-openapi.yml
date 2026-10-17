@@ -182,91 +182,6 @@ paths:
           $ref: '#/components/responses/ServerError'
 components:
   schemas:
-    WeatherVariableFull:
-      type: string
-      description: 'Variable available for History, Climatology, and Short-term Forecast. See the Datasets section for units.
-
-        '
-      enum:
-      - evapotranspiration
-      - humidity
-      - soil_moisture
-      - solar_radiation
-      - soil_temperature
-      - temp_mean
-      - temp_max
-      - temp_min
-      - precipitation
-      - wind_speed
-      - max_wind_speed
-      - max_wind_gust
-    StitchedLocation:
-      type: object
-      description: 'Requested coordinates, the resolved grid coordinates actually used, and (when downscaling is applied) the downscaled coordinates.
-
-        '
-      properties:
-        requested:
-          allOf:
-          - $ref: '#/components/schemas/Coordinates'
-          description: The exact coordinates the client sent in the request.
-        resolved:
-          allOf:
-          - $ref: '#/components/schemas/Coordinates'
-          description: The nearest 0.25° grid point used to serve the data. The API snaps the requested coordinates to this grid point.
-        downscaled:
-          allOf:
-          - $ref: '#/components/schemas/Coordinates'
-          description: Downscaled coordinates. Only present when downscaling is applied.
-    StitchedVariableData:
-      type: object
-      properties:
-        units:
-          type: string
-          description: Physical unit of the values (e.g. degrees_C, mm, percent, W/m2, km/h).
-          examples:
-          - degrees_C
-        downscaled:
-          type: boolean
-          description: Whether ~1 km downscaling was applied to this variable.
-          examples:
-          - true
-        version:
-          type: string
-          description: Dataset version identifier. Tracks the model pipeline version that produced the data (e.g. debiasing model, stitching algorithm). Changes when the pipeline is updated.
-          examples:
-          - v2.1.0
-        generation:
-          type: string
-          description: Unique identifier for the specific data generation run. Combines the stitching job ID and the init_time. Use this to detect when fresh data is available or to reference a specific forecast vintage.
-          examples:
-          - stitch-gen-123-2025-09-18-12Z
-        values:
-          type: object
-          description: Time series keyed by date; each value is an array of ensemble member values.
-          additionalProperties:
-            type: array
-            items:
-              type: number
-          examples:
-          - 2025-09-19:
-            - 15.2
-            - 15.8
-            - 16.1
-    Coordinates:
-      type: object
-      description: A latitude/longitude pair.
-      properties:
-        lat:
-          type: number
-          format: double
-          examples:
-          - 9.119
-        lon:
-          type: number
-          format: double
-          examples:
-          - -79.4021
     StitchedForecastResponse:
       type: object
       properties:
@@ -337,47 +252,6 @@ components:
               - 15.9
               - 16.3
               - 16.7
-    StitchedStatisticsData:
-      type: object
-      properties:
-        units:
-          type: string
-          description: Physical unit of the values (e.g. degrees_C, mm, percent, W/m2, km/h).
-          examples:
-          - degrees_C
-        downscaled:
-          type: boolean
-          description: Whether ~1 km downscaling was applied to this variable.
-          examples:
-          - true
-        version:
-          type: string
-          description: Dataset version identifier. Tracks the model pipeline version that produced the data (e.g. debiasing model, stitching algorithm). Changes when the pipeline is updated.
-          examples:
-          - v2.1.0
-        generation:
-          type: string
-          description: Unique identifier for the specific data generation run. Combines the stitching job ID and the init_time. Use this to detect when fresh data is available or to reference a specific forecast vintage.
-          examples:
-          - stitch-gen-123-2025-09-18-12Z
-        statistics:
-          type: object
-          description: 'Statistics keyed by date/week/month. Each entry contains `mean` plus one `qNN` key per requested quantile.
-
-            '
-          additionalProperties:
-            type: object
-            properties:
-              mean:
-                type: number
-            additionalProperties:
-              type: number
-          examples:
-          - 2025-01-01:
-              mean: 15.5
-              q05: 12.3
-              q50: 15.1
-              q95: 18.9
     StitchedForecastStatisticsResponse:
       type: object
       properties:
@@ -478,24 +352,6 @@ components:
                 q50: 16
                 q75: 17.3
                 q95: 19.2
-    CompactLocation:
-      type: object
-      description: 'Requested coordinates, the resolved grid coordinates actually used, and (when downscaling is applied) the downscaled coordinates.
-
-        '
-      properties:
-        requested:
-          allOf:
-          - $ref: '#/components/schemas/Coordinates'
-          description: The exact coordinates the client sent in the request.
-        resolved:
-          allOf:
-          - $ref: '#/components/schemas/Coordinates'
-          description: The nearest 0.25° grid point used to serve the data. The API snaps the requested coordinates to this grid point.
-        downscaled:
-          allOf:
-          - $ref: '#/components/schemas/Coordinates'
-          description: Downscaled coordinates. Only present when downscaling is applied.
     CompactWeatherResponse:
       type: object
       description: Compact, date-keyed weather response.
@@ -565,6 +421,115 @@ components:
           description: Machine-readable error code (when available).
           examples:
           - VALIDATION_ERROR
+    StitchedLocation:
+      type: object
+      description: 'Requested coordinates, the resolved grid coordinates actually used, and (when downscaling is applied) the downscaled coordinates.
+
+        '
+      properties:
+        requested:
+          allOf:
+          - $ref: '#/components/schemas/Coordinates'
+          description: The exact coordinates the client sent in the request.
+        resolved:
+          allOf:
+          - $ref: '#/components/schemas/Coordinates'
+          description: The nearest 0.25° grid point used to serve the data. The API snaps the requested coordinates to this grid point.
+        downscaled:
+          allOf:
+          - $ref: '#/components/schemas/Coordinates'
+          description: Downscaled coordinates. Only present when downscaling is applied.
+    CompactLocation:
+      type: object
+      description: 'Requested coordinates, the resolved grid coordinates actually used, and (when downscaling is applied) the downscaled coordinates.
+
+        '
+      properties:
+        requested:
+          allOf:
+          - $ref: '#/components/schemas/Coordinates'
+          description: The exact coordinates the client sent in the request.
+        resolved:
+          allOf:
+          - $ref: '#/components/schemas/Coordinates'
+          description: The nearest 0.25° grid point used to serve the data. The API snaps the requested coordinates to this grid point.
+        downscaled:
+          allOf:
+          - $ref: '#/components/schemas/Coordinates'
+          description: Downscaled coordinates. Only present when downscaling is applied.
+    Coordinates:
+      type: object
+      description: A latitude/longitude pair.
+      properties:
+        lat:
+          type: number
+          format: double
+          examples:
+          - 9.119
+        lon:
+          type: number
+          format: double
+          examples:
+          - -79.4021
+    StitchedStatisticsData:
+      type: object
+      properties:
+        units:
+          type: string
+          description: Physical unit of the values (e.g. degrees_C, mm, percent, W/m2, km/h).
+          examples:
+          - degrees_C
+        downscaled:
+          type: boolean
+          description: Whether ~1 km downscaling was applied to this variable.
+          examples:
+          - true
+        version:
+          type: string
+          description: Dataset version identifier. Tracks the model pipeline version that produced the data (e.g. debiasing model, stitching algorithm). Changes when the pipeline is updated.
+          examples:
+          - v2.1.0
+        generation:
+          type: string
+          description: Unique identifier for the specific data generation run. Combines the stitching job ID and the init_time. Use this to detect when fresh data is available or to reference a specific forecast vintage.
+          examples:
+          - stitch-gen-123-2025-09-18-12Z
+        statistics:
+          type: object
+          description: 'Statistics keyed by date/week/month. Each entry contains `mean` plus one `qNN` key per requested quantile.
+
+            '
+          additionalProperties:
+            type: object
+            properties:
+              mean:
+                type: number
+            additionalProperties:
+              type: number
+          examples:
+          - 2025-01-01:
+              mean: 15.5
+              q05: 12.3
+              q50: 15.1
+              q95: 18.9
+    WeatherVariableFull:
+      type: string
+      description: 'Variable available for History, Climatology, and Short-term Forecast. See the Datasets section for units.
+
+        '
+      enum:
+      - evapotranspiration
+      - humidity
+      - soil_moisture
+      - solar_radiation
+      - soil_temperature
+      - temp_mean
+      - temp_max
+      - temp_min
+      - precipitation
+      - wind_speed
+      - max_wind_speed
+      - max_wind_gust
     CompactVariable:
       type: object
       properties:
@@ -584,15 +549,42 @@ components:
           examples:
           - 2025-01-01: 1.4
             2025-01-02: 2.1
+    StitchedVariableData:
+      type: object
+      properties:
+        units:
+          type: string
+          description: Physical unit of the values (e.g. degrees_C, mm, percent, W/m2, km/h).
+          examples:
+          - degrees_C
+        downscaled:
+          type: boolean
+          description: Whether ~1 km downscaling was applied to this variable.
+          examples:
+          - true
+        version:
+          type: string
+          description: Dataset version identifier. Tracks the model pipeline version that produced the data (e.g. debiasing model, stitching algorithm). Changes when the pipeline is updated.
+          examples:
+          - v2.1.0
+        generation:
+          type: string
+          description: Unique identifier for the specific data generation run. Combines the stitching job ID and the init_time. Use this to detect when fresh data is available or to reference a specific forecast vintage.
+          examples:
+          - stitch-gen-123-2025-09-18-12Z
+        values:
+          type: object
+          description: Time series keyed by date; each value is an array of ensemble member values.
+          additionalProperties:
+            type: array
+            items:
+              type: number
+          examples:
+          - 2025-09-19:
+            - 15.2
+            - 15.8
+            - 16.1
   parameters:
-    UseDownscalingQuery:
-      name: use_downscaling
-      in: query
-      required: false
-      description: Apply ~1 km downscaling when available.
-      schema:
-        type: boolean
-        default: true
     GranularityFullQuery:
       name: granularity
       in: query
@@ -605,44 +597,14 @@ components:
         - weekly
         - monthly
         default: daily
-    StartDateQuery:
-      name: start_date
+    UseDownscalingQuery:
+      name: use_downscaling
       in: query
       required: false
-      description: Start date (inclusive) in `YYYY-MM-DD` format.
+      description: Apply ~1 km downscaling when available.
       schema:
-        type: string
-        format: date
-        examples:
-        - 1995-01-01
-    LonQuery:
-      name: lon
-      in: query
-      required: true
-      description: Longitude coordinate in decimal degrees.
-      schema:
-        type: number
-        format: double
-        minimum: -180
-        maximum: 180
-        examples:
-        - -79.4021
-    StitchedVarQuery:
-      name: var
-      in: query
-      required: false
-      description: 'Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.
-
-        '
-      style: form
-      explode: true
-      schema:
-        type: array
-        items:
-          $ref: '#/components/schemas/WeatherVariableFull'
-        examples:
-        - - temp_mean
-          - precipitation
+        type: boolean
+        default: true
     HistoryVarQuery:
       name: var
       in: query
@@ -706,17 +668,45 @@ components:
         format: date
         examples:
         - 2025-12-31
+    LonQuery:
+      name: lon
+      in: query
+      required: true
+      description: Longitude coordinate in decimal degrees.
+      schema:
+        type: number
+        format: double
+        minimum: -180
+        maximum: 180
+        examples:
+        - -79.4021
+    StitchedVarQuery:
+      name: var
+      in: query
+      required: false
+      description: 'Weather variable(s). Supports comma-separated values (`var=temp_mean,precipitation`) or repeated parameters (`var=temp_mean&var=precipitation`). If omitted, all available variables are returned.
+
+        '
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          $ref: '#/components/schemas/WeatherVariableFull'
+        examples:
+        - - temp_mean
+          - precipitation
+    StartDateQuery:
+      name: start_date
+      in: query
+      required: false
+      description: Start date (inclusive) in `YYYY-MM-DD` format.
+      schema:
+        type: string
+        format: date
+        examples:
+        - 1995-01-01
   responses:
-    NotFound:
-      description: No data found for the requested parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          examples:
-            default:
-              value:
-                message: No data found for the requested parameters
     ServerError:
       description: Internal server error.
       content:
@@ -727,6 +717,16 @@ components:
             default:
               value:
                 message: Internal server error
+    NotFound:
+      description: No data found for the requested parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            default:
+              value:
+                message: No data found for the requested parameters
     BadRequest:
       description: Invalid request parameters.
       content:
@@ -739,130 +739,6 @@ components:
                 message: Invalid Location. Latitude must be between 90.0 and -90.0
                 code: VALIDATION_ERROR
   examples:
-    StitchedStatsMonthly:
-      summary: Monthly (granularity=monthly)
-      value:
-        created_at: 2025-09-18 12:00:00+00:00
-        init_time: 2025-09-18 12:00:00+00:00
-        kind: forecast
-        location:
-          requested:
-            lat: 40
-            lon: -89
-          resolved:
-            lat: 40
-            lon: -89
-        granularity: monthly
-        current_period:
-          label: 2025-09
-          observed_until: 2025-09-17
-          forecast_from: 2025-09-18
-        variables:
-          temp_mean:
-            units: degrees_C
-            downscaled: true
-            version: v2.1.0
-            generation: stitch-gen-123-2025-09-18-12Z
-            statistics:
-              2025-09:
-                mean: 18.9
-                q05: 18.1
-                q25: 18.6
-                q50: 18.9
-                q75: 19.3
-                q95: 19.8
-              2025-10:
-                mean: 16.8
-                q05: 14.2
-                q25: 15.9
-                q50: 16.7
-                q75: 17.6
-                q95: 19.1
-              2025-11:
-                mean: 17.5
-                q05: 15.1
-                q25: 16.4
-                q50: 17.3
-                q75: 18.5
-                q95: 20
-    StitchedStatsDaily:
-      summary: Daily (granularity=daily, with downscaling)
-      value:
-        created_at: 2025-09-18 12:00:00+00:00
-        init_time: 2025-09-18 12:00:00+00:00
-        kind: forecast
-        location:
-          requested:
-            lat: 40.0123
-            lon: -89.0456
-          resolved:
-            lat: 40
-            lon: -89
-          downscaled:
-            lat: 40.0123
-            lon: -89.0456
-        granularity: daily
-        variables:
-          temp_mean:
-            units: degrees_C
-            downscaled: true
-            version: v2.1.0
-            generation: stitch-gen-123-2025-09-18-12Z
-            statistics:
-              2025-01-01:
-                mean: 15.5
-                q05: 12.3
-                q25: 14.2
-                q50: 15.1
-                q75: 16.8
-                q95: 18.9
-              2025-01-02:
-                mean: 16.2
-                q05: 13.1
-                q25: 15
-                q50: 16
-                q75: 17.3
-                q95: 19.2
-    GridWeekly:
-      summary: Weekly (granularity=weekly, ISO weeks)
-      value:
-        created_at: 2026-01-15 12:00:00+00:00
-        kind: history
-        location:
-          requested:
-            lat: 40
-            lon: -89
-          resolved:
-            lat: 40
-            lon: -89
-        granularity: weekly
-        variables:
-          temp_mean:
-            downscaled: false
-            units: degrees_C
-            values:
-              2025-W01: 1.8
-              2025-W02: 2.5
-    GridDaily:
-      summary: Daily (granularity=daily)
-      value:
-        created_at: 2026-01-15 12:00:00+00:00
-        kind: history
-        location:
-          requested:
-            lat: 40
-            lon: -89
-          resolved:
-            lat: 40
-            lon: -89
-        granularity: daily
-        variables:
-          temp_mean:
-            downscaled: false
-            units: degrees_C
-            values:
-              2025-01-01: 1.4
-              2025-01-02: 2.1
     StitchedForecast:
       summary: Raw ensemble members (one array of member values per date)
       value:
@@ -917,6 +793,72 @@ components:
               - 0
               - 1.4
               - 3
+    StitchedStatsMonthly:
+      summary: Monthly (granularity=monthly)
+      value:
+        created_at: 2025-09-18 12:00:00+00:00
+        init_time: 2025-09-18 12:00:00+00:00
+        kind: forecast
+        location:
+          requested:
+            lat: 40
+            lon: -89
+          resolved:
+            lat: 40
+            lon: -89
+        granularity: monthly
+        current_period:
+          label: 2025-09
+          observed_until: 2025-09-17
+          forecast_from: 2025-09-18
+        variables:
+          temp_mean:
+            units: degrees_C
+            downscaled: true
+            version: v2.1.0
+            generation: stitch-gen-123-2025-09-18-12Z
+            statistics:
+              2025-09:
+                mean: 18.9
+                q05: 18.1
+                q25: 18.6
+                q50: 18.9
+                q75: 19.3
+                q95: 19.8
+              2025-10:
+                mean: 16.8
+                q05: 14.2
+                q25: 15.9
+                q50: 16.7
+                q75: 17.6
+                q95: 19.1
+              2025-11:
+                mean: 17.5
+                q05: 15.1
+                q25: 16.4
+                q50: 17.3
+                q75: 18.5
+                q95: 20
+    GridWeekly:
+      summary: Weekly (granularity=weekly, ISO weeks)
+      value:
+        created_at: 2026-01-15 12:00:00+00:00
+        kind: history
+        location:
+          requested:
+            lat: 40
+            lon: -89
+          resolved:
+            lat: 40
+            lon: -89
+        granularity: weekly
+        variables:
+          temp_mean:
+            downscaled: false
+            units: degrees_C
+            values:
+              2025-W01: 1.8
+              2025-W02: 2.5
     GridMonthly:
       summary: Monthly (granularity=monthly)
       value:
@@ -937,6 +879,44 @@ components:
             values:
               2025-01: 2
               2025-02: 3.1
+    StitchedStatsDaily:
+      summary: Daily (granularity=daily, with downscaling)
+      value:
+        created_at: 2025-09-18 12:00:00+00:00
+        init_time: 2025-09-18 12:00:00+00:00
+        kind: forecast
+        location:
+          requested:
+            lat: 40.0123
+            lon: -89.0456
+          resolved:
+            lat: 40
+            lon: -89
+          downscaled:
+            lat: 40.0123
+            lon: -89.0456
+        granularity: daily
+        variables:
+          temp_mean:
+            units: degrees_C
+            downscaled: true
+            version: v2.1.0
+            generation: stitch-gen-123-2025-09-18-12Z
+            statistics:
+              2025-01-01:
+                mean: 15.5
+                q05: 12.3
+                q25: 14.2
+                q50: 15.1
+                q75: 16.8
+                q95: 18.9
+              2025-01-02:
+                mean: 16.2
+                q05: 13.1
+                q25: 15
+                q50: 16
+                q75: 17.3
+                q95: 19.2
     StitchedStatsWeekly:
       summary: Weekly (granularity=weekly; precipitation summed, temperature averaged)
       value:
@@ -983,6 +963,26 @@ components:
                 q50: 37.5
                 q75: 46
                 q95: 60.2
+    GridDaily:
+      summary: Daily (granularity=daily)
+      value:
+        created_at: 2026-01-15 12:00:00+00:00
+        kind: history
+        location:
+          requested:
+            lat: 40
+            lon: -89
+          resolved:
+            lat: 40
+            lon: -89
+        granularity: daily
+        variables:
+          temp_mean:
+            downscaled: false
+            units: degrees_C
+            values:
+              2025-01-01: 1.4
+              2025-01-02: 2.1
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

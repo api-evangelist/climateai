@@ -196,19 +196,6 @@ components:
           type: string
           description: permission name
       type: object
-    role_payload:
-      required:
-      - description
-      - name
-      properties:
-        name:
-          type: string
-          description: role name
-        description:
-          type: string
-          description: role description
-      type: object
-      additionalProperties: false
     role_response:
       required:
       - created_at
@@ -238,6 +225,19 @@ components:
           type: string
           description: role description
       type: object
+    role_payload:
+      required:
+      - description
+      - name
+      properties:
+        name:
+          type: string
+          description: role name
+        description:
+          type: string
+          description: role description
+      type: object
+      additionalProperties: false
   securitySchemes:
     jwt:
       type: apiKey
